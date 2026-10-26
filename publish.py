@@ -97,8 +97,8 @@ def verifier(page_id, token):
 
 def main():
     dry = os.environ.get("DRY_RUN") == "1"
-    page_id = os.environ.get("FB_PAGE_ID", "")
-    token = os.environ.get("FB_PAGE_TOKEN", "")
+    page_id = os.environ.get("FB_PAGE_ID", "").strip()
+    token = os.environ.get("FB_PAGE_TOKEN", "").strip()
     if os.environ.get("VERIFIER") == "1":
         verifier(page_id, token)
         return
