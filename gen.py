@@ -7,10 +7,32 @@ Usage :
   python3 gen.py question out.png "VOTRE PLUS BEAU" "SOUVENIR À BOLLAERT ?"
   python3 gen.py design   out.png "QUEL PROCHAIN" "DESIGN ?"
 """
-import sys, html, pathlib
+import sys, html, pathlib, base64, unicodedata
 from playwright.sync_api import sync_playwright
 
 BRAND = "ESPRIT BOLLAERT DESIGN"
+FONDS = pathlib.Path(__file__).resolve().parent / "fonds"
+
+
+def fond_url(name):
+    """Image de fond (fonds/<name>.png|jpg) en data URL, ou None si absente."""
+    for ext, mime in (("png", "png"), ("jpg", "jpeg"), ("jpeg", "jpeg"), ("webp", "webp")):
+        f = FONDS / f"{name}.{ext}"
+        if f.exists():
+            return f"data:image/{mime};base64," + base64.b64encode(f.read_bytes()).decode()
+    return None
+
+
+def verdict_fond(verdict):
+    v = unicodedata.normalize("NFD", verdict.upper())
+    v = "".join(c for c in v if unicodedata.category(c) != "Mn")
+    if "VICTOIRE" in v or "GAGN" in v:
+        return "victoire"
+    if "NUL" in v:
+        return "nul"
+    if "DEFAITE" in v or "PERDU" in v:
+        return "defaite"
+    return "match"
 
 CSS = r"""
 *{margin:0;padding:0;box-sizing:border-box}
@@ -66,6 +88,16 @@ body{font-family:'Inter Display','Inter',sans-serif;color:#fff;position:relative
 .brand{position:absolute;bottom:34px;left:0;width:100%;text-align:center;font-weight:900;font-style:italic;
  font-size:30px;letter-spacing:10px;color:#fff;text-shadow:0 2px 12px #000}
 .brand span{color:#ffc400}
+.photo .bg{background-size:cover!important;background-position:center!important}
+.photo .rays,.photo .smoke,.photo .ghost,.photo .slash,.photo .terrils{display:none}
+.photo .grain{opacity:.12}
+.shade{position:absolute;inset:0;display:none;
+ background:
+  linear-gradient(180deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,.15) 30%,rgba(0,0,0,.05) 55%,rgba(0,0,0,.35) 80%,rgba(0,0,0,.85) 100%),
+  radial-gradient(ellipse 65% 45% at 50% 42%,rgba(0,0,0,.45),transparent 75%)}
+.photo .shade{display:block}
+.photo .content{padding-top:70px}
+.photo .content.mid{padding-bottom:120px}
 .cta{margin-top:64px;font-weight:800;font-style:italic;font-size:44px;transform:rotate(-4deg);
  color:#fff;border-bottom:6px solid #ffc400;padding-bottom:4px}
 """
@@ -82,10 +114,13 @@ TERRILS = """<svg class="terrils" viewBox="0 0 1080 330" preserveAspectRatio="no
 GRAIN = """<svg class="grain" width="1080" height="1080"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>"""
 
 
-def page(ghost, inner, mid=False):
+def page(ghost, inner, mid=False, fond=None):
     e = html.escape
-    return f"""<!doctype html><html><head><meta charset="utf-8"><style>{CSS}</style></head><body>
-<div class="bg"></div><div class="rays"></div>
+    url = fond_url(fond) if fond else None
+    body_cls = ' class="photo"' if url else ""
+    bg_style = f' style="background:url({url})"' if url else ""
+    return f"""<!doctype html><html><head><meta charset="utf-8"><style>{CSS}</style></head><body{body_cls}>
+<div class="bg"{bg_style}></div><div class="shade"></div><div class="rays"></div>
 <div class="smoke s1"></div><div class="smoke s2"></div><div class="smoke s3"></div>
 <div class="ghost">{e(ghost)}</div>
 <div class="slash sl1"></div><div class="slash sl2"></div>
@@ -104,21 +139,21 @@ def build(kind, a):
 <div class="big"><span class="l1">C'est jour de</span><span class="l2">match</span></div>
 <div class="versus"><div class="team home">{e(home)}</div><div class="vs">VS</div><div class="team away">{e(away)}</div></div>
 <div class="when">{e(day)} · <b>{e(hour)}</b></div>"""
-        return page("ALLEZ", inner)
+        return page("ALLEZ", inner, fond="match")
     if kind == "resultat":
         verdict, home, sh, sa, away, info = a[0], a[1], a[2], a[3], a[4], a[5]
         inner = f"""<div class="kicker">{e(info)}</div>
 <div class="big"><span class="l2 q2">{e(verdict)}</span></div>
 <div class="versus"><div class="team home">{e(home)}</div><div class="score">{e(sh)}<i>-</i>{e(sa)}</div><div class="team away">{e(away)}</div></div>
 <div class="cta">Vos tops &amp; vos flops ? 👇</div>"""
-        return page(verdict, inner, True)
+        return page(verdict, inner, True, fond=verdict_fond(verdict))
     if kind == "prono":
         home, away, when = a[0], a[1], a[2]
         inner = f"""<div class="kicker">À VOS PRONOS</div>
 <div class="big"><span class="l1">Votre</span><span class="l2">score ?</span></div>
 <div class="versus"><div class="team home">{e(home)}</div><div class="vs">?-?</div><div class="team away">{e(away)}</div></div>
 <div class="when">{e(when)}</div>"""
-        return page("PRONO", inner)
+        return page("PRONO", inner, fond="prono")
     if kind == "homme":
         score = a[0]
         inner = f"""<div class="kicker">{e(score)}</div>
@@ -129,12 +164,12 @@ def build(kind, a):
         inner = f"""<div class="kicker">LA QUESTION DU JOUR</div>
 <div class="big"><span class="l1 q1">{e(a[0])}</span><span class="l2 q2">{e(a[1])}</span></div>
 <div class="cta">Racontez-nous 👇</div>"""
-        return page("62", inner, True)
+        return page("62", inner, True, fond="question")
     if kind == "design":
         inner = f"""<div class="kicker">L'ATELIER</div>
 <div class="big"><span class="l1 q1">{e(a[0])}</span><span class="l2 q2">{e(a[1])}</span></div>
 <div class="cta">Votez en commentaire 👇</div>"""
-        return page("DESIGN", inner, True)
+        return page("DESIGN", inner, True, fond="design")
     raise SystemExit(f"type inconnu : {kind}")
 
 
