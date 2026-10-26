@@ -19,7 +19,7 @@ jobs:
   publier:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Publier les posts arrivés à échéance
         env:
           FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}

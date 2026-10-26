@@ -66,12 +66,21 @@ def main():
     dry = os.environ.get("DRY_RUN") == "1"
     page_id = os.environ.get("FB_PAGE_ID", "")
     token = os.environ.get("FB_PAGE_TOKEN", "")
-    if not dry and (not page_id or not token):
-        sys.exit("Secrets FB_PAGE_ID / FB_PAGE_TOKEN manquants.")
     maintenant = dt.datetime.now(dt.timezone.utc)
+    fichiers = sorted(QUEUE.glob("*.json")) if QUEUE.exists() else []
+    if not fichiers:
+        print("File d'attente vide, rien à publier.")
+        return
+    # On n'échoue sur l'absence de secrets que s'il y a vraiment un post à publier.
+    du = [f for f in fichiers
+          if dt.datetime.fromisoformat(json.loads(f.read_text(encoding="utf-8"))["publish_at"]) <= maintenant]
+    if not du:
+        print("Aucun post arrivé à échéance.")
+        return
+    if not dry and (not page_id or not token):
+        sys.exit("Secrets FB_PAGE_ID / FB_PAGE_TOKEN manquants : impossible de publier.")
     for d in (PUBLISHED, SKIPPED):
         d.mkdir(exist_ok=True)
-    fichiers = sorted(QUEUE.glob("*.json")) if QUEUE.exists() else []
     traites = 0
     for f in fichiers:
         post = json.loads(f.read_text(encoding="utf-8"))
