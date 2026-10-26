@@ -48,8 +48,11 @@ def appel(url, champs, fichier=None):
             return json.loads(r.read())
     except urllib.error.HTTPError as e:
         detail = e.read().decode(errors="replace")
-        # ne jamais afficher le jeton
-        raise SystemExit(f"Erreur API Facebook {e.code} : {detail}")
+        tok = champs.get("access_token", "")
+        if tok:
+            detail = detail.replace(tok, "***")  # ne jamais afficher le jeton
+        print(f"::error::Erreur API Facebook {e.code} sur {url.split('?')[0].rsplit('/', 1)[-1]} : {detail}")
+        raise SystemExit(1)
 
 
 def publier(post, page_id, token):
