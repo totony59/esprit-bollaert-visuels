@@ -83,6 +83,7 @@ body{font-family:'Inter Display','Inter',sans-serif;color:#fff;position:relative
 .when b{color:#c8102e}
 .score{font-weight:900;font-style:italic;font-size:150px;line-height:1;color:#ffc400;text-shadow:0 8px 0 #c8102e,0 0 40px rgba(255,196,0,.8)}
 .score i{color:#fff;margin:0 10px}
+.q2p{font-size:158px!important;letter-spacing:-8px!important}
 .q1{font-size:110px!important}
 .q2{font-size:150px!important}
 .brand{position:absolute;bottom:34px;left:0;width:100%;text-align:center;font-weight:900;font-style:italic;
@@ -149,8 +150,9 @@ def build(kind, a):
         return page(verdict, inner, True, fond=verdict_fond(verdict))
     if kind == "prono":
         home, away, when = a[0], a[1], a[2]
-        inner = f"""<div class="kicker">À VOS PRONOS</div>
-<div class="big"><span class="l1">Votre</span><span class="l2">score ?</span></div>
+        kicker = a[3] if len(a) > 3 else "J-1"
+        inner = f"""<div class="kicker">{e(kicker)}</div>
+<div class="big"><span class="l1">Votre</span><span class="l2 q2p">pronostic ?</span></div>
 <div class="versus"><div class="team home">{e(home)}</div><div class="vs">?-?</div><div class="team away">{e(away)}</div></div>
 <div class="when">{e(when)}</div>"""
         return page("PRONO", inner, fond="prono")
