@@ -36,12 +36,11 @@ même score. Au moindre doute (« en cours », minute affichée, « mi-temps »,
 
 ## 2. Pas de doublon
 
-Avec Metricool (blogId 7644973, fuseau Europe/Paris ; charge les outils via ToolSearch),
-regarde les posts programmés des dernières 24 h et des prochaines 24 h. S'il existe déjà un
-post de résultat pour ce match, arrête-toi.
-
-Quota du plan gratuit : 20 publications par mois. Le post de résultat est prioritaire : publie-le
-même s'il ne reste qu'une place. Si le quota est déjà atteint, préviens Anthony au lieu de publier.
+Vérifie qu'aucun post de résultat n'existe déjà pour ce match :
+- dans le dépôt : fichiers de queue/ et published/ des dernières 24 h ;
+- dans Metricool (blogId 7644973, fuseau Europe/Paris ; outils via ToolSearch) : posts des
+  dernières 24 h et des prochaines 24 h.
+S'il en existe un, arrête-toi.
 
 ## 3. Le visuel
 
@@ -78,14 +77,32 @@ Exemple : « QUELLE VICTOIRE !!! 🔴🟡 Menés à la pause, j'avoue j'y croyai
 Thauvin, puis Hazard 😱 Bollaert a tremblé ! 2-1, trois points, et on part au derby avec la
 confiance. Ça fait du bien 😍 Allez, c'est quoi vos tops et vos flops de ce match ? »
 
-## 5. Publication
+## 5. Publication (robot GitHub en priorité, Metricool en secours)
 
-createScheduledPost avec une date dans 3 minutes (heure de Paris), draft: false,
-autoPublish: true, providers facebook, facebookData type POST, media: [URL raw de l'image].
-Vérifie avec getScheduledPosts que le post existe avec son image.
+Canal principal : le robot du dépôt (GitHub Actions + API Facebook, gratuit et illimité).
+1. Crée le fichier queue/AAAA-MM-JJTHHMM_resultat_<adversaire>.json (UTF-8) :
+   {"publish_at": "<maintenant, heure de Paris avec fuseau, ex. 2026-10-30T23:12:00+01:00>",
+    "message": "<texte du post>",
+    "image": "visuels/<fichier du visuel>.png"}
+2. Commit et push sur main (avec le visuel). Le push déclenche immédiatement le robot
+   « Publier sur Facebook », qui publie le post et déplace le fichier dans published/.
+3. Vérifie au bout de 2 à 3 minutes :
+   - `gh api "repos/totony59/esprit-bollaert-visuels/actions/runs?per_page=3"` : le dernier
+     run « Publier sur Facebook » doit être « success » ;
+   - `git pull` : le fichier doit être dans published/ avec un "facebook_post_id".
+   Si le run a échoué, lis le motif dans les annotations :
+   `gh api repos/totony59/esprit-bollaert-visuels/check-runs/<job_id>/annotations`
+   (job_id via `.../actions/runs/<run_id>/jobs`).
+4. SECOURS si le robot a échoué ou n'a rien publié après 10 minutes : supprime le fichier de
+   queue/ (commit + push, pour éviter un doublon plus tard), puis publie via Metricool :
+   createScheduledPost avec une date dans 3 minutes, draft: false, autoPublish: true,
+   providers facebook, facebookData type POST, media: [URL raw de l'image :
+   https://raw.githubusercontent.com/totony59/esprit-bollaert-visuels/main/visuels/<fichier>.png].
+   Quota Metricool : 20 publications par mois (le résultat est prioritaire). Préviens Anthony
+   que le robot GitHub a échoué et pourquoi (ex. jeton expiré).
 
 ## 6. Récapitulatif
 
-Envoie à Anthony (SendUserMessage) : le score, le texte publié, le compteur
-« X/20 posts utilisés ce mois-ci », et l'image (SendUserFile). Une ligne pour rappeler qu'il
+Envoie à Anthony (SendUserMessage) : le score, le texte publié, le canal utilisé (robot
+GitHub ou Metricool en secours), et l'image (SendUserFile). Une ligne pour rappeler qu'il
 peut demander une correction.
