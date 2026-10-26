@@ -146,4 +146,22 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except SystemExit as e:
+        if e.code not in (0, None, 1):
+            msg = str(e.code)
+            tok = os.environ.get("FB_PAGE_TOKEN", "")
+            if tok:
+                msg = msg.replace(tok, "***")
+            print(f"::error::{msg}")
+            raise SystemExit(1)
+        raise
+    except Exception as e:  # toute autre erreur : on la remonte en annotation (sans le jeton)
+        import traceback
+        msg = f"{type(e).__name__}: {e} | " + traceback.format_exc().splitlines()[-3].strip()
+        tok = os.environ.get("FB_PAGE_TOKEN", "")
+        if tok:
+            msg = msg.replace(tok, "***")
+        print(f"::error::{msg}")
+        raise SystemExit(1)
