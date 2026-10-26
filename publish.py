@@ -4,7 +4,8 @@ Chaque post est un fichier JSON dans queue/ :
 {
   "publish_at": "2026-10-31T10:00:00+01:00",   # heure de publication (avec fuseau)
   "message": "Texte du post…",
-  "image": "visuels/xxx.png"                    # optionnel : chemin dans le dépôt
+  "image": "visuels/xxx.png",                   # optionnel : chemin dans le dépôt
+  "link": "https://…"                            # optionnel : lien vers l'article source
 }
 
 Après publication, le fichier part dans published/ avec l'identifiant du post Facebook.
@@ -53,6 +54,13 @@ def appel(url, champs, fichier=None):
 
 def publier(post, page_id, token):
     image = post.get("image")
+    lien = post.get("link")
+    if image and lien:
+        # sur une photo, le lien va à la fin de la légende (cliquable)
+        post = dict(post, message=f"{post['message']}\n\n👉 {lien}")
+    if not image and lien:
+        rep = appel(f"{API}/{page_id}/feed", {"message": post["message"], "link": lien, "access_token": token})
+        return rep.get("id")
     if image:
         f = ROOT / image
         if not f.exists():

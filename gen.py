@@ -68,7 +68,7 @@ def fond_url(name):
         f = FONDS / f"{name}.{ext}"
         if f.exists():
             return f"data:image/{mime};base64," + base64.b64encode(f.read_bytes()).decode()
-    return None
+    return fond_url("prono") if name != "prono" else None
 
 
 def verdict_fond(verdict):
@@ -220,6 +220,14 @@ def build(kind, a):
 <div class="big"><span class="l1 q1">{e(a[0])}</span><span class="l2 q2">{e(a[1])}</span></div>
 <div class="cta">Votez en commentaire 👇</div>"""
         return page("DESIGN", inner, True, fond="design")
+    if kind == "info":
+        # "L'INFO DU JOUR" : bandeau (ex. source), titre en 2 lignes écrit avec NOS mots, appel à l'action
+        kicker, l1, l2 = a[0], a[1], a[2]
+        cta = a[3] if len(a) > 3 else "Votre avis ?"
+        inner = f"""<div class="kicker">{e(kicker)}</div>
+<div class="big"><span class="l1 q1">{e(l1)}</span><span class="l2 q2">{e(l2)}</span></div>
+<div class="cta">{e(cta)} 👇</div>"""
+        return page("INFO", inner, True, fond="info")
     raise SystemExit(f"type inconnu : {kind}")
 
 
