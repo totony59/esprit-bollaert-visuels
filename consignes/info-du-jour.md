@@ -33,7 +33,8 @@ question du jour (voir le RYTHME de la tâche principale).
   nos mots, en 2 ou 3 phrases maximum.
 - Citation directe autorisée seulement si elle est très courte (moins de 15 mots), entre
   guillemets, attribuée (ex. « … », a lâché le coach en conférence de presse), et une seule par post.
-- NE JAMAIS reprendre une photo de presse ou du club. Le visuel est toujours le nôtre (gen.py « info »).
+- NE JAMAIS télécharger ni republier une photo de presse ou du club comme image du post. La
+  photo du média n'apparaît que via l'aperçu automatique du lien (voir section 4).
 - Toujours citer la source par son nom dans le texte et mettre le lien de l'article dans le
   champ "link" du fichier de file d'attente.
 
