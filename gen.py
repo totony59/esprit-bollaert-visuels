@@ -66,8 +66,8 @@ body{font-family:'Inter Display','Inter',sans-serif;color:#fff;position:relative
  background:#c8102e;padding:8px 26px 10px;transform:skew(-10deg) rotate(-3deg);
  box-shadow:8px 8px 0 #ffc400}
 .big{font-weight:900;font-style:italic;text-transform:uppercase;line-height:.86;text-align:center;
- letter-spacing:-6px;transform:rotate(-4deg) scaleY(1.12);margin-top:34px}
-.big .l1{display:block;font-size:150px;color:#fff;text-shadow:0 6px 0 #c8102e, 0 0 40px rgba(255,80,0,.6)}
+ letter-spacing:-1px;word-spacing:18px;transform:rotate(-4deg) scaleY(1.12);margin-top:34px}
+.big .l1{display:block;font-size:128px;white-space:nowrap;color:#fff;text-shadow:0 6px 0 #c8102e, 0 0 40px rgba(255,80,0,.6)}
 .big .l2{display:block;font-size:236px;
  background:linear-gradient(180deg,#fff6b0 0%,#ffd400 38%,#ffb000 70%,#e07a00 100%);
  -webkit-background-clip:text;background-clip:text;color:transparent;
@@ -83,9 +83,9 @@ body{font-family:'Inter Display','Inter',sans-serif;color:#fff;position:relative
 .when b{color:#c8102e}
 .score{font-weight:900;font-style:italic;font-size:150px;line-height:1;color:#ffc400;text-shadow:0 8px 0 #c8102e,0 0 40px rgba(255,196,0,.8)}
 .score i{color:#fff;margin:0 10px}
-.q2p{font-size:158px!important;letter-spacing:-8px!important}
-.q1{font-size:110px!important}
-.q2{font-size:150px!important}
+.q2p{font-size:140px!important}
+.q1{font-size:100px!important}
+.q2{font-size:136px!important}
 .brand{position:absolute;bottom:34px;left:0;width:100%;text-align:center;font-weight:900;font-style:italic;
  font-size:30px;letter-spacing:10px;color:#fff;text-shadow:0 2px 12px #000}
 .brand span{color:#ffc400}
