@@ -213,7 +213,7 @@ def build(kind, a):
     if kind == "question":
         inner = f"""<div class="kicker">LA QUESTION DU JOUR</div>
 <div class="big"><span class="l1 q1">{e(a[0])}</span><span class="l2 q2">{e(a[1])}</span></div>
-<div class="cta">Racontez-nous 👇</div>"""
+<div class="cta">{e(a[2]) if len(a) > 2 else "Racontez-nous"} 👇</div>"""
         return page("62", inner, True, fond="question")
     if kind == "design":
         inner = f"""<div class="kicker">L'ATELIER</div>
