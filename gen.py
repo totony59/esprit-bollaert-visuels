@@ -14,6 +14,54 @@ BRAND = "ESPRIT BOLLAERT DESIGN"
 FONDS = pathlib.Path(__file__).resolve().parent / "fonds"
 
 
+# Couleurs des clubs : (fond de la carte, texte, bordure)
+CLUBS = {
+    "lens": ("#c8102e", "#ffd400", "#ffd400"),
+    "lille": ("#d6001c", "#ffffff", "#1b2a5a"),
+    "paris fc": ("#13294b", "#ffffff", "#7fb2e5"),
+    "psg": ("#004170", "#ffffff", "#da291c"),
+    "paris sg": ("#004170", "#ffffff", "#da291c"),
+    "paris saint-germain": ("#004170", "#ffffff", "#da291c"),
+    "marseille": ("#2faee0", "#ffffff", "#ffffff"),
+    "om": ("#2faee0", "#ffffff", "#ffffff"),
+    "lyon": ("#ffffff", "#1b3c87", "#da291c"),
+    "ol": ("#ffffff", "#1b3c87", "#da291c"),
+    "monaco": ("#e2001a", "#ffffff", "#ffffff"),
+    "nice": ("#d4021d", "#000000", "#000000"),
+    "rennes": ("#e2001a", "#000000", "#000000"),
+    "brest": ("#e30613", "#ffffff", "#ffffff"),
+    "nantes": ("#fcd405", "#00843d", "#00843d"),
+    "strasbourg": ("#009fe3", "#ffffff", "#ffffff"),
+    "toulouse": ("#4f2d84", "#ffffff", "#ffffff"),
+    "auxerre": ("#ffffff", "#0d3b85", "#0d3b85"),
+    "angers": ("#000000", "#ffffff", "#ffffff"),
+    "le havre": ("#8ecae6", "#0b1f3a", "#0b1f3a"),
+    "lorient": ("#f58220", "#000000", "#000000"),
+    "metz": ("#7a1630", "#ffffff", "#ffffff"),
+    "troyes": ("#005ba9", "#ffffff", "#ffffff"),
+    "saint-etienne": ("#00843d", "#ffffff", "#ffffff"),
+    "st etienne": ("#00843d", "#ffffff", "#ffffff"),
+    "bordeaux": ("#0b1f3a", "#ffffff", "#ffffff"),
+    "montpellier": ("#f58220", "#1b2a5a", "#1b2a5a"),
+    "reims": ("#e30613", "#ffffff", "#ffffff"),
+    "sporting": ("#00805a", "#ffffff", "#ffffff"),
+    "bruges": ("#0052a5", "#000000", "#000000"),
+    "club bruges": ("#0052a5", "#000000", "#000000"),
+}
+DEFAUT = ("#0a0405", "#ffffff", "#ffc400")
+
+
+def club_style(name):
+    key = unicodedata.normalize("NFD", name.lower())
+    key = "".join(c for c in key if unicodedata.category(c) != "Mn").strip()
+    bg, fg, bd = CLUBS.get(key, DEFAUT)
+    return f'style="background:{bg};color:{fg};border-color:{bd}"'
+
+
+def team(name):
+    return f'<div class="team" {club_style(name)}>{html.escape(name)}</div>'
+
+
 def fond_url(name):
     """Image de fond (fonds/<name>.png|jpg) en data URL, ou None si absente."""
     for ext, mime in (("png", "png"), ("jpg", "jpeg"), ("jpeg", "jpeg"), ("webp", "webp")):
@@ -138,14 +186,14 @@ def build(kind, a):
         kicker = a[4] if len(a) > 4 else "LIGUE 1"
         inner = f"""<div class="kicker">{e(kicker)}</div>
 <div class="big"><span class="l1">C'est jour de</span><span class="l2">match</span></div>
-<div class="versus"><div class="team home">{e(home)}</div><div class="vs">VS</div><div class="team away">{e(away)}</div></div>
+<div class="versus">{team(home)}<div class="vs">VS</div>{team(away)}</div>
 <div class="when">{e(day)} · <b>{e(hour)}</b></div>"""
         return page("ALLEZ", inner, fond="match")
     if kind == "resultat":
         verdict, home, sh, sa, away, info = a[0], a[1], a[2], a[3], a[4], a[5]
         inner = f"""<div class="kicker">{e(info)}</div>
 <div class="big"><span class="l2 q2">{e(verdict)}</span></div>
-<div class="versus"><div class="team home">{e(home)}</div><div class="score">{e(sh)}<i>-</i>{e(sa)}</div><div class="team away">{e(away)}</div></div>
+<div class="versus">{team(home)}<div class="score">{e(sh)}<i>-</i>{e(sa)}</div>{team(away)}</div>
 <div class="cta">Vos tops &amp; vos flops ? 👇</div>"""
         return page(verdict, inner, True, fond=verdict_fond(verdict))
     if kind == "prono":
@@ -153,7 +201,7 @@ def build(kind, a):
         kicker = a[3] if len(a) > 3 else "J-1"
         inner = f"""<div class="kicker">{e(kicker)}</div>
 <div class="big"><span class="l1">Votre</span><span class="l2 q2p">pronostic ?</span></div>
-<div class="versus"><div class="team home">{e(home)}</div><div class="vs">?-?</div><div class="team away">{e(away)}</div></div>
+<div class="versus">{team(home)}<div class="vs">?-?</div>{team(away)}</div>
 <div class="when">{e(when)}</div>"""
         return page("PRONO", inner, fond="prono")
     if kind == "homme":
