@@ -66,17 +66,22 @@ def publier(post, page_id, token):
 def verifier(page_id, token):
     """Vérifie la clé sans rien publier : lit le nom de la page avec le jeton."""
     if not page_id or not token:
-        sys.exit("Secrets FB_PAGE_ID / FB_PAGE_TOKEN absents.")
+        manquants = [n for n, v in (("FB_PAGE_ID", page_id), ("FB_PAGE_TOKEN", token)) if not v]
+        print(f"::error::Secret(s) absent(s) : {', '.join(manquants)}")
+        sys.exit(1)
     q = urllib.parse.urlencode({"fields": "id,name", "access_token": token})
     try:
         with urllib.request.urlopen(f"{API}/me?{q}", timeout=30) as r:
             moi = json.loads(r.read())
     except urllib.error.HTTPError as e:
-        sys.exit(f"Jeton refusé par Facebook ({e.code}) : {e.read().decode(errors='replace')}")
-    print(f"Le jeton correspond à : {moi.get('name')} (id {moi.get('id')})")
+        detail = e.read().decode(errors="replace").replace(token, "***")
+        print(f"::error::Jeton refusé par Facebook ({e.code}) : {detail}")
+        sys.exit(1)
     if str(moi.get("id")) != page_id.strip():
-        sys.exit("ATTENTION : ce n'est pas un jeton de PAGE, ou FB_PAGE_ID ne correspond pas à la page du jeton.")
-    print("OK : jeton de page valide et FB_PAGE_ID correct. Rien n'a été publié.")
+        print(f"::error::Le jeton correspond à « {moi.get('name')} » (id {moi.get('id')}), "
+              f"mais FB_PAGE_ID vaut {page_id.strip()} : jeton utilisateur au lieu du jeton de PAGE, ou mauvais id.")
+        sys.exit(1)
+    print(f"::notice::OK : jeton de page valide pour « {moi.get('name')} » (id {moi.get('id')}). Rien n'a été publié.")
 
 
 def main():
