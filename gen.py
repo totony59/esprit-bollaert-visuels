@@ -110,7 +110,7 @@ def build(kind, a):
         inner = f"""<div class="kicker">{e(info)}</div>
 <div class="big"><span class="l2 q2">{e(verdict)}</span></div>
 <div class="versus"><div class="team home">{e(home)}</div><div class="score">{e(sh)}<i>-</i>{e(sa)}</div><div class="team away">{e(away)}</div></div>
-<div class="cta">Votre homme du match ? 👇</div>"""
+<div class="cta">Vos tops &amp; vos flops ? 👇</div>"""
         return page(verdict, inner, True)
     if kind == "prono":
         home, away, when = a[0], a[1], a[2]
