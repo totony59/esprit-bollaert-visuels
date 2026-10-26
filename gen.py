@@ -68,7 +68,7 @@ body{font-family:'Inter Display','Inter',sans-serif;color:#fff;position:relative
 .big{font-weight:900;font-style:italic;text-transform:uppercase;line-height:.86;text-align:center;
  letter-spacing:-1px;word-spacing:18px;transform:rotate(-4deg) scaleY(1.12);margin-top:34px}
 .big .l1{display:block;font-size:128px;white-space:nowrap;color:#fff;text-shadow:0 6px 0 #c8102e, 0 0 40px rgba(255,80,0,.6)}
-.big .l2{display:block;font-size:236px;
+.big .l2{display:block;font-size:236px;padding-top:.16em;margin-top:-.16em;
  background:linear-gradient(180deg,#fff6b0 0%,#ffd400 38%,#ffb000 70%,#e07a00 100%);
  -webkit-background-clip:text;background-clip:text;color:transparent;
  filter:drop-shadow(0 8px 0 #c8102e) drop-shadow(0 0 30px rgba(255,170,0,.65))}
