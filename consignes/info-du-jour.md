@@ -37,12 +37,18 @@ question du jour (voir le RYTHME de la tâche principale).
 - Toujours citer la source par son nom dans le texte et mettre le lien de l'article dans le
   champ "link" du fichier de file d'attente.
 
-## 4. Le visuel
+## 4. Le format : post « lien » avec l'aperçu de l'article (demande d'Anthony)
 
-`python3 gen.py info visuels/AAAA-MM-JJ_info_<sujet>.png "L'INFO DU JOUR" "LIGNE 1" "LIGNE 2 ?" ["APPEL À L'ACTION", défaut "Votre avis ?"]`
-- Bandeau : « L'INFO DU JOUR », « MERCATO », « CONF' DE PRESSE », « LE CHIFFRE »…
-- Titre très court avec NOS mots, souvent sous forme de question (ex. « LE COACH FAIT » / « TOURNER ? »).
-- Regarde l'image (Read) : rien de coupé, pas de mot isolé, accents présents.
+Pour l'info du jour, PAS de texte sur l'image. Le post = notre texte + le lien de l'article.
+Facebook génère tout seul l'aperçu de l'article (grande photo choisie par le média, titre,
+nom du site) sous notre texte : c'est la façon légale d'afficher la photo du média, car c'est
+le média lui-même qui la fournit via son lien. Ne JAMAIS télécharger ni republier la photo
+du média comme image du post.
+- Choisis de préférence un article dont l'aperçu a une belle photo (la plupart des grands
+  médias en ont : L'Équipe, Foot Mercato, RMC, La Voix du Nord…).
+- Dans le fichier de file d'attente : PAS de champ "image", seulement "link" (le robot publie
+  alors un post lien avec aperçu).
+- Ne mets PAS l'URL dans le texte (le robot l'ajoute en lien ; elle s'affiche en aperçu).
 
 ## 5. Le texte (style d'Anthony, prioritaire)
 
@@ -60,8 +66,8 @@ Pas d'engagement bait (« commentez OUI », « partagez si… », « tag 3 amis 
 
 Fichier queue/AAAA-MM-JJTHHMM_info_<sujet>.json :
 {"publish_at": "<heure de plus forte affluence, avec fuseau>", "message": "<texte>",
- "image": "visuels/<fichier>.png", "link": "<URL de l'article source>"}
-Le robot ajoute le lien à la fin du texte. Commit + push (voir la tâche principale pour le
-contrôle et le secours Metricool).
+ "link": "<URL de l'article source>"}
+Commit + push (voir la tâche principale pour le contrôle et le secours Metricool ; en secours,
+mets l'URL à la fin du texte, sans média : Facebook affichera l'aperçu).
 Comme l'actu périme vite : prépare le post « info » LE JOUR MÊME (tâche du matin), pour
 publication le jour même à l'heure de pic (ou dès que possible si l'heure est passée).
