@@ -98,7 +98,7 @@ body{font-family:'Inter Display','Inter',sans-serif;color:#fff;position:relative
   radial-gradient(ellipse 65% 45% at 50% 42%,rgba(0,0,0,.45),transparent 75%)}
 .photo .shade{display:block}
 .photo .content{padding-top:70px}
-.photo .content.mid{padding-bottom:120px}
+.photo .content.mid{padding-bottom:300px}
 .cta{margin-top:64px;font-weight:800;font-style:italic;font-size:44px;transform:rotate(-4deg);
  color:#fff;border-bottom:6px solid #ffc400;padding-bottom:4px}
 """
