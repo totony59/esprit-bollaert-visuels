@@ -233,6 +233,9 @@ def build(kind, a):
 
 def main():
     kind, out, *args = sys.argv[1:]
+    # typo française : ? ! : ; jamais seuls en début de ligne (espace insécable)
+    args = [a.replace(" ?", "\u00a0?").replace(" !", "\u00a0!").replace(" :", "\u00a0:").replace(" ;", "\u00a0;")
+            for a in args]
     doc = build(kind, args)
     with sync_playwright() as p:
         b = p.chromium.launch()
