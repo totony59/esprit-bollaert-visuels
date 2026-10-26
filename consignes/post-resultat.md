@@ -14,11 +14,22 @@ pas de boost, pas de réponses aux commentaires, pas de messages privés).
 Cherche le score final sur le web : rclens.fr en priorité, plus une deuxième source
 concordante (L'Équipe, Ligue 1, UEFA, Sofascore…).
 
-- Si le match n'est pas terminé (prolongation, tirs au but, retard au coup d'envoi), crée une
-  nouvelle tâche ponctuelle avec mcp__claude-code-remote__create_trigger (run_once_at = dans
-  20 minutes, en UTC ; même message que celui qui t'a lancé ; nom identique ;
-  initiation « own_followup »), puis arrête-toi sans rien publier. Au-delà de 3 relances,
-  arrête-toi et préviens Anthony (SendUserMessage).
+RÈGLE ABSOLUE (demande d'Anthony) : on ne publie QUE si le match est RÉELLEMENT terminé.
+Un match retardé, un temps additionnel long, une interruption ou une prolongation peuvent
+le faire traîner. Un score en direct n'est PAS un score final. Considère le match terminé
+uniquement si les DEUX sources l'indiquent explicitement comme fini (« Terminé », « Fin du
+match », « FT », « Full time », « score final », compte rendu d'après-match publié) avec le
+même score. Au moindre doute (« en cours », minute affichée, « mi-temps », « prolongation »,
+« tirs au but », sources qui ne concordent pas), considère qu'il n'est pas terminé.
+
+- Si le match n'est pas terminé, crée une nouvelle tâche ponctuelle avec
+  mcp__claude-code-remote__create_trigger (run_once_at = dans 15 minutes, en UTC ; même
+  message que celui qui t'a lancé ; même nom suivi de « (relance N) » ; initiation
+  « own_followup »), puis arrête-toi sans rien publier. Jusqu'à 8 relances (2 heures
+  environ). Au-delà, arrête-toi et préviens Anthony (SendUserMessage).
+- Le post part environ 15 minutes après le coup de sifflet final constaté : si les sources
+  montrent que le match vient juste de se terminer (moins de 10 minutes), publie quand même
+  tout de suite (programmation dans 3 minutes), ne crée pas de relance pour ça.
 - Si le match a été reporté ou interrompu, ne publie rien et préviens Anthony.
 - Si tu n'obtiens pas de score confirmé par deux sources, ne publie rien et préviens Anthony.
   N'invente JAMAIS un score, un buteur ou un scénario.
