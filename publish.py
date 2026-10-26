@@ -19,6 +19,7 @@ import os
 import pathlib
 import sys
 import urllib.error
+import urllib.parse
 import urllib.request
 import uuid
 
@@ -62,10 +63,29 @@ def publier(post, page_id, token):
     return rep.get("id")
 
 
+def verifier(page_id, token):
+    """Vérifie la clé sans rien publier : lit le nom de la page avec le jeton."""
+    if not page_id or not token:
+        sys.exit("Secrets FB_PAGE_ID / FB_PAGE_TOKEN absents.")
+    q = urllib.parse.urlencode({"fields": "id,name", "access_token": token})
+    try:
+        with urllib.request.urlopen(f"{API}/me?{q}", timeout=30) as r:
+            moi = json.loads(r.read())
+    except urllib.error.HTTPError as e:
+        sys.exit(f"Jeton refusé par Facebook ({e.code}) : {e.read().decode(errors='replace')}")
+    print(f"Le jeton correspond à : {moi.get('name')} (id {moi.get('id')})")
+    if str(moi.get("id")) != page_id.strip():
+        sys.exit("ATTENTION : ce n'est pas un jeton de PAGE, ou FB_PAGE_ID ne correspond pas à la page du jeton.")
+    print("OK : jeton de page valide et FB_PAGE_ID correct. Rien n'a été publié.")
+
+
 def main():
     dry = os.environ.get("DRY_RUN") == "1"
     page_id = os.environ.get("FB_PAGE_ID", "")
     token = os.environ.get("FB_PAGE_TOKEN", "")
+    if os.environ.get("VERIFIER") == "1":
+        verifier(page_id, token)
+        return
     maintenant = dt.datetime.now(dt.timezone.utc)
     fichiers = sorted(QUEUE.glob("*.json")) if QUEUE.exists() else []
     if not fichiers:

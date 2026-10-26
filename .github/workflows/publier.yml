@@ -7,6 +7,11 @@ on:
   schedule:
     - cron: "*/10 * * * *"
   workflow_dispatch:
+    inputs:
+      verifier:
+        description: "Vérifier la clé Facebook sans rien publier"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -24,6 +29,7 @@ jobs:
         env:
           FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
           FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
+          VERIFIER: ${{ inputs.verifier && '1' || '0' }}
         run: python3 publish.py
       - name: Enregistrer les posts publiés
         run: |
