@@ -8,7 +8,9 @@ Chaque post est un fichier JSON dans queue/ :
   "link": "https://…"                            # optionnel : lien vers l'article source
 }
 
-Après publication, le fichier part dans published/ avec l'identifiant du post Facebook.
+Un post dont l'heure est à plus de 15 min est confié tout de suite au programmateur de
+Facebook (il part dans scheduled/) : Facebook le publie à la minute près.
+Après publication immédiate, le fichier part dans published/ avec l'identifiant du post Facebook.
 Un post en retard de plus de MAX_RETARD_H heures n'est pas publié (il part dans skipped/),
 pour ne jamais sortir un « jour de match » après le match.
 
@@ -27,7 +29,10 @@ import uuid
 API = "https://graph.facebook.com/v23.0"
 ROOT = pathlib.Path(__file__).resolve().parent
 QUEUE, PUBLISHED, SKIPPED = ROOT / "queue", ROOT / "published", ROOT / "skipped"
+SCHEDULED = ROOT / "scheduled"   # posts confiés au programmateur de Facebook
 MAX_RETARD_H = 6
+PROG_MIN = dt.timedelta(minutes=15)  # Facebook exige au moins 10 min d'avance
+PROG_MAX = dt.timedelta(days=25)     # et au plus ~30 jours
 
 
 def appel(url, champs, fichier=None):
@@ -55,22 +60,26 @@ def appel(url, champs, fichier=None):
         raise SystemExit(1)
 
 
-def publier(post, page_id, token):
+def publier(post, page_id, token, quand=None):
+    """Publie maintenant, ou programme chez Facebook si `quand` (datetime futur) est donné."""
     image = post.get("image")
     lien = post.get("link")
+    prog = {}
+    if quand is not None:
+        prog = {"published": "false", "scheduled_publish_time": str(int(quand.timestamp()))}
     if image and lien:
         # sur une photo, le lien va à la fin de la légende (cliquable)
         post = dict(post, message=f"{post['message']}\n\n👉 {lien}")
     if not image and lien:
-        rep = appel(f"{API}/{page_id}/feed", {"message": post["message"], "link": lien, "access_token": token})
+        rep = appel(f"{API}/{page_id}/feed", {"message": post["message"], "link": lien, **prog, "access_token": token})
         return rep.get("id")
     if image:
         f = ROOT / image
         if not f.exists():
             raise SystemExit(f"Image introuvable : {image}")
-        rep = appel(f"{API}/{page_id}/photos", {"caption": post["message"], "access_token": token}, f)
+        rep = appel(f"{API}/{page_id}/photos", {"caption": post["message"], **prog, "access_token": token}, f)
         return rep.get("post_id") or rep.get("id")
-    rep = appel(f"{API}/{page_id}/feed", {"message": post["message"], "access_token": token})
+    rep = appel(f"{API}/{page_id}/feed", {"message": post["message"], **prog, "access_token": token})
     return rep.get("id")
 
 
@@ -107,40 +116,56 @@ def main():
     if not fichiers:
         print("File d'attente vide, rien à publier.")
         return
-    # On n'échoue sur l'absence de secrets que s'il y a vraiment un post à publier.
-    du = [f for f in fichiers
-          if dt.datetime.fromisoformat(json.loads(f.read_text(encoding="utf-8"))["publish_at"]) <= maintenant]
-    if not du:
-        print("Aucun post arrivé à échéance.")
-        return
-    if not dry and (not page_id or not token):
-        sys.exit("Secrets FB_PAGE_ID / FB_PAGE_TOKEN manquants : impossible de publier.")
-    for d in (PUBLISHED, SKIPPED):
-        d.mkdir(exist_ok=True)
-    traites = 0
+    a_traiter = []
     for f in fichiers:
         post = json.loads(f.read_text(encoding="utf-8"))
         quand = dt.datetime.fromisoformat(post["publish_at"])
         if quand.tzinfo is None:
             sys.exit(f"{f.name} : publish_at doit contenir le fuseau (ex. +01:00).")
-        if quand > maintenant:
-            continue
-        if maintenant - quand > dt.timedelta(hours=MAX_RETARD_H):
+        if quand <= maintenant:
+            a_traiter.append((f, post, quand, "maintenant"))
+        elif PROG_MIN <= quand - maintenant <= PROG_MAX:
+            a_traiter.append((f, post, quand, "programmer"))
+        # sinon : trop proche (publié au prochain passage) ou trop lointain (programmé plus tard)
+    if not a_traiter:
+        print("Rien à publier ni à programmer pour l'instant.")
+        return
+    if not dry and (not page_id or not token):
+        sys.exit("Secrets FB_PAGE_ID / FB_PAGE_TOKEN manquants : impossible de publier.")
+    for d in (PUBLISHED, SKIPPED, SCHEDULED):
+        d.mkdir(exist_ok=True)
+    traites = 0
+    for f, post, quand, action in a_traiter:
+        if action == "maintenant" and maintenant - quand > dt.timedelta(hours=MAX_RETARD_H):
             post["skipped_reason"] = f"plus de {MAX_RETARD_H} h de retard"
             (SKIPPED / f.name).write_text(json.dumps(post, ensure_ascii=False, indent=2), encoding="utf-8")
             f.unlink()
-            print(f"Ignoré (trop en retard) : {f.name}")
+            print(f"::warning::Ignoré (trop en retard) : {f.name}")
             traites += 1
             continue
         if dry:
-            print(f"[test] serait publié : {f.name}")
+            print(f"[test] {action} : {f.name}")
             continue
-        post_id = publier(post, page_id, token)
-        post["facebook_post_id"] = post_id
-        post["published_at"] = maintenant.isoformat()
-        (PUBLISHED / f.name).write_text(json.dumps(post, ensure_ascii=False, indent=2), encoding="utf-8")
-        f.unlink()
-        print(f"Publié : {f.name} -> {post_id}")
+        if action == "programmer":
+            # Facebook publiera lui-même à l'heure exacte (plus de dépendance au réveil du robot).
+            try:
+                post_id = publier(post, page_id, token, quand)
+            except SystemExit:
+                print(f"::warning::Programmation Facebook refusée pour {f.name} : il reste dans queue/ "
+                      "et sera publié directement à l'heure prévue.")
+                continue
+            post["facebook_post_id"] = post_id
+            post["scheduled_on_facebook_at"] = maintenant.isoformat()
+            (SCHEDULED / f.name).write_text(json.dumps(post, ensure_ascii=False, indent=2), encoding="utf-8")
+            f.unlink()
+            print(f"Programmé chez Facebook : {f.name} -> {post_id} pour {post['publish_at']}")
+        else:
+            post_id = publier(post, page_id, token)
+            post["facebook_post_id"] = post_id
+            post["published_at"] = maintenant.isoformat()
+            (PUBLISHED / f.name).write_text(json.dumps(post, ensure_ascii=False, indent=2), encoding="utf-8")
+            f.unlink()
+            print(f"Publié : {f.name} -> {post_id}")
         traites += 1
     print(f"{traites} post(s) traité(s).")
 
