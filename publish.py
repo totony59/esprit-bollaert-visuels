@@ -30,6 +30,7 @@ API = "https://graph.facebook.com/v23.0"
 ROOT = pathlib.Path(__file__).resolve().parent
 QUEUE, PUBLISHED, SKIPPED = ROOT / "queue", ROOT / "published", ROOT / "skipped"
 SCHEDULED = ROOT / "scheduled"   # posts confiés au programmateur de Facebook
+ANNULER = ROOT / "annuler"       # déposer ici un fichier du même nom pour annuler un post programmé
 MAX_RETARD_H = 6
 PROG_MIN = dt.timedelta(minutes=15)  # Facebook exige au moins 10 min d'avance
 PROG_MAX = dt.timedelta(days=25)     # et au plus ~30 jours
@@ -104,6 +105,39 @@ def verifier(page_id, token):
     print(f"::notice::OK : jeton de page valide pour « {moi.get('name')} » (id {moi.get('id')}). Rien n'a été publié.")
 
 
+def annuler(page_id, token, dry):
+    """annuler/<nom>.json : supprime le post programmé correspondant (chez Facebook ou dans queue/)."""
+    demandes = sorted(ANNULER.glob("*.json")) if ANNULER.exists() else []
+    for d in demandes:
+        nom = d.name
+        SKIPPED.mkdir(exist_ok=True)
+        if (QUEUE / nom).exists():
+            post = json.loads((QUEUE / nom).read_text(encoding="utf-8"))
+            (QUEUE / nom).unlink()
+        elif (SCHEDULED / nom).exists():
+            post = json.loads((SCHEDULED / nom).read_text(encoding="utf-8"))
+            if not dry:
+                if not token:
+                    sys.exit("Secret FB_PAGE_TOKEN manquant : impossible d'annuler.")
+                q = urllib.parse.urlencode({"access_token": token})
+                req = urllib.request.Request(f"{API}/{post['facebook_post_id']}?{q}", method="DELETE")
+                try:
+                    urllib.request.urlopen(req, timeout=30).read()
+                except urllib.error.HTTPError as e:
+                    detail = e.read().decode(errors="replace").replace(token, "***")
+                    print(f"::error::Annulation refusée par Facebook pour {nom} ({e.code}) : {detail}")
+                    raise SystemExit(1)
+            (SCHEDULED / nom).unlink()
+        else:
+            print(f"::warning::Rien à annuler pour {nom} (déjà publié ou introuvable).")
+            d.unlink()
+            continue
+        post["skipped_reason"] = "annulé à la demande"
+        (SKIPPED / nom).write_text(json.dumps(post, ensure_ascii=False, indent=2), encoding="utf-8")
+        d.unlink()
+        print(f"Annulé : {nom}")
+
+
 def main():
     dry = os.environ.get("DRY_RUN") == "1"
     page_id = os.environ.get("FB_PAGE_ID", "").strip()
@@ -112,6 +146,7 @@ def main():
         verifier(page_id, token)
         return
     maintenant = dt.datetime.now(dt.timezone.utc)
+    annuler(page_id, token, dry)
     fichiers = sorted(QUEUE.glob("*.json")) if QUEUE.exists() else []
     if not fichiers:
         print("File d'attente vide, rien à publier.")
