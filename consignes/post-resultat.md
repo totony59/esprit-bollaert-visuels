@@ -84,8 +84,10 @@ Canal principal : le robot du dépôt (GitHub Actions + API Facebook, gratuit et
    {"publish_at": "<maintenant, heure de Paris avec fuseau, ex. 2026-10-30T23:12:00+01:00>",
     "message": "<texte du post>",
     "image": "visuels/<fichier du visuel>.png"}
-2. Commit et push sur main (avec le visuel). Le push déclenche immédiatement le robot
+2. Commit et push sur main (avec le visuel). Le push déclenche normalement le robot
    « Publier sur Facebook », qui publie le post et déplace le fichier dans published/.
+   Si aucun run n'a démarré au bout d'une minute, force-le :
+   `gh api -X POST repos/totony59/esprit-bollaert-visuels/actions/workflows/publier.yml/dispatches -f ref=main`
 3. Vérifie au bout de 2 à 3 minutes :
    - `gh api "repos/totony59/esprit-bollaert-visuels/actions/runs?per_page=3"` : le dernier
      run « Publier sur Facebook » doit être « success » ;
