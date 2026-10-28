@@ -52,7 +52,8 @@ def appel(url, champs, fichier=None):
         corps += f"--{limite}\r\nContent-Disposition: form-data; name=\"{k}\"\r\n\r\n{v}\r\n".encode()
     if fichier:
         corps += (f"--{limite}\r\nContent-Disposition: form-data; name=\"source\"; "
-                  f"filename=\"{fichier.name}\"\r\nContent-Type: image/png\r\n\r\n").encode()
+                  f"filename=\"{fichier.name}\"\r\nContent-Type: "
+                  f"{'image/png' if fichier.suffix.lower() == '.png' else 'image/jpeg'}\r\n\r\n").encode()
         corps += fichier.read_bytes() + b"\r\n"
     corps += f"--{limite}--\r\n".encode()
     req = urllib.request.Request(url, data=bytes(corps), method="POST",
@@ -69,8 +70,22 @@ def appel(url, champs, fichier=None):
         raise SystemExit(1)
 
 
+def telecharger(url):
+    """Télécharge une photo libre de droits (ex. Wikimedia Commons) dans un fichier temporaire."""
+    import tempfile
+    ext = ".png" if url.lower().split("?")[0].endswith(".png") else ".jpg"
+    req = urllib.request.Request(url, headers={"User-Agent": "CapSurPublication/1.0 (github.com/totony59)"})
+    with urllib.request.urlopen(req, timeout=60) as r:
+        data = r.read()
+    f = pathlib.Path(tempfile.mkdtemp()) / f"photo{ext}"
+    f.write_bytes(data)
+    return f
+
+
 def publier(post, page_id, token, quand=None):
     """Publie maintenant, ou programme chez Facebook si `quand` (datetime futur) est donné."""
+    if post.get("image_url") and not post.get("image"):
+        post = dict(post, image=str(telecharger(post["image_url"])))
     image = post.get("image")
     lien = post.get("link")
     prog = {}

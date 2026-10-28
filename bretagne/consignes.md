@@ -18,7 +18,8 @@ et tu ne parles jamais de ses produits.
 |----------|-------|--------------------------------|---------|
 | Lundi    | 18h30 | CE JOUR-LÀ EN BRETAGNE | Un événement historique qui s'est passé à la date du jour (ou de la semaine) en Bretagne. |
 | Mardi    | 18h30 | LE MOT BRETON | Un mot ou une courte expression en breton (ou en gallo) : sens, petite anecdote, usage. |
-| Mercredi | 18h30 | LA QUESTION | Une question qui fait réagir : débat léger (crêpe ou galette ?), souvenir, « votre coin préféré ». |
+| Mercredi (semaine ISO paire) | 18h30 | LA QUESTION | Une question qui fait réagir : débat léger (crêpe ou galette ?), souvenir, « votre coin préféré ». |
+| Mercredi (semaine ISO impaire) | 10h00 | (vraie photo, pas de visuel) | « VOUS SAVEZ OÙ C'EST ? » : belle photo libre de droits d'un lieu breton, sans dire où ; réponse + crédit en commentaire à 19h00. |
 | Jeudi    | 18h30 | LÉGENDE & PATRIMOINE | Une légende (Ys, l'Ankou, Brocéliande, korrigans…) ou un lieu de patrimoine (phare, calvaire, château, chapelle). |
 | Vendredi | 18h30 | (post lien, pas de visuel) | Actu régionale positive ou qui fait réagir, avec le lien de l'article. |
 | Samedi   | 10h00 | LA RECETTE | Une recette bretonne : présentation courte, ingrédients et étapes dans le texte du post. |
@@ -66,6 +67,23 @@ de Bretagne qui partage avec ses amis.
 - Jamais de photo de presse, de Wikipédia ou d'un site : on n'utilise QUE nos visuels
   (bretagne/visuel.py), et pour l'actu du vendredi, l'aperçu automatique du lien.
 - Recettes : écrites avec nos mots, quantités classiques (pas copiées d'un site précis).
+
+## « Vous savez où c'est ? » (mercredi des semaines ISO impaires, demande d'Anthony du 28/10/2026)
+
+- Photo UNIQUEMENT sur Wikimedia Commons (commons.wikimedia.org), licence vérifiée sur la page du
+  fichier : CC0, domaine public, CC BY ou CC BY-SA. Jamais d'autre source, jamais de licence NC/ND
+  ou « tous droits réservés ». Préfère les « Quality images » / « Featured pictures » de Bretagne.
+- Un lieu reconnaissable par les connaisseurs mais pas évident pour tous (pointe, phare, port,
+  village, chapelle, plage, site naturel), varié d'une fois sur l'autre (départements, côte/intérieur).
+  Pas de personne reconnaissable au premier plan.
+- Dans le JSON : PAS de "image", mais "image_url" = l'URL directe d'une version de 1600 px de large
+  (upload.wikimedia.org/…/thumb/…/1600px-<fichier>), plus "credit" (auteur + licence) et "lieu".
+  Le robot télécharge la photo au moment de publier.
+- Post à 10h00 : 1 à 3 phrases qui donnent envie (« Qui reconnaît cet endroit ? 👀 Un petit indice : … »),
+  sans nommer le lieu, avec un indice léger (département, élément visible).
+- Réponse à 19h00 (fichier comment_on, comme le quiz) : le lieu, la commune et le département,
+  une anecdote vérifiée, puis sur la dernière ligne le crédit obligatoire :
+  « 📷 Photo : <auteur>, <licence>, via Wikimedia Commons ».
 
 ## Pas de répétition
 
