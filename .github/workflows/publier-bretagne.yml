@@ -1,0 +1,44 @@
+name: Publier sur Facebook – Cap sur la Bretagne
+
+on:
+  push:
+    branches: [main]
+    paths: ["bretagne/queue/**", "bretagne/annuler/**"]
+  schedule:
+    - cron: "5-59/10 * * * *"
+  workflow_dispatch:
+    inputs:
+      verifier:
+        description: "Vérifier la clé Facebook sans rien publier"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publication-facebook-bretagne
+  cancel-in-progress: false
+
+jobs:
+  publier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Publier les posts arrivés à échéance
+        env:
+          FB_PAGE_ID: "1385049348028097"
+          FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN_BRETAGNE }}
+          DOSSIER_PAGE: bretagne
+          VERIFIER: ${{ inputs.verifier && '1' || '0' }}
+        run: python3 publish.py
+      - name: Enregistrer les posts publiés
+        run: |
+          git config user.name "robot-publication"
+          git config user.email "actions@users.noreply.github.com"
+          mkdir -p bretagne/queue
+          git add -A bretagne/queue bretagne/published bretagne/skipped bretagne/scheduled bretagne/annuler
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Cap sur la Bretagne : posts publiés"
+          for i in 1 2 3; do git pull --rebase origin main && git push && exit 0; sleep 5; done
+          exit 1

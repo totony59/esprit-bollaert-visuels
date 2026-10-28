@@ -1,0 +1,37 @@
+name: Bilan du lundi – Cap sur la Bretagne
+
+on:
+  schedule:
+    - cron: "13 8 * * 1"   # chaque lundi vers 9h (heure de Paris en hiver)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  bilan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Calculer le bilan de la semaine
+        env:
+          FB_PAGE_ID: "1385049348028097"
+          FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN_BRETAGNE }}
+        run: python3 bretagne/bilan.py bilan.md
+      - name: Envoyer le bilan (fiche GitHub, notification par e-mail)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue create --repo "${{ github.repository }}" \
+            --title "Bilan Cap sur la Bretagne – semaine du $(date -d '7 days ago' +%d/%m)" \
+            --body-file bilan.md --assignee "${{ github.repository_owner }}"
+      - name: Enregistrer l'évolution des abonnés
+        run: |
+          git config user.name "robot-publication"
+          git config user.email "actions@users.noreply.github.com"
+          git add bretagne/stats.csv
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Cap sur la Bretagne : stats de la semaine"
+          for i in 1 2 3; do git pull --rebase origin main && git push && exit 0; sleep 5; done
+          exit 1

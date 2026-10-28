@@ -15,6 +15,10 @@ Un post en retard de plus de MAX_RETARD_H heures n'est pas publié (il part dans
 pour ne jamais sortir un « jour de match » après le match.
 
 Variables d'environnement : FB_PAGE_ID, FB_PAGE_TOKEN (secrets GitHub), DRY_RUN=1 pour tester.
+Commentaire différé (ex. réponse d'un quiz) : un fichier de queue/ avec "comment_on" (nom du fichier
+du post visé, ex. "2026-11-01T1000_quiz_x.json") et "message" est publié EN COMMENTAIRE sous ce
+post à l'heure "publish_at" (Facebook ne programme pas les commentaires : le robot attend l'heure).
+
 DOSSIER_PAGE (optionnel) : sous-dossier de la page (ex. « bretagne ») qui contient ses propres
 queue/, published/, scheduled/, skipped/ et annuler/. Vide = dossiers à la racine (page Lens).
 Les chemins d'image restent relatifs à la racine du dépôt.
@@ -86,6 +90,19 @@ def publier(post, page_id, token, quand=None):
         return rep.get("post_id") or rep.get("id")
     rep = appel(f"{API}/{page_id}/feed", {"message": post["message"], **prog, "access_token": token})
     return rep.get("id")
+
+
+def commenter(post, token):
+    """Publie post["message"] en commentaire sous le post dont le fichier est post["comment_on"]."""
+    cible = post["comment_on"]
+    for d in (PUBLISHED, SCHEDULED):
+        f = d / cible
+        if f.exists():
+            fb_id = json.loads(f.read_text(encoding="utf-8")).get("facebook_post_id")
+            if fb_id:
+                rep = appel(f"{API}/{fb_id}/comments", {"message": post["message"], "access_token": token})
+                return rep.get("id")
+    raise SystemExit(f"Post visé introuvable ou sans facebook_post_id : {cible}")
 
 
 def verifier(page_id, token):
@@ -163,6 +180,8 @@ def main():
             sys.exit(f"{f.name} : publish_at doit contenir le fuseau (ex. +01:00).")
         if quand <= maintenant:
             a_traiter.append((f, post, quand, "maintenant"))
+        elif post.get("comment_on"):
+            continue  # un commentaire ne se programme pas chez Facebook : on attend l'heure
         elif PROG_MIN <= quand - maintenant <= PROG_MAX:
             a_traiter.append((f, post, quand, "programmer"))
         # sinon : trop proche (publié au prochain passage) ou trop lointain (programmé plus tard)
@@ -199,7 +218,7 @@ def main():
             f.unlink()
             print(f"Programmé chez Facebook : {f.name} -> {post_id} pour {post['publish_at']}")
         else:
-            post_id = publier(post, page_id, token)
+            post_id = commenter(post, token) if post.get("comment_on") else publier(post, page_id, token)
             post["facebook_post_id"] = post_id
             post["published_at"] = maintenant.isoformat()
             (PUBLISHED / f.name).write_text(json.dumps(post, ensure_ascii=False, indent=2), encoding="utf-8")
