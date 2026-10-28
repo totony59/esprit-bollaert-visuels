@@ -167,14 +167,18 @@ def creer(sortie, rubrique, titre, texte=None, options=None, fond=None, couleur=
 
     def bloc(y, dessiner):
         """Rubrique, titre, options, texte ; renvoie le bas du bloc (sans dessiner si dessiner=False)."""
+        def centre(ligne, f, yy, couleur):
+            d.text(((W * S - d.textlength(ligne, font=f)) / 2, yy * S), ligne, font=f, fill=couleur)
+
         if dessiner:
             lt_ = d.textlength(rubrique, font=fr) / S + 52
-            d.rounded_rectangle([MARGE * S, y * S, (MARGE + lt_) * S, (y + 58) * S], radius=29 * S, fill=acc)
-            d.text(((MARGE + 26) * S, (y + 13) * S), rubrique, font=fr, fill=BLANC)
+            x0 = (W - lt_) / 2
+            d.rounded_rectangle([x0 * S, y * S, (x0 + lt_) * S, (y + 58) * S], radius=29 * S, fill=acc)
+            centre(rubrique, fr, y + 13, BLANC)
         y += 58 + 50
         for l in lt:
             if dessiner:
-                d.text((MARGE * S, y * S), l, font=ft, fill=NOIR)
+                centre(l, ft, y, NOIR)
             y += tt * 1.06
         if options:
             y += 30
@@ -187,15 +191,15 @@ def creer(sortie, rubrique, titre, texte=None, options=None, fond=None, couleur=
                     fl = police("ExtraBold", 34)
                     lw = d.textlength(lettre, font=fl) / S
                     d.text(((MARGE + 46 - lw / 2) * S, (y + 25) * S), lettre, font=fl, fill=BLANC)
-                    fo, lo, _ = ajuster(o, "SemiBold", 44, 30, largeur - 130, 60, d)
-                    d.text(((MARGE + 104) * S, (y + 21) * S), lo[0], font=fo, fill=NOIR)
+                    fo, lo, _ = ajuster(o, "SemiBold", 44, 30, largeur - 240, 60, d)
+                    centre(lo[0], fo, y + 21, NOIR)
                 y += 112
             y -= 20
         if texte:
             y += 40
             for l in lx:
                 if dessiner:
-                    d.text((MARGE * S, y * S), l, font=fx, fill=TEXTE)
+                    centre(l, fx, y, TEXTE)
                 y += tx * 1.28
         return y
 
