@@ -1,27 +1,60 @@
 """Visuels de la page « Cap sur la Bretagne » (1080x1350, format portrait du fil Facebook).
 
+Fond crème semé d'hermines, bandeau noir à hermines, grand triskell en filigrane, bandes du
+Gwenn-ha-du en pied, et une couleur par rubrique. Symboles dessinés en code (bretagne/symboles.py).
 Aucune dépendance autre que Pillow. Polices Inter Display incluses dans bretagne/polices/ (licence OFL).
 
 Exemples :
   python3 bretagne/visuel.py bretagne/visuels/2026-11-03_mot_kenavo.png \
       --rubrique "LE MOT BRETON" --titre "Kenavo" --texte "Ça veut dire « au revoir ». Et vous, vous le dites encore ?"
   python3 bretagne/visuel.py bretagne/visuels/2026-11-01_quiz_x.png --rubrique "LE QUIZ DU DIMANCHE" \
-      --titre "Où est né le kouign-amann ?" --options "Douarnenez|Quimper|Concarneau" --texte "Réponse ce soir 👇"
-  Fond illustré (ChatGPT) optionnel : --fond bretagne/fonds/legende-1.png (recadré, voile blanc derrière le texte).
+      --titre "Où est né le kouign-amann ?" --options "Douarnenez|Quimper|Concarneau" --texte "Réponse ce soir en commentaire"
+  Fond illustré (ChatGPT) optionnel : --fond bretagne/fonds/legende-1.png (recadré, voile crème derrière le texte).
+  Couleur forcée : --couleur "#1E4E79".
 
 Le texte s'adapte tout seul (taille et retours à la ligne). Vérifier l'image avant publication.
 """
 import argparse
 import math
 import pathlib
+import sys
+import unicodedata
 
 from PIL import Image, ImageDraw, ImageFont
 
 ICI = pathlib.Path(__file__).resolve().parent
+sys.path.insert(0, str(ICI))
+import symboles  # noqa: E402
+
 POL = ICI / "polices"
 W, H, S = 1080, 1350, 2  # S : suréchantillonnage pour un rendu net
-ENCRE, GRIS, PAPIER = (17, 17, 17), (105, 105, 105), (255, 255, 255)
+NOIR, CREME, BLANC = (21, 21, 21), (244, 238, 226), (255, 255, 255)
+TEXTE = (70, 66, 60)
 MARGE = 84
+HAUT_BANDEAU = 168
+HAUT_PIED = 72
+
+# Une couleur par rubrique (assez foncée pour du texte blanc)
+COULEURS = {
+    "CE JOUR-LA": (30, 78, 121),      # bleu océan
+    "LE MOT BRETON": (163, 59, 42),   # rouge brique
+    "LA QUESTION": (176, 108, 20),    # ocre
+    "LEGENDE": (40, 98, 72),          # vert lande
+    "LA RECETTE": (176, 108, 20),     # ocre
+    "LE QUIZ": (30, 78, 121),         # bleu océan
+}
+
+
+def sans_accents(t):
+    return "".join(c for c in unicodedata.normalize("NFD", t.upper()) if unicodedata.category(c) != "Mn")
+
+
+def couleur_rubrique(rubrique):
+    r = sans_accents(rubrique)
+    for cle, c in COULEURS.items():
+        if r.startswith(cle):
+            return c
+    return (30, 78, 121)
 
 
 def police(nom, taille):
@@ -59,48 +92,66 @@ def ajuster(texte, nom, t_max, t_min, largeur, hauteur, d, interligne=1.12):
     return f, couper(texte, f, largeur * S, d), t_min
 
 
-def boussole(d, cx, cy, r):
+def boussole(d, cx, cy, r, couleur, fond):
     """Petite rose des vents (même dessin que le logo)."""
     cx, cy, r = cx * S, cy * S, r * S
-    d.ellipse([cx - r * .72, cy - r * .72, cx + r * .72, cy + r * .72], outline=(190, 190, 190), width=int(1.6 * S))
+    d.ellipse([cx - r * .72, cy - r * .72, cx + r * .72, cy + r * .72],
+              outline=couleur + (110,), width=int(1.8 * S))
     k = r / 190
     def p(x, y):
         a = math.radians(45)
-        dx, dy = x, y
-        return (cx + (dx * math.cos(a) - dy * math.sin(a)) * k, cy + (dx * math.sin(a) + dy * math.cos(a)) * k)
-    d.polygon([p(0, -180), p(42, 0), p(-42, 0)], fill=ENCRE)
-    d.polygon([p(-42, 0), p(42, 0), p(0, 180)], fill=(180, 180, 180))
+        return (cx + (x * math.cos(a) - y * math.sin(a)) * k, cy + (x * math.sin(a) + y * math.cos(a)) * k)
+    d.polygon([p(0, -180), p(42, 0), p(-42, 0)], fill=couleur)
+    d.polygon([p(-42, 0), p(42, 0), p(0, 180)], fill=couleur + (120,))
     hr = 15 * k
-    d.ellipse([cx - hr, cy - hr, cx + hr, cy + hr], fill=PAPIER, outline=ENCRE, width=max(2, int(5 * k)))
+    d.ellipse([cx - hr, cy - hr, cx + hr, cy + hr], fill=fond, outline=couleur, width=max(2, int(5 * k)))
 
 
-def bandes(d, y, hauteur):
-    """Rappel discret du Gwenn-ha-du : 9 bandes noires et blanches en pied de visuel."""
-    h = hauteur / 9
-    for i in range(9):
-        if i % 2 == 0:
-            d.rectangle([0, (y + i * h) * S, W * S, (y + (i + 1) * h) * S], fill=ENCRE)
+def semis_hermines(img):
+    """Hermines très discrètes semées sur le fond (quinconce)."""
+    calque = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    d = ImageDraw.Draw(calque)
+    pas_x, pas_y = 150, 150
+    for j, y in enumerate(range(HAUT_BANDEAU + 40, H - HAUT_PIED, pas_y)):
+        for x in range(40 + (pas_x // 2 if j % 2 else 0), W, pas_x):
+            symboles.hermine(d, x * S, (y + 30) * S, 40 * S, NOIR + (16,))
+    img.alpha_composite(calque)
 
 
-def creer(sortie, rubrique, titre, texte=None, options=None, fond=None):
-    img = Image.new("RGB", (W * S, H * S), PAPIER)
+def creer(sortie, rubrique, titre, texte=None, options=None, fond=None, couleur=None):
+    acc = couleur or couleur_rubrique(rubrique)
+    img = Image.new("RGBA", (W * S, H * S), CREME + (255,))
     if fond:
-        f = Image.open(fond).convert("RGB")
+        f = Image.open(fond).convert("RGBA")
         r = max(W * S / f.width, H * S / f.height)
         f = f.resize((round(f.width * r), round(f.height * r)), Image.LANCZOS)
         g, h = (f.width - W * S) // 2, (f.height - H * S) // 2
         img.paste(f.crop((g, h, g + W * S, h + H * S)))
+    else:
+        semis_hermines(img)
+
+    # Grand triskell en filigrane, en bas à droite (coupé par le bord)
+    calque = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    symboles.triskell(ImageDraw.Draw(calque), (W - 215) * S, (H - 315) * S, 255 * S, acc + (40,), 46 * S, rotation=-20)
+    img.alpha_composite(calque)
+
     d = ImageDraw.Draw(img, "RGBA")
+    zone_haut, zone_bas = HAUT_BANDEAU + 70, H - HAUT_PIED - 70
+    if fond:  # voile crème derrière le bloc texte
+        d.rounded_rectangle([(MARGE - 40) * S, (zone_haut - 40) * S, (W - MARGE + 40) * S, (zone_bas + 30) * S],
+                            radius=36 * S, fill=CREME + (238,))
 
-    zone_haut, zone_bas = 250, H - 140  # espace réservé au texte
-    if fond:  # voile blanc derrière tout le bloc texte
-        d.rounded_rectangle([(MARGE - 40) * S, 40 * S, (W - MARGE + 40) * S, (zone_bas + 40) * S],
-                            radius=36 * S, fill=(255, 255, 255, 232))
+    # Bandeau noir : boussole + nom de la page + hermines
+    d.rectangle([0, 0, W * S, HAUT_BANDEAU * S], fill=NOIR)
+    boussole(d, MARGE + 30, HAUT_BANDEAU / 2, 44, BLANC, NOIR)
+    fb = police("ExtraBold", 34)
+    d.text(((MARGE + 86) * S, (HAUT_BANDEAU / 2 - 22) * S), "CAP SUR LA BRETAGNE", font=fb, fill=BLANC)
+    for i, x in enumerate((W - MARGE - 112, W - MARGE - 56, W - MARGE)):
+        symboles.hermine(d, x * S, (HAUT_BANDEAU / 2 + 4) * S, 50 * S, BLANC)
+    d.rectangle([0, HAUT_BANDEAU * S, W * S, (HAUT_BANDEAU + 10) * S], fill=acc)
 
-    # En-tête : boussole + nom de la page
-    boussole(d, MARGE + 34, 112, 46)
-    d.text(((MARGE + 96) * S, 92 * S), "CAP SUR LA BRETAGNE", font=police("Bold", 30), fill=ENCRE)
-    d.line([MARGE * S, 176 * S, (W - MARGE) * S, 176 * S], fill=ENCRE, width=3 * S)
+    # Pied : bandes du Gwenn-ha-du
+    symboles.gwenn_ha_du(d, 0, (H - HAUT_PIED) * S, W * S, H * S, NOIR)
 
     largeur = W - 2 * MARGE
     dispo = zone_bas - zone_haut
@@ -110,60 +161,62 @@ def creer(sortie, rubrique, titre, texte=None, options=None, fond=None):
         fx, lx, tx = ajuster(texte, "Medium", 46, 30, largeur, min(360, int(dispo * 0.36)), d, 1.28)
         h_texte = len(lx) * tx * 1.28
     h_titre = dispo - 112 - h_opts - h_texte - (40 if texte else 0)
-    t_max = 150 if len(titre) <= 14 else 112
-    ft, lt, tt = ajuster(titre, "ExtraBold", t_max, 52, largeur, h_titre, d, 1.08)
+    t_max = 150 if len(titre) <= 14 else 116
+    ft, lt, tt = ajuster(titre, "ExtraBold", t_max, 52, largeur, h_titre, d, 1.06)
     fr = police("Bold", 30)
 
     def bloc(y, dessiner):
         """Rubrique, titre, options, texte ; renvoie le bas du bloc (sans dessiner si dessiner=False)."""
         if dessiner:
             lt_ = d.textlength(rubrique, font=fr) / S + 52
-            d.rounded_rectangle([MARGE * S, y * S, (MARGE + lt_) * S, (y + 58) * S], radius=29 * S, fill=ENCRE)
-            d.text(((MARGE + 26) * S, (y + 13) * S), rubrique, font=fr, fill=PAPIER)
-        y += 58 + 54
+            d.rounded_rectangle([MARGE * S, y * S, (MARGE + lt_) * S, (y + 58) * S], radius=29 * S, fill=acc)
+            d.text(((MARGE + 26) * S, (y + 13) * S), rubrique, font=fr, fill=BLANC)
+        y += 58 + 50
         for l in lt:
             if dessiner:
-                d.text((MARGE * S, y * S), l, font=ft, fill=ENCRE)
-            y += tt * 1.08
+                d.text((MARGE * S, y * S), l, font=ft, fill=NOIR)
+            y += tt * 1.06
         if options:
             y += 30
             for i, o in enumerate(options):
                 if dessiner:
                     lettre = "ABCDEFG"[i]
-                    d.rounded_rectangle([MARGE * S, y * S, (W - MARGE) * S, (y + 92) * S], radius=20 * S,
-                                        outline=ENCRE, width=3 * S, fill=PAPIER)
-                    d.ellipse([(MARGE + 18) * S, (y + 18) * S, (MARGE + 74) * S, (y + 74) * S], fill=ENCRE)
-                    fl = police("ExtraBold", 32)
+                    d.rounded_rectangle([MARGE * S, y * S, (W - MARGE) * S, (y + 92) * S], radius=46 * S,
+                                        outline=NOIR, width=3 * S, fill=BLANC)
+                    d.ellipse([(MARGE + 14) * S, (y + 14) * S, (MARGE + 78) * S, (y + 78) * S], fill=acc)
+                    fl = police("ExtraBold", 34)
                     lw = d.textlength(lettre, font=fl) / S
-                    d.text(((MARGE + 46 - lw / 2) * S, (y + 27) * S), lettre, font=fl, fill=PAPIER)
+                    d.text(((MARGE + 46 - lw / 2) * S, (y + 25) * S), lettre, font=fl, fill=BLANC)
                     fo, lo, _ = ajuster(o, "SemiBold", 44, 30, largeur - 130, 60, d)
-                    d.text(((MARGE + 100) * S, (y + 22) * S), lo[0], font=fo, fill=ENCRE)
+                    d.text(((MARGE + 104) * S, (y + 21) * S), lo[0], font=fo, fill=NOIR)
                 y += 112
             y -= 20
         if texte:
             y += 40
             for l in lx:
                 if dessiner:
-                    d.text((MARGE * S, y * S), l, font=fx, fill=GRIS if not fond else ENCRE)
+                    d.text((MARGE * S, y * S), l, font=fx, fill=TEXTE)
                 y += tx * 1.28
         return y
 
     hauteur = bloc(0, False)
-    bloc(zone_haut + max(0, (dispo - hauteur) / 2) - 30, True)
+    bloc(zone_haut + max(0, (dispo - hauteur) / 2) - 20, True)
 
-    bandes(d, H - 72, 72)
-    img.resize((W, H), Image.LANCZOS).save(sortie, optimize=True)
+    img.convert("RGB").resize((W, H), Image.LANCZOS).save(sortie, optimize=True)
     return sortie
 
 
 if __name__ == "__main__":
     a = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     a.add_argument("sortie")
-    a.add_argument("--rubrique", required=True, help="ex. LE MOT BRETON, CE JOUR-LÀ, LE QUIZ DU DIMANCHE")
+    a.add_argument("--rubrique", required=True,
+                   help="CE JOUR-LÀ EN BRETAGNE, LE MOT BRETON, LA QUESTION, LÉGENDE & PATRIMOINE, LA RECETTE, LE QUIZ DU DIMANCHE")
     a.add_argument("--titre", required=True)
     a.add_argument("--texte")
     a.add_argument("--options", help="propositions du quiz séparées par |")
     a.add_argument("--fond", help="image de fond (ChatGPT) dans bretagne/fonds/")
+    a.add_argument("--couleur", help="couleur forcée, ex. #1E4E79")
     x = a.parse_args()
+    col = tuple(int(x.couleur.lstrip("#")[i:i + 2], 16) for i in (0, 2, 4)) if x.couleur else None
     pathlib.Path(x.sortie).parent.mkdir(parents=True, exist_ok=True)
-    print(creer(x.sortie, x.rubrique, x.titre, x.texte, x.options.split("|") if x.options else None, x.fond))
+    print(creer(x.sortie, x.rubrique, x.titre, x.texte, x.options.split("|") if x.options else None, x.fond, col))
