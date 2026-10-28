@@ -9,7 +9,7 @@ Exemples :
       --rubrique "LE MOT BRETON" --titre "Kenavo" --texte "Ça veut dire « au revoir ». Et vous, vous le dites encore ?"
   python3 bretagne/visuel.py bretagne/visuels/2026-11-01_quiz_x.png --rubrique "LE QUIZ DU DIMANCHE" \
       --titre "Où est né le kouign-amann ?" --options "Douarnenez|Quimper|Concarneau" --texte "Réponse ce soir en commentaire"
-  Fond illustré (ChatGPT) optionnel : --fond bretagne/fonds/legende-1.png (recadré, voile crème derrière le texte).
+  Illustration (ChatGPT) optionnelle : --fond bretagne/fonds/legende-1.png (affichée en grand sous le bandeau, texte dessous).
   Couleur forcée : --couleur "#1E4E79".
 
 Le texte s'adapte tout seul (taille et retours à la ligne). Vérifier l'image avant publication.
@@ -121,25 +121,24 @@ def semis_hermines(img):
 def creer(sortie, rubrique, titre, texte=None, options=None, fond=None, couleur=None):
     acc = couleur or couleur_rubrique(rubrique)
     img = Image.new("RGBA", (W * S, H * S), CREME + (255,))
-    if fond:
-        f = Image.open(fond).convert("RGBA")
-        r = max(W * S / f.width, H * S / f.height)
-        f = f.resize((round(f.width * r), round(f.height * r)), Image.LANCZOS)
-        g, h = (f.width - W * S) // 2, (f.height - H * S) // 2
-        img.paste(f.crop((g, h, g + W * S, h + H * S)))
-    else:
-        semis_hermines(img)
+    semis_hermines(img)
 
     # Grand triskell en filigrane, en bas à droite (coupé par le bord)
     calque = Image.new("RGBA", img.size, (0, 0, 0, 0))
     symboles.triskell(ImageDraw.Draw(calque), (W - 215) * S, (H - 315) * S, 255 * S, acc + (40,), 46 * S, rotation=-20)
     img.alpha_composite(calque)
 
-    d = ImageDraw.Draw(img, "RGBA")
     zone_haut, zone_bas = HAUT_BANDEAU + 70, H - HAUT_PIED - 70
-    if fond:  # voile crème derrière le bloc texte
-        d.rounded_rectangle([(MARGE - 40) * S, (zone_haut - 40) * S, (W - MARGE + 40) * S, (zone_bas + 30) * S],
-                            radius=36 * S, fill=CREME + (238,))
+    if fond:
+        # Illustration (ChatGPT) en grand sous le bandeau, recadrée au centre ; le texte va dessous
+        y0, hi = HAUT_BANDEAU + 10, (400 if options else 560)
+        f = Image.open(fond).convert("RGBA")
+        r = max(W * S / f.width, hi * S / f.height)
+        f = f.resize((round(f.width * r), round(f.height * r)), Image.LANCZOS)
+        g, h = (f.width - W * S) // 2, (f.height - hi * S) // 2
+        img.paste(f.crop((g, h, g + W * S, h + hi * S)), (0, y0 * S))
+        zone_haut = y0 + hi + 50
+    d = ImageDraw.Draw(img, "RGBA")
 
     # Bandeau noir : boussole + nom de la page + hermines
     d.rectangle([0, 0, W * S, HAUT_BANDEAU * S], fill=NOIR)

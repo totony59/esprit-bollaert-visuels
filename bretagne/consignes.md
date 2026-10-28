@@ -91,6 +91,14 @@ pour le fonctionnement général : programmation chez Facebook, annulation via b
       --rubrique "LE MOT BRETON" --titre "Kenavo" --texte "Ça veut dire « au revoir »…"
   Quiz : --options "Douarnenez|Quimper|Concarneau" --texte "Réponse ce soir en commentaire"
 Titre court et percutant (le mot, la date + l'événement, la question, le nom du plat ou de la
-légende) ; --texte : 1 à 3 phrases maximum. Si un fond illustré existe dans bretagne/fonds/ pour la
-rubrique (images créées par Anthony avec ChatGPT, ex. fonds/legende-1.png), ajoute --fond.
+légende) ; --texte : 1 à 3 phrases maximum. Textes centrés, couleur automatique selon la rubrique.
+
+Illustrations (créées par Anthony avec ChatGPT) dans bretagne/fonds/, nommées <rubrique>-<n>.png :
+cejourla-*, mot-*, question-*, legende-*, recette-*, quiz-*, et generique-* (valables partout).
+Dès qu'il y en a pour la rubrique du jour, ajoute --fond avec celle qui colle LE MIEUX au sujet
+(regarde les images avec Read : une crêpe pour une recette de crêpes, une forêt pour Brocéliande…) ;
+à défaut, une generique-*. Évite de reprendre la même illustration que lors des 2 derniers posts
+(regarde le champ "image" et le nom des fonds dans bretagne/published/ et scheduled/ ; note le fond
+utilisé dans le JSON, champ "fond"). L'illustration s'affiche en grand sous le bandeau, le texte dessous.
+Si aucune image ne convient vraiment, fais le visuel sans --fond.
 Regarde toujours l'image (Read) avant de publier : lisible, rien de coupé, accents corrects.
