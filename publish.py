@@ -15,6 +15,9 @@ Un post en retard de plus de MAX_RETARD_H heures n'est pas publié (il part dans
 pour ne jamais sortir un « jour de match » après le match.
 
 Variables d'environnement : FB_PAGE_ID, FB_PAGE_TOKEN (secrets GitHub), DRY_RUN=1 pour tester.
+DOSSIER_PAGE (optionnel) : sous-dossier de la page (ex. « bretagne ») qui contient ses propres
+queue/, published/, scheduled/, skipped/ et annuler/. Vide = dossiers à la racine (page Lens).
+Les chemins d'image restent relatifs à la racine du dépôt.
 """
 import datetime as dt
 import json
@@ -28,9 +31,10 @@ import uuid
 
 API = "https://graph.facebook.com/v23.0"
 ROOT = pathlib.Path(__file__).resolve().parent
-QUEUE, PUBLISHED, SKIPPED = ROOT / "queue", ROOT / "published", ROOT / "skipped"
-SCHEDULED = ROOT / "scheduled"   # posts confiés au programmateur de Facebook
-ANNULER = ROOT / "annuler"       # déposer ici un fichier du même nom pour annuler un post programmé
+BASE = ROOT / os.environ.get("DOSSIER_PAGE", "").strip()   # dossier propre à la page
+QUEUE, PUBLISHED, SKIPPED = BASE / "queue", BASE / "published", BASE / "skipped"
+SCHEDULED = BASE / "scheduled"   # posts confiés au programmateur de Facebook
+ANNULER = BASE / "annuler"       # déposer ici un fichier du même nom pour annuler un post programmé
 MAX_RETARD_H = 6
 PROG_MIN = dt.timedelta(minutes=15)  # Facebook exige au moins 10 min d'avance
 PROG_MAX = dt.timedelta(days=25)     # et au plus ~30 jours
