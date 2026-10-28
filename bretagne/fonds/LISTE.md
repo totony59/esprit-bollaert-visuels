@@ -1,0 +1,26 @@
+# Illustrations disponibles (choisir d'après cette liste, sans ouvrir les images)
+- cejourla-1 : vieille carte marine de Bretagne, compas, longue-vue
+- cejourla-2 : rue pavée de cité médiévale, colombages, granit
+- cejourla-3 : ancien port de pêche, voiliers aux voiles rouges
+- cejourla-4 : alignements de menhirs dans la lande au lever du soleil
+- mot-1 : ardoise vierge sur mur de pierre, ajonc en fleur
+- mot-2 : livre ancien ouvert sur une fenêtre, mer au fond
+- mot-3 : panneau en bois sur sentier côtier, lande, mer
+- question-1 : crêpe et galette sur un billig, bolée de cidre
+- question-2 : banc face à la mer, deux bolées
+- question-3 : phare blanc et noir sur un rocher, vagues
+- legende-1 : forêt de Brocéliande dans la brume, lueurs
+- legende-2 : cité engloutie sous la mer (Ys)
+- legende-3 : calvaire de granit, enclos paroissial, ciel d'orage
+- legende-4 : château médiéval au bord d'un étang
+- legende-5 : chapelle de pierre dans la lande, bruyère
+- recette-1 : kouign-amann doré sur une planche
+- recette-2 : far breton aux pruneaux
+- recette-3 : soupe de poissons, coquillages, port
+- recette-4 : galette complète sur un billig
+- quiz-1 : boussole ancienne sur carte de Bretagne, loupe
+- quiz-2 : vue aérienne d'une côte découpée, îles, bateaux
+- quiz-3 : coquillages, cordage, bouée sur le sable
+- generique-1 : plage, eau turquoise, granit rose
+- generique-2 : village de pierre, volets bleus, hortensias
+- generique-3 : ciel breton, éclaircie dorée sur la mer

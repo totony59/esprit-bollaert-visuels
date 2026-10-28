@@ -96,7 +96,8 @@ légende) ; --texte : 1 à 3 phrases maximum. Textes centrés, couleur automatiq
 Illustrations (créées par Anthony avec ChatGPT) dans bretagne/fonds/, nommées <rubrique>-<n>.png :
 cejourla-*, mot-*, question-*, legende-*, recette-*, quiz-*, et generique-* (valables partout).
 Dès qu'il y en a pour la rubrique du jour, ajoute --fond avec celle qui colle LE MIEUX au sujet
-(regarde les images avec Read : une crêpe pour une recette de crêpes, une forêt pour Brocéliande…) ;
+(choisis d'après bretagne/fonds/LISTE.md, SANS ouvrir les images, pour économiser l'utilisation ;
+seul le visuel final est vérifié avec Read) ;
 à défaut, une generique-*. Évite de reprendre la même illustration que lors des 2 derniers posts
 (regarde le champ "image" et le nom des fonds dans bretagne/published/ et scheduled/ ; note le fond
 utilisé dans le JSON, champ "fond"). L'illustration s'affiche en grand sous le bandeau, le texte dessous.
