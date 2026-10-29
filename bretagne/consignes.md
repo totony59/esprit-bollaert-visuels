@@ -1,8 +1,8 @@
 # Consignes : page Facebook « Cap sur la Bretagne »
 
 Page communautaire d'Anthony sur la Bretagne (id 1385049348028097), première page de la marque
-« Cap sur » (déclinable ensuite pour d'autres régions et pays). Objectif : créer une vraie
-communauté qui réagit, commente et partage. Page lancée le 28/10/2026, aucun abonné au départ.
+« Cap sur » (déclinable ensuite pour d'autres régions et pays). Objectif prioritaire : construire une communauté très active, avec des publications qui déclenchent
+de vrais commentaires, des souvenirs, des avis et des échanges entre passionnés. Page lancée le 28/10/2026, aucun abonné au départ.
 
 Autorisation : Anthony a autorisé (28/10/2026), puis confirmé le 29/10/2026, la publication
 automatique sans validation préalable de DEUX posts par jour : une publication principale selon le
@@ -76,6 +76,76 @@ de Bretagne qui partage avec ses amis.
   pas de « chez moi à Quimper », « ma grand-mère disait… »). Émotions générales OK (« j'adore ce coin »).
 - Pas d'« engagement bait » (« commentez OUI », « partagez si… », « taguez 3 amis »).
 - Texte du post : 2 à 6 phrases en général (la recette peut être plus longue).
+
+## Stratégie éditoriale PRO : maximiser les commentaires naturels
+
+Chaque publication doit être conçue comme un contenu social performant, pas comme une simple fiche
+informative. L'objectif est que le lecteur ait spontanément quelque chose à raconter, à corriger, à
+choisir ou à recommander. On cherche une réaction sincère, jamais une manipulation.
+
+### Avant d'écrire, choisir un déclencheur de réaction
+
+Pour chaque post, choisir AU MOINS un angle fort, adapté au sujet :
+- **Reconnaissance locale** : « Vous situez cet endroit ? », détail visuel qui donne envie de deviner.
+- **Souvenir personnel** : vacances, enfance, sortie en famille, odeur, goût, tradition ou anecdote.
+- **Avis qui se partage** : deux lieux, deux recettes, deux habitudes, sans agressivité ni réponse imposée.
+- **Fierté et appartenance** : ce qui rend un coin unique, une tradition que les gens veulent défendre.
+- **Conseil des habitants** : le meilleur point de vue, la balade à faire, le moment idéal, le petit détour.
+- **Détail surprenant** : un fait réel peu connu qui donne envie de réagir ou de le raconter à quelqu'un.
+- **Transmission** : « Est-ce que ça se faisait chez vous aussi ? », « Vous l'appelez comment, par chez vous ? »
+- **Choix précis** : proposer deux options concrètes, ou demander un seul endroit / plat / souvenir.
+
+### La question finale est essentielle
+
+- Ne jamais finir par une question générique si une question plus précise est possible.
+- Préférer une question à laquelle on peut répondre en une phrase, avec un vrai vécu ou une opinion.
+- Donner une petite prise au lecteur : un détail à reconnaître, une comparaison, un souvenir à partager,
+  une recommandation à transmettre ou une nuance locale à apporter.
+- Éviter d'empiler plusieurs questions. Une seule question forte vaut mieux que trois questions vagues.
+- Éviter de révéler toute la réponse dès la première ligne si une découverte progressive est plus naturelle.
+- Pour les lieux, ne pas se limiter à « Vous connaissez ? » : alterner avec « Vous y êtes déjà allé ? »,
+  « Quel souvenir vous en gardez ? », « Vous conseilleriez quoi à quelqu'un qui découvre le coin ? »,
+  « Vous connaissez un endroit qui mérite autant le détour dans le même secteur ? »
+- Pour les traditions et recettes, demander une variante familiale, un nom local ou une préférence concrète.
+- Pour les quiz, rendre les choix clairs et amusants, puis répondre plus tard si le format le prévoit.
+
+### Structure conseillée
+
+1. **Accroche courte** dès la première phrase : détail étonnant, contraste, question de reconnaissance
+   ou opinion qui donne envie de lire la suite. Pas de sensationnalisme mensonger.
+2. **Valeur réelle** : une anecdote, une explication ou un détail visuel précis, facile à retenir.
+3. **Lien humain** : souvenir, fierté locale, choix, recommandation ou curiosité.
+4. **Question finale ciblée** qui ouvre naturellement la conversation.
+
+### Niveau de qualité à viser
+
+Avant de mettre un post en file d'attente, se poser ces questions :
+- Est-ce que quelqu'un qui connaît la Bretagne aura envie d'ajouter un détail, de raconter un souvenir,
+  de donner son avis ou de recommander un autre endroit ?
+- Est-ce que l'accroche donne une raison de s'arrêter dans le fil Facebook ?
+- La question est-elle suffisamment concrète pour provoquer une réponse personnelle ?
+- Le post apporte-t-il quelque chose de vrai, utile, amusant ou mémorable ?
+Si la réponse est non, réécrire avant publication. Éviter les textes interchangeables qui pourraient
+s'appliquer à n'importe quelle région.
+
+### À ne jamais faire
+
+- Pas de fausse controverse, de faits inventés, de promesses exagérées ou d'indignation artificielle.
+- Pas de « commentez OUI », « partagez si vous êtes d'accord », « identifiez trois amis » ou autres
+  demandes mécaniques d'engagement.
+- Pas de culpabilisation ni de pression sur les lecteurs. Le contenu doit leur donner envie de répondre,
+  pas leur ordonner de le faire.
+- Pas de question tellement large qu'elle ne donne aucune idée de réponse (« Qu'en pensez-vous ? »).
+- Pas de répétition mécanique des mêmes accroches ou questions. Varier le rythme et les angles.
+
+### Priorité spécifique à « L'ENDROIT DU JOUR »
+
+Pour cette rubrique, la photo doit être assez belle ou intrigante pour arrêter le défilement, mais le texte
+ne doit pas se contenter de décrire le paysage. Trouver un détail singulier et vérifié, puis choisir une
+question qui fait parler les gens du lieu : souvenir de vacances, visite, meilleur moment pour y aller,
+point de vue préféré, endroit méconnu à proximité ou comparaison avec un autre coin breton.
+Alterner les posts de reconnaissance (« Qui reconnaît ce lieu ? ») et les posts de vécu (« Vous y êtes
+allés ? Qu'est-ce qui vous a le plus marqué ? »). Ne pas utiliser toujours la même formule.
 
 ## Exactitude (impératif)
 
