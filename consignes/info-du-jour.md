@@ -66,9 +66,11 @@ Pas d'engagement bait (« commentez OUI », « partagez si… », « tag 3 amis 
 ## 6. Publication
 
 Fichier queue/AAAA-MM-JJTHHMM_info_<sujet>.json :
-{"publish_at": "<heure de plus forte affluence, avec fuseau>", "message": "<texte>",
+{"publish_at": "<maintenant, heure de Paris avec fuseau>", "message": "<texte>",
  "link": "<URL de l'article source>"}
 Commit + push (voir la tâche principale pour le contrôle et le secours Metricool ; en secours,
 mets l'URL à la fin du texte, sans média : Facebook affichera l'aperçu).
-Comme l'actu périme vite : prépare le post « info » LE JOUR MÊME (tâche du matin), pour
-publication le jour même à l'heure de pic (ou dès que possible si l'heure est passée).
+PUBLICATION IMMÉDIATE (demande d'Anthony du 29/10/2026) : dès que l'info est trouvée et
+vérifiée, elle sort TOUT DE SUITE ("publish_at" = maintenant). On n'attend jamais l'heure de
+pic pour une info : l'actu périme vite, et être le premier compte plus que l'horaire.
+Seule exception : respecter 1 h 30 d'écart avec un post déjà prévu (sinon décale juste après).
