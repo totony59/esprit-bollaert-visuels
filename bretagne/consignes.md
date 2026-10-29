@@ -4,15 +4,19 @@ Page communautaire d'Anthony sur la Bretagne (id 1385049348028097), première pa
 « Cap sur » (déclinable ensuite pour d'autres régions et pays). Objectif : créer une vraie
 communauté qui réagit, commente et partage. Page lancée le 28/10/2026, aucun abonné au départ.
 
-Autorisation : Anthony a autorisé (28/10/2026) la publication automatique, sans validation
-préalable, d'UN post par jour sur cette page via le robot GitHub (workflow « Publier sur Facebook –
-Cap sur la Bretagne »). Rien d'autre : pas de pub, pas de boost, pas de messages privés, pas de
-réponses aux commentaires, ne jamais toucher aux secrets GitHub ni au jeton Facebook.
+Autorisation : Anthony a autorisé (28/10/2026), puis confirmé le 29/10/2026, la publication
+automatique sans validation préalable de DEUX posts par jour : une publication principale selon le
+calendrier ci-dessous, PLUS une publication photo quotidienne le matin (rubrique « L'ENDROIT DU JOUR »).
+Utiliser le robot GitHub (workflow « Publier sur Facebook – Cap sur la Bretagne »). Rien d'autre :
+pas de pub, pas de boost, pas de messages privés, pas de réponses aux commentaires, ne jamais toucher
+aux secrets GitHub ni au jeton Facebook.
 
 POSTS DESIGN / T-SHIRTS / PRODUITS : Anthony les publie lui-même, en plus. Tu n'en crées JAMAIS
 et tu ne parles jamais de ses produits.
 
-## Semaine type (1 post par jour)
+## Publication principale (une par jour)
+
+## Semaine type
 
 | Jour     | Heure | Rubrique (étiquette du visuel) | Contenu |
 |----------|-------|--------------------------------|---------|
@@ -26,6 +30,38 @@ et tu ne parles jamais de ses produits.
 | Dimanche | 10h00 | LE QUIZ DU DIMANCHE | Question à 3 propositions (A, B, C). Réponse publiée en commentaire à 19h00 par le robot. |
 
 Heures en heure de Paris (fuseau +01:00 en hiver, +02:00 en été).
+
+## Nouvelle rubrique quotidienne : « L'ENDROIT DU JOUR » (en plus de la publication principale)
+
+- Tous les jours à 08h00, publier une deuxième publication avec une VRAIE et très belle photo d'un
+  endroit breton : village, port, plage, phare, île, forêt, canal, chapelle, patrimoine ou paysage.
+- Décrire l'endroit avec 2 à 5 phrases naturelles : où il se trouve (commune + département), ce qui
+  le rend particulier, et une anecdote fiable ou un détail concret qui donne envie de le découvrir.
+  Ton de passionné qui partage une découverte, pas une brochure touristique.
+- Terminer par une question simple et sincère : « Vous connaissez cet endroit ? Vous y êtes déjà
+  allés ? » ou une variante adaptée au lieu. Encourager les souvenirs et recommandations sans demander
+  artificiellement des commentaires, des partages ou des tags.
+- Choisir une photo réellement représentative et de grande qualité, de préférence paysage horizontal,
+  nette et lumineuse. Ne jamais utiliser une photo générée par IA pour cette rubrique.
+- Photos UNIQUEMENT depuis Wikimedia Commons : vérifier la page du fichier et utiliser seulement
+  CC0, domaine public, CC BY ou CC BY-SA. Refuser NC, ND et « tous droits réservés ». Dans le JSON,
+  utiliser « image_url » avec une URL directe téléchargeable de la photo (version de 1600 px environ),
+  ainsi que « credit » (auteur + licence) et « lieu » (lieu exact). Le robot sait télécharger « image_url ».
+- Ajouter dans le texte du post une ligne de crédit : « 📷 Photo : <auteur>, <licence>, via Wikimedia
+  Commons » ; conserver aussi le lien vers la page du fichier dans les métadonnées si possible. Respecter
+  l'attribution exigée par la licence et préciser toute modification si la photo est retouchée.
+- Vérifier les informations du lieu auprès de DEUX sources fiables, par exemple la commune et l'office
+  de tourisme ou un organisme patrimonial. Ne pas reprendre leur texte : reformuler avec nos mots.
+- Ne pas refaire un lieu déjà traité dans les trois derniers mois. Varier systématiquement les cinq
+  départements, les paysages côtiers et intérieurs, les îles, les villages et le patrimoine. Ne pas choisir
+  uniquement les lieux les plus célèbres : alterner incontournables et petites pépites moins connues.
+- Nom de fichier : bretagne/queue/AAAA-MM-JJT0800_endroit_<lieu>.json. Exemple de structure :
+  {"publish_at":"2026-10-30T08:00:00+01:00","message":"<texte + crédit photo>",
+   "image_url":"<URL directe Wikimedia Commons>","credit":"<auteur + licence>","lieu":"<lieu>"}.
+- Cette publication est indépendante de la publication principale : ne pas supprimer, déplacer ni
+  remplacer la publication prévue selon le calendrier habituel. Les jours avec une publication existante
+  à 10h00, la photo « L'ENDROIT DU JOUR » reste à 08h00.
+
 
 ## Style d'écriture (demande expresse d'Anthony, prioritaire)
 
@@ -64,8 +100,11 @@ de Bretagne qui partage avec ses amis.
 
 - Jamais de texte recopié : tout est reformulé avec nos mots. Une seule citation possible, moins
   de 15 mots, entre guillemets et attribuée.
-- Jamais de photo de presse, de Wikipédia ou d'un site : on n'utilise QUE nos visuels
-  (bretagne/visuel.py), et pour l'actu du vendredi, l'aperçu automatique du lien.
+- Pour les publications illustrées classiques, utiliser nos visuels (bretagne/visuel.py). Pour
+  « VOUS SAVEZ OÙ C'EST ? » et « L'ENDROIT DU JOUR », les vraies photos doivent venir uniquement de
+  Wikimedia Commons avec licence admissible vérifiée sur la page du fichier. Ne jamais récupérer
+  une photo depuis un site de presse, un réseau social ou un site touristique. Pour l'actu du vendredi,
+  utiliser l'aperçu automatique du lien.
 - Recettes : écrites avec nos mots, quantités classiques (pas copiées d'un site précis).
 
 ## « Vous savez où c'est ? » (mercredi des semaines ISO impaires, demande d'Anthony du 28/10/2026)
