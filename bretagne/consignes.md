@@ -20,14 +20,16 @@ et tu ne parles jamais de ses produits.
 
 | Jour     | Heure | Rubrique (étiquette du visuel) | Contenu |
 |----------|-------|--------------------------------|---------|
-| Lundi    | 18h30 | CE JOUR-LÀ EN BRETAGNE | Un événement historique qui s'est passé à la date du jour (ou de la semaine) en Bretagne. |
-| Mardi    | 18h30 | LE MOT BRETON | Un mot ou une courte expression en breton (ou en gallo) : sens, petite anecdote, usage. |
-| Mercredi (semaine ISO paire) | 18h30 | LA QUESTION | Une question qui fait réagir : débat léger (crêpe ou galette ?), souvenir, « votre coin préféré ». |
+| Lundi    | 12h00 | CE JOUR-LÀ EN BRETAGNE | Un événement historique qui s'est passé à la date du jour (ou de la semaine) en Bretagne. |
+| Mardi    | 12h00 | LE MOT BRETON | Un mot ou une courte expression en breton (ou en gallo) : sens, petite anecdote, usage. |
+| Mercredi (semaine ISO paire) | 12h00 | LA QUESTION | Une question qui fait réagir : débat léger (crêpe ou galette ?), souvenir, « votre coin préféré ». |
 | Mercredi (semaine ISO impaire) | 10h00 | (vraie photo, pas de visuel) | « VOUS SAVEZ OÙ C'EST ? » : belle photo libre de droits d'un lieu breton, sans dire où ; réponse + crédit en commentaire à 19h00. |
-| Jeudi    | 18h30 | LÉGENDE & PATRIMOINE | Une légende (Ys, l'Ankou, Brocéliande, korrigans…) ou un lieu de patrimoine (phare, calvaire, château, chapelle). |
-| Vendredi | 18h30 | (post lien, pas de visuel) | Actu régionale positive ou qui fait réagir, avec le lien de l'article. |
+| Jeudi    | 12h00 | LÉGENDE & PATRIMOINE | Une légende (Ys, l'Ankou, Brocéliande, korrigans…) ou un lieu de patrimoine (phare, calvaire, château, chapelle). |
+| Vendredi | 12h00 | (post lien, pas de visuel) | Actu régionale positive ou qui fait réagir, avec le lien de l'article. |
 | Samedi   | 10h00 | LA RECETTE | Une recette bretonne : présentation courte, ingrédients et étapes dans le texte du post. |
 | Dimanche | 10h00 | LE QUIZ DU DIMANCHE | Question à 3 propositions (A, B, C). Réponse publiée en commentaire à 19h00 par le robot. |
+
+Horaire de midi (12h00) au lieu de 18h30 : demande d'Anthony du 30/10/2026.
 
 Heures en heure de Paris (fuseau +01:00 en hiver, +02:00 en été).
 
@@ -203,7 +205,7 @@ départements (Finistère, Côtes-d'Armor, Morbihan, Ille-et-Vilaine, et Loire-A
 ## Fichiers (robot GitHub)
 
 Un fichier par post dans bretagne/queue/AAAA-MM-JJTHHMM_<rubrique>_<sujet>.json (UTF-8) :
-  {"publish_at": "2026-11-02T18:30:00+01:00", "message": "<texte>", "image": "bretagne/visuels/<fichier>.png"}
+  {"publish_at": "2026-11-02T12:00:00+01:00", "message": "<texte>", "image": "bretagne/visuels/<fichier>.png"}
 - Actu du vendredi : pas de "image", mais "link": "<URL de l'article>" (post lien avec aperçu).
 - Quiz : le post (avec visuel) + un 2e fichier pour la réponse en commentaire :
   bretagne/queue/AAAA-MM-JJT1900_reponse_<sujet>.json
