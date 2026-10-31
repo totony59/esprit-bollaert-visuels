@@ -73,7 +73,7 @@ mets l'URL à la fin du texte, sans média : Facebook affichera l'aperçu).
 PUBLICATION IMMÉDIATE (demande d'Anthony du 29/10/2026) : dès que l'info est trouvée et
 vérifiée, elle sort TOUT DE SUITE ("publish_at" = maintenant). On n'attend jamais l'heure de
 pic pour une info : l'actu périme vite, et être le premier compte plus que l'horaire.
-Seule exception : respecter 1 h 30 d'écart avec un post déjà prévu (sinon décale juste après).
+Seule exception : si un autre post sort dans les 15 minutes, publie 15 minutes après lui (jamais d'écart plus long, rappel d'Anthony du 31/10/2026).
 
 ## 7. Une info CHAQUE jour, sans exception (demande d'Anthony du 31/10/2026)
 
