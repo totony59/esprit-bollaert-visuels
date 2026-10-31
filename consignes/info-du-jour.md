@@ -74,3 +74,11 @@ PUBLICATION IMMÉDIATE (demande d'Anthony du 29/10/2026) : dès que l'info est t
 vérifiée, elle sort TOUT DE SUITE ("publish_at" = maintenant). On n'attend jamais l'heure de
 pic pour une info : l'actu périme vite, et être le premier compte plus que l'horaire.
 Seule exception : respecter 1 h 30 d'écart avec un post déjà prévu (sinon décale juste après).
+
+## 7. Une info CHAQUE jour, sans exception (demande d'Anthony du 31/10/2026)
+
+Il doit y avoir une info du jour TOUS les jours, y compris le LENDEMAIN d'un match (réactions
+d'après-match, conférence de presse du coach, joueur à la une, classement, prochain match) et
+le week-end. « Rien à dire » n'est jamais une option : s'il n'y a vraiment aucune actu fraîche,
+publie une question du jour à la place. Seul le jour même d'un match n'en a pas (le post
+« jour de match » et le résultat suffisent), sauf actu majeure.
