@@ -1,0 +1,18 @@
+name: Analyse des commentaires – Cap sur la Bretagne
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  analyse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Analyser (comptages anonymes uniquement)
+        env:
+          FB_PAGE_ID: "1385049348028097"
+          FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN_BRETAGNE }}
+        run: python3 outils/analyse_commentaires.py
