@@ -1,14 +1,18 @@
 """Analyse anonyme des commentaires du réel le plus commenté de la page (14 derniers jours).
 N'affiche AUCUN nom ni commentaire complet : uniquement des comptages (phares cités, mots fréquents)."""
-import collections, json, os, re, unicodedata, urllib.parse, urllib.request, datetime as dt
+import collections, json, os, re, unicodedata, urllib.error, urllib.parse, urllib.request, datetime as dt
 
 API = "https://graph.facebook.com/v23.0"
 TOK, PAGE = os.environ["FB_PAGE_TOKEN"].strip(), os.environ["FB_PAGE_ID"].strip()
 
 def get(path, **p):
     q = urllib.parse.urlencode({**p, "access_token": TOK})
-    with urllib.request.urlopen(f"{API}/{path}?{q}", timeout=30) as r:
-        return json.loads(r.read())
+    try:
+        with urllib.request.urlopen(f"{API}/{path}?{q}", timeout=30) as r:
+            return json.loads(r.read())
+    except urllib.error.HTTPError as e:
+        print("ERREUR", path.split("/")[-1], e.read().decode(errors="replace").replace(TOK, "***")[:600])
+        return {}
 
 def norm(s):
     s = unicodedata.normalize("NFD", s.lower())
@@ -38,6 +42,7 @@ vids = get(f"{PAGE}/videos", since=since, limit=50, fields="id,created_time,desc
 cands = [(x.get("comments", {}).get("summary", {}).get("total_count", 0), x["id"], (x.get("message") or x.get("description") or "")[:60])
          for x in posts.get("data", []) + vids.get("data", [])]
 cands.sort(reverse=True)
+if not cands: raise SystemExit('Aucun post lisible')
 total, oid, apercu = cands[0]
 textes, url = [], f"{oid}/comments"
 params = dict(limit=100, fields="message,comment_count", filter="stream")
