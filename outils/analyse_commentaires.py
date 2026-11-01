@@ -59,9 +59,22 @@ for t in textes:
             cpt[nom] += 1
 mots = collections.Counter(w for t in textes for w in re.findall(r"[a-z'-]{3,}", norm(t)) if w not in STOP)
 
+# Numéros cités (« le 3 », « n°4 », « numéro 6 », « 1er », « le dernier »…)
+ORD = {"premier": 1, "1er": 1, "deuxieme": 2, "second": 2, "2eme": 2, "troisieme": 3, "3eme": 3, "quatrieme": 4,
+       "4eme": 4, "cinquieme": 5, "5eme": 5, "sixieme": 6, "6eme": 6, "dernier": "dernier"}
+num = collections.Counter()
+for t in textes:
+    n = norm(t); vus = set()
+    for m in re.findall(r"(?<![\d:h/.,])(?:n°|no|num[eé]ro|le|la|du|au)?\s*(\d{1,2})(?![\d:h/.,%])", n):
+        if 1 <= int(m) <= 20: vus.add(int(m))
+    for w, v in ORD.items():
+        if re.search(rf"\b{w}\b", n): vus.add(v)
+    num.update(vus)
+
 lignes = [f"## Analyse du post le plus commenté ({total} commentaires annoncés, {len(textes)} lus)",
           f"Début du texte : « {apercu} »", "", "### Phares cités", "| Phare | Commentaires qui le citent |", "|---|---|"]
 lignes += [f"| {k} | {v} |" for k, v in cpt.most_common()] or ["| (aucun) | 0 |"]
+lignes += ["", "### Numéros cités (commentaires qui citent ce numéro)", ", ".join(f"{k} ({v})" for k, v in num.most_common(15)) or "aucun"]
 lignes += ["", "### Mots les plus fréquents (hors mots courants)", ", ".join(f"{w} ({c})" for w, c in mots.most_common(40))]
 out = "\n".join(lignes)
 print(out)
