@@ -58,6 +58,9 @@ CLUBS = {
 }
 DEFAUT = ("#0a0405", "#ffffff", "#ffc400")
 
+# Adversaires de Ligue des champions 2026-2027 : le thème « nuit européenne » s'active tout seul.
+LDC_ADVERSAIRES = {"come", "como"}
+
 
 def club_style(name):
     key = unicodedata.normalize("NFD", name.lower())
@@ -303,6 +306,10 @@ def main():
         argv = [x for x in argv if x != "--ldc"]
     # Détection automatique : un bandeau qui parle de Ligue des champions active le thème
     if any("CHAMPIONS" in x.upper() or "LDC" in x.upper().split() for x in argv[2:]):
+        LDC = True
+    # Adversaires de Lens en Ligue des champions cette saison (à compléter au fil des tirages)
+    norm = lambda x: "".join(c for c in unicodedata.normalize("NFD", x.lower()) if unicodedata.category(c) != "Mn").strip()
+    if any(norm(x) in LDC_ADVERSAIRES for x in argv[2:]):
         LDC = True
     kind, out, *args = argv
     # typo française : ? ! : ; jamais seuls en début de ligne (espace insécable)
