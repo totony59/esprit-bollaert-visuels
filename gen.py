@@ -54,12 +54,28 @@ CLUBS = {
     "bruges": ("#0052a5", "#000000", "#000000"),
     "club bruges": ("#0052a5", "#000000", "#000000"),
     "come": ("#1d3f8f", "#ffffff", "#7fb2e5"),
+    "leipzig": ("#ffffff", "#dd0741", "#dd0741"),
+    "rb leipzig": ("#ffffff", "#dd0741", "#dd0741"),
+    "bodø/glimt": ("#ffd200", "#000000", "#000000"),
+    "bodø": ("#ffd200", "#000000", "#000000"),
+    "bodo/glimt": ("#ffd200", "#000000", "#000000"),
+    "bodo": ("#ffd200", "#000000", "#000000"),
+    "man city": ("#6cabdd", "#ffffff", "#1c2c5b"),
+    "manchester city": ("#6cabdd", "#ffffff", "#1c2c5b"),
+    "liverpool": ("#c8102e", "#ffffff", "#f6eb61"),
+    "slavia prague": ("#ffffff", "#e30613", "#e30613"),
+    "slavia": ("#ffffff", "#e30613", "#e30613"),
     "como": ("#1d3f8f", "#ffffff", "#7fb2e5"),
 }
 DEFAUT = ("#0a0405", "#ffffff", "#ffc400")
 
 # Adversaires de Ligue des champions 2026-2027 : le thème « nuit européenne » s'active tout seul.
-LDC_ADVERSAIRES = {"come", "como"}
+# Phase de ligue (sources : Nordsports Mag + SeatPick, vérifié le 01/11/2026) : Slavia Prague (ext.),
+# Sporting (dom.), Club Bruges (ext.), Côme (dom. 04/11), RB Leipzig (ext. 24/11), Bodø/Glimt (dom. 09/12),
+# Manchester City (dom. 20/01/2027), Liverpool (ext. 27/01/2027). Ajouter ici les adversaires des barrages / phases finales.
+LDC_ADVERSAIRES = {"come", "como", "leipzig", "rb leipzig", "bodø/glimt", "bodø", "bodo/glimt", "bodo",
+                   "man city", "manchester city", "liverpool", "slavia prague", "slavia",
+                   "sporting", "bruges", "club bruges"}
 
 
 def club_style(name):
