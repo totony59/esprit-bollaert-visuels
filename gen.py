@@ -301,6 +301,9 @@ def main():
     if "--ldc" in argv:
         LDC = True
         argv = [x for x in argv if x != "--ldc"]
+    # Détection automatique : un bandeau qui parle de Ligue des champions active le thème
+    if any("CHAMPIONS" in x.upper() or "LDC" in x.upper().split() for x in argv[2:]):
+        LDC = True
     kind, out, *args = argv
     # typo française : ? ! : ; jamais seuls en début de ligne (espace insécable)
     args = [a.replace(" ?", "\u00a0?").replace(" !", "\u00a0!").replace(" :", "\u00a0:").replace(" ;", "\u00a0;")
