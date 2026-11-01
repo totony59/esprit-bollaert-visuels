@@ -6,6 +6,12 @@ Usage :
   python3 gen.py homme    out.png "LENS 2 - 1 PARIS FC"
   python3 gen.py question out.png "VOTRE PLUS BEAU" "SOUVENIR À BOLLAERT ?"
   python3 gen.py design   out.png "QUEL PROCHAIN" "DESIGN ?"
+
+Ligue des champions : ajouter --ldc (thème « nuit européenne » bleu nuit / argent / étoiles,
+sans logo ni ballon étoilé officiels de l'UEFA) :
+  python3 gen.py match    out.png "LENS" "CÔME" "MER. 4 NOV." "21H" --ldc
+  python3 gen.py prono    out.png "LENS" "CÔME" "MERCREDI 21H" --ldc
+  python3 gen.py resultat out.png "VICTOIRE" "LENS" "2" "1" "CÔME" "LIGUE DES CHAMPIONS" --ldc
 """
 import sys, html, pathlib, base64, unicodedata
 from playwright.sync_api import sync_playwright
@@ -47,6 +53,8 @@ CLUBS = {
     "sporting": ("#00805a", "#ffffff", "#ffffff"),
     "bruges": ("#0052a5", "#000000", "#000000"),
     "club bruges": ("#0052a5", "#000000", "#000000"),
+    "come": ("#1d3f8f", "#ffffff", "#7fb2e5"),
+    "como": ("#1d3f8f", "#ffffff", "#7fb2e5"),
 }
 DEFAUT = ("#0a0405", "#ffffff", "#ffc400")
 
@@ -160,20 +168,76 @@ TERRILS = """<svg class="terrils" viewBox="0 0 1080 330" preserveAspectRatio="no
 <path d="M795 60 L855 120 M855 60 L795 120" stroke="#050203" stroke-width="6"/></g>
 </svg>"""
 
+# --- Thème Ligue des champions : nuit européenne (création originale, aucun élément officiel UEFA) ---
+LDC_CSS = r"""
+body.ldc{background:#030817}
+.ldc .bg{background:
+  radial-gradient(ellipse 80% 50% at 50% 112%, rgba(60,120,255,.55), rgba(20,40,120,.4) 45%, transparent 72%),
+  radial-gradient(circle at 15% 15%, rgba(80,110,220,.35), transparent 40%),
+  radial-gradient(circle at 88% 10%, rgba(255,212,0,.18), transparent 34%),
+  linear-gradient(165deg,#0a1640 0%,#030817 55%,#0b1a4d 100%)}
+.ldc.photo .bg{filter:saturate(.8) brightness(.8)}
+.ldc .shade{display:block;background:
+  linear-gradient(180deg,rgba(4,12,48,.97) 0%,rgba(8,24,90,.88) 30%,rgba(10,30,110,.6) 52%,rgba(10,30,110,.15) 72%,rgba(3,8,30,.55) 90%,rgba(3,8,30,.92) 100%)}
+.ldc .smoke{display:none}
+.ldc .rays{display:block;background:repeating-conic-gradient(from 0deg at 50% 0%, rgba(190,215,255,.09) 0 4deg, transparent 4deg 13deg)}
+.ldc .slash,.ldc .terrils,.ldc .ghost{display:none}
+.stars{position:absolute;inset:0;display:none}
+.ldc .stars{display:block}
+.ldc .kicker{background:linear-gradient(90deg,#c9d6f2,#ffffff 50%,#c9d6f2);color:#0a1640;box-shadow:8px 8px 0 #c8102e;letter-spacing:8px}
+.ldc .big .l1{text-shadow:0 6px 0 #1d3f8f,0 0 40px rgba(120,170,255,.75)}
+.ldc .big .l2{background:linear-gradient(180deg,#ffffff 0%,#e3ebff 35%,#9fb4e0 70%,#6f86bf 100%);
+ -webkit-background-clip:text;background-clip:text;filter:drop-shadow(0 8px 0 #c8102e) drop-shadow(0 0 34px rgba(140,180,255,.7))}
+.ldc .vs{color:#e3ebff;text-shadow:0 0 25px rgba(140,180,255,.9)}
+.ldc .team{box-shadow:0 0 34px rgba(140,180,255,.55)}
+.ldc .when{background:#ffffff;color:#0a1640;box-shadow:8px 8px 0 #c8102e}
+.ldc .score{color:#ffffff;text-shadow:0 8px 0 #c8102e,0 0 40px rgba(140,180,255,.9)}
+.ldc .cta{border-bottom-color:#e3ebff}
+.ldc .brand span{color:#9fb4e0}
+.nuit{display:none}
+.ldc.photo .content{padding-top:96px}
+.ldc .nuit{display:block;position:absolute;top:30px;left:0;width:100%;text-align:center;font-weight:800;font-style:italic;
+ font-size:26px;letter-spacing:12px;color:#c9d6f2;text-shadow:0 0 14px rgba(140,180,255,.9)}
+"""
+
+
+def stars_svg():
+    import random
+    r = random.Random(62)
+    pts = []
+    for _ in range(140):
+        x, y = r.uniform(0, 1080), r.uniform(0, 640)
+        rad = r.choice([0.8, 1, 1.2, 1.6, 2.2])
+        op = r.uniform(.35, .95)
+        pts.append(f'<circle cx="{x:.0f}" cy="{y:.0f}" r="{rad}" fill="#fff" opacity="{op:.2f}"/>')
+    def star(cx, cy, s, op):
+        return (f'<path d="M{cx} {cy-s} L{cx+s*.18} {cy-s*.18} L{cx+s} {cy} L{cx+s*.18} {cy+s*.18} L{cx} {cy+s} '
+                f'L{cx-s*.18} {cy+s*.18} L{cx-s} {cy} L{cx-s*.18} {cy-s*.18} Z" fill="#fff" opacity="{op}"/>')
+    sparks = "".join(star(*t) for t in [(120, 140, 22, .9), (960, 210, 18, .85), (880, 70, 12, .7),
+                                         (210, 420, 10, .6), (1010, 470, 14, .7), (60, 300, 9, .6)])
+    return (f'<svg class="stars" viewBox="0 0 1080 1080"><defs><filter id="glow"><feGaussianBlur stdDeviation="2.4"/></filter></defs>'
+            f'<g filter="url(#glow)">{sparks}</g>{sparks}{"".join(pts)}</svg>')
+
+
 GRAIN = """<svg class="grain" width="1080" height="1080"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>"""
+
+
+LDC = False
 
 
 def page(ghost, inner, mid=False, fond=None):
     e = html.escape
     url = fond_url(fond) if fond else None
-    body_cls = ' class="photo"' if url else ""
+    cls = (["photo"] if url else []) + (["ldc"] if LDC else [])
+    body_cls = f' class="{" ".join(cls)}"' if cls else ""
     bg_style = f' style="background:url({url})"' if url else ""
-    return f"""<!doctype html><html><head><meta charset="utf-8"><style>{CSS}</style></head><body{body_cls}>
+    return f"""<!doctype html><html><head><meta charset="utf-8"><style>{CSS}{LDC_CSS}</style></head><body{body_cls}>
 <div class="bg"{bg_style}></div><div class="shade"></div><div class="rays"></div>
 <div class="smoke s1"></div><div class="smoke s2"></div><div class="smoke s3"></div>
 <div class="ghost">{e(ghost)}</div>
 <div class="slash sl1"></div><div class="slash sl2"></div>
-{TERRILS}{GRAIN}
+{TERRILS}{stars_svg() if LDC else ""}{GRAIN}
+<div class="nuit">★ NUIT EUROPÉENNE ★</div>
 <div class="content{' mid' if mid else ''}">{inner}</div>
 <div class="brand"><span>///</span> {BRAND} <span>///</span></div>
 </body></html>"""
@@ -183,7 +247,7 @@ def build(kind, a):
     e = html.escape
     if kind == "match":
         home, away, day, hour = a[0], a[1], a[2], a[3]
-        kicker = a[4] if len(a) > 4 else "LIGUE 1"
+        kicker = a[4] if len(a) > 4 else ("LIGUE DES CHAMPIONS" if LDC else "LIGUE 1")
         inner = f"""<div class="kicker">{e(kicker)}</div>
 <div class="big"><span class="l1">C'est jour de</span><span class="l2">match</span></div>
 <div class="versus">{team(home)}<div class="vs">VS</div>{team(away)}</div>
@@ -198,7 +262,7 @@ def build(kind, a):
         return page(verdict, inner, True, fond=verdict_fond(verdict))
     if kind == "prono":
         home, away, when = a[0], a[1], a[2]
-        kicker = a[3] if len(a) > 3 else "J-1"
+        kicker = a[3] if len(a) > 3 else ("J-1 · LIGUE DES CHAMPIONS" if LDC else "J-1")
         inner = f"""<div class="kicker">{e(kicker)}</div>
 <div class="big"><span class="l1">Votre</span><span class="l2 q2p">pronostic ?</span></div>
 <div class="versus">{team(home)}<div class="vs">?-?</div>{team(away)}</div>
@@ -232,7 +296,12 @@ def build(kind, a):
 
 
 def main():
-    kind, out, *args = sys.argv[1:]
+    global LDC
+    argv = sys.argv[1:]
+    if "--ldc" in argv:
+        LDC = True
+        argv = [x for x in argv if x != "--ldc"]
+    kind, out, *args = argv
     # typo française : ? ! : ; jamais seuls en début de ligne (espace insécable)
     args = [a.replace(" ?", "\u00a0?").replace(" !", "\u00a0!").replace(" :", "\u00a0:").replace(" ;", "\u00a0;")
             for a in args]

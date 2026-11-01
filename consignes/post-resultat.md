@@ -49,6 +49,8 @@ S'il en existe un, arrête-toi.
    `python3 -m playwright install chromium`.
 2. Génère l'image (l'équipe à domicile toujours à gauche, noms courts en majuscules) :
    `python3 gen.py resultat visuels/AAAA-MM-JJ_resultat_x.png "VICTOIRE !" "DOMICILE" "SCORE_DOM" "SCORE_EXT" "EXTÉRIEUR" "LIGUE 1 · 9E JOURNÉE"`
+   Match de LIGUE DES CHAMPIONS : ajoute `--ldc` à la fin (thème « nuit européenne », demande d'Anthony du 01/11/2026),
+   avec un bandeau du type "LIGUE DES CHAMPIONS · 4E JOURNÉE".
    Le premier texte est « VICTOIRE ! », « MATCH NUL » ou « DÉFAITE » selon le résultat de
    LENS. Le fond adapté est choisi automatiquement. Si l'adversaire n'est pas dans CLUBS
    (gen.py), ajoute-le avec ses vraies couleurs (vérifiées sur le web).

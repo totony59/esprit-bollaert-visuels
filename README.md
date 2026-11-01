@@ -3,6 +3,9 @@
 Visuels générés automatiquement pour la page Facebook de supporters « Esprit Bollaert Design » (page non officielle).
 
 `gen.py` crée les images 1080×1080 (types : match, prono, resultat, homme, question, design) avec Playwright/Chromium.
+Pour les matchs de **Ligue des champions**, ajouter `--ldc` (match, prono, resultat, homme…) : thème
+« nuit européenne » bleu nuit / argent / étoiles, création originale sans logo ni ballon étoilé de l'UEFA
+(demande d'Anthony du 01/11/2026). Ex. : `python3 gen.py match out.png "LENS" "CÔME" "MER. 4 NOV." "21H" --ldc`.
 Les images publiées sont dans `visuels/`.
 
 ## Fonctionnement du robot de publication
