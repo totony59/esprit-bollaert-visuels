@@ -146,7 +146,7 @@ def creer(sortie, rubrique, titre, texte=None, options=None, fond=None, couleur=
     d.rectangle([0, 0, W * S, HAUT_BANDEAU * S], fill=ROUGE)
     boussole(d, MARGE + 30, HAUT_BANDEAU / 2, 44, BLANC, ROUGE)
     fb = police("ExtraBold", 34)
-    d.text(((MARGE + 86) * S, (HAUT_BANDEAU / 2 - 22) * S), "CAP SUR LE PAYS BASQUE", font=fb, fill=BLANC)
+    d.text(((MARGE + 86) * S, (HAUT_BANDEAU / 2 - 22) * S), "CAP SUR - LE PAYS BASQUE", font=fb, fill=BLANC)
     for x in (W - MARGE - 104, W - MARGE - 50):
         symboles.lauburu(img, x * S, (HAUT_BANDEAU / 2) * S, 22 * S, BLANC)
     d.rectangle([0, HAUT_BANDEAU * S, W * S, (HAUT_BANDEAU + 10) * S], fill=VERT)
