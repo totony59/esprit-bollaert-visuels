@@ -1,0 +1,25 @@
+# Illustrations disponibles (choisir d'après cette liste, sans ouvrir les images)
+- mot-1 : porte en bois rouge sous un linteau de pierre, façade blanche
+- mot-2 : carnet vierge, béret noir, tasse de café sur table en bois
+- mot-3 : ardoise vierge sur mur blanc, guirlande de piments
+- village-1 : rue de village labourdin, colombages rouges, volets rouges et verts
+- village-2 : place de village, église au clocher massif, fronton, platanes
+- village-3 : vieux pont de pierre en dos d'âne, rivière, maisons blanches
+- village-4 : petit port de pêche, bateaux rouges, verts et blancs
+- tradition-1 : fronton de pelote au couchant, pelote et gant d'osier
+- tradition-2 : corde de tir à la corde sur l'herbe, fête de village
+- tradition-3 : espadrilles rouges et blanches sur un banc de pierre
+- table-1 : gâteau basque coupé, crème, pot de cerises noires
+- table-2 : poêle de piperade, poivrons, jambon, nappe rayée
+- table-3 : pintxos sur une planche en terrasse, mer au loin
+- table-4 : fromage de brebis et confiture de cerises noires
+- souvenir-1 : plage de la côte basque au coucher du soleil, parasol rayé
+- souvenir-2 : vieilles photos de vacances et cartes postales sur nappe rayée
+- souvenir-3 : fête de village la nuit, guirlandes, bal en plein air
+- paysage-1 : montagne arrondie dans la brume, prairies, pottoks
+- paysage-2 : corniche de falaises en feuillets face à l'océan
+- paysage-3 : forêt de hêtres en automne, sentier vers les crêtes
+- quiz-1 : boussole ancienne sur vieille carte, loupe
+- quiz-2 : guirlandes de piments sur façade blanche aux volets verts
+- generique-1 : ferme basque au toit dissymétrique, collines, moutons
+- generique-2 : éclaircie dorée sur l'océan, montagnes au loin
