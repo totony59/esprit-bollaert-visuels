@@ -29,3 +29,10 @@ Même robot, avec ses propres dossiers sous `bretagne/` (`queue/`, `scheduled/`,
 `skipped/`, `annuler/`, `visuels/`) et son workflow « Publier sur Facebook – Cap sur la Bretagne »
 (secret `FB_PAGE_TOKEN_BRETAGNE`). Consignes éditoriales : `bretagne/consignes.md`. Visuels :
 `bretagne/visuel.py`. Bilan chaque lundi : workflow « Bilan du lundi » (fiche GitHub + e-mail).
+
+## Page « Cap sur le Pays basque »
+
+Même robot, dossiers sous `paysbasque/` et workflow « Publier sur Facebook – Cap sur le Pays basque »
+(page 1449261774934840, secret `FB_PAGE_TOKEN_PAYSBASQUE`). **En pause jusqu'au lancement** : seul le
+lancement manuel (vérification du jeton) est actif. Visuels : `paysbasque/visuel.py`, illustrations
+dans `paysbasque/fonds/`.

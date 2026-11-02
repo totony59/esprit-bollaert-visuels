@@ -1,0 +1,47 @@
+name: Publier sur Facebook – Cap sur le Pays basque
+
+# EN PAUSE jusqu'au lancement de la page : seul le lancement manuel est actif
+# (case « Vérifier la clé Facebook » pour tester le jeton sans rien publier).
+# Au lancement, réactiver les deux blocs commentés ci-dessous (push + schedule).
+on:
+  # push:
+  #   branches: [main]
+  #   paths: ["paysbasque/queue/**", "paysbasque/annuler/**"]
+  # schedule:
+  #   - cron: "7-59/10 * * * *"
+  workflow_dispatch:
+    inputs:
+      verifier:
+        description: "Vérifier la clé Facebook sans rien publier"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publication-facebook-paysbasque
+  cancel-in-progress: false
+
+jobs:
+  publier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Publier les posts arrivés à échéance
+        env:
+          FB_PAGE_ID: "1449261774934840"
+          FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN_PAYSBASQUE }}
+          DOSSIER_PAGE: paysbasque
+          VERIFIER: ${{ inputs.verifier && '1' || '0' }}
+        run: python3 publish.py
+      - name: Enregistrer les posts publiés
+        run: |
+          git config user.name "robot-publication"
+          git config user.email "actions@users.noreply.github.com"
+          mkdir -p paysbasque/queue
+          git add -A paysbasque/queue paysbasque/published paysbasque/skipped paysbasque/scheduled paysbasque/annuler
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Cap sur le Pays basque : posts publiés"
+          for i in 1 2 3; do git pull --rebase origin main && git push && exit 0; sleep 5; done
+          exit 1
