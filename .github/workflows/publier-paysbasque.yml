@@ -1,20 +1,18 @@
 name: Publier sur Facebook – Cap sur le Pays basque
 
-# EN PAUSE jusqu'au lancement de la page : seul le lancement manuel est actif
-# (case « Vérifier la clé Facebook » pour tester le jeton sans rien publier).
-# Au lancement, réactiver les deux blocs commentés ci-dessous (push + schedule).
+# Actif depuis le lancement de la page (02/11/2026).
 on:
-  # push:
-  #   branches: [main]
-  #   paths: ["paysbasque/queue/**", "paysbasque/annuler/**"]
-  # schedule:
-  #   - cron: "7-59/10 * * * *"
+  push:
+    branches: [main]
+    paths: ["paysbasque/queue/**", "paysbasque/annuler/**"]
+  schedule:
+    - cron: "7-59/10 * * * *"
   workflow_dispatch:
     inputs:
       verifier:
         description: "Vérifier la clé Facebook sans rien publier"
         type: boolean
-        default: true
+        default: false
 
 permissions:
   contents: write

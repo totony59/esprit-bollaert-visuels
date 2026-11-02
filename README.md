@@ -33,6 +33,6 @@ Même robot, avec ses propres dossiers sous `bretagne/` (`queue/`, `scheduled/`,
 ## Page « Cap sur le Pays basque »
 
 Même robot, dossiers sous `paysbasque/` et workflow « Publier sur Facebook – Cap sur le Pays basque »
-(page 1449261774934840, secret `FB_PAGE_TOKEN_PAYSBASQUE`). **En pause jusqu'au lancement** : seul le
-lancement manuel (vérification du jeton) est actif. Visuels : `paysbasque/visuel.py`, illustrations
+(page 1449261774934840, secret `FB_PAGE_TOKEN_PAYSBASQUE`). Lancée le 02/11/2026,
+consignes éditoriales : `paysbasque/consignes.md`. Visuels : `paysbasque/visuel.py`, illustrations
 dans `paysbasque/fonds/`.
