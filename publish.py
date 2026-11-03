@@ -82,10 +82,42 @@ def telecharger(url):
     return f
 
 
+def embellir(chemin):
+    """Retouche douce d'une vraie photo (contraste, couleurs, netteté, légère chaleur).
+    Si Pillow/numpy manquent ou en cas d'erreur, la photo d'origine est gardée."""
+    try:
+        import numpy as np
+        from PIL import Image, ImageEnhance, ImageFilter
+        im = Image.open(chemin).convert("RGB")
+        a = np.asarray(im).astype(np.float32) / 255
+        l = a.mean(2)
+        lo, hi = np.percentile(l, 0.5), np.percentile(l, 99.7)
+        a = np.clip((a - lo) / max(hi - lo, 1e-3), 0, 1)   # niveaux
+        a = 0.72 * a + 0.28 * (a * a * (3 - 2 * a))          # courbe en S douce
+        a[..., 0] *= 1.02
+        a[..., 2] *= 0.98                                    # légère chaleur
+        im = Image.fromarray((np.clip(a, 0, 1) * 255).astype(np.uint8))
+        im = ImageEnhance.Color(im).enhance(1.18)
+        im = im.filter(ImageFilter.UnsharpMask(radius=1.6, percent=70, threshold=2))
+        sortie = pathlib.Path(chemin).with_name("photo_retouchee.jpg")
+        im.save(sortie, quality=92)
+        print("Photo retouchée :", sortie.name)
+        return sortie, True
+    except Exception as e:
+        print("Retouche ignorée :", e)
+        return pathlib.Path(chemin), False
+
+
 def publier(post, page_id, token, quand=None):
     """Publie maintenant, ou programme chez Facebook si `quand` (datetime futur) est donné."""
     if post.get("image_url") and not post.get("image"):
-        post = dict(post, image=str(telecharger(post["image_url"])))
+        photo, retouchee = telecharger(post["image_url"]), False
+        if post.get("retouche", os.environ.get("DOSSIER_PAGE") == "bretagne"):
+            photo, retouchee = embellir(photo)
+        post = dict(post, image=str(photo))
+        msg = post.get("message", "")
+        if retouchee and "via Wikimedia Commons" in msg and "retouch" not in msg.lower():
+            post["message"] = msg.replace("via Wikimedia Commons", "via Wikimedia Commons (retouchée)", 1)
     image = post.get("image")
     lien = post.get("link")
     prog = {}

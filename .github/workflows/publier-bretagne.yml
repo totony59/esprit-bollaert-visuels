@@ -25,6 +25,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+      - name: Outils de retouche photo
+        run: pip install --quiet pillow numpy || true
       - name: Publier les posts arrivés à échéance
         env:
           FB_PAGE_ID: "1385049348028097"

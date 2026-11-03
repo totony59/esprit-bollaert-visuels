@@ -52,6 +52,11 @@ Heures en heure de Paris (fuseau +01:00 en hiver, +02:00 en été).
 - Ajouter dans le texte du post une ligne de crédit : « 📷 Photo : <auteur>, <licence>, via Wikimedia
   Commons » ; conserver aussi le lien vers la page du fichier dans les métadonnées si possible. Respecter
   l'attribution exigée par la licence et préciser toute modification si la photo est retouchée.
+- RETOUCHE AUTOMATIQUE (demande d'Anthony du 03/11/2026) : le robot retouche lui-même chaque photo
+  « image_url » (contraste, couleurs, netteté, douce) pour la rendre plus attirante, et ajoute
+  « (retouchée) » après « via Wikimedia Commons » dans le crédit. Écrire donc le crédit exactement sous
+  la forme « 📷 Photo : <auteur>, <licence>, via Wikimedia Commons ». Pour une photo qu'il ne faut pas
+  retoucher, ajouter « "retouche": false » dans le fichier JSON.
 - Vérifier les informations du lieu auprès de DEUX sources fiables, par exemple la commune et l'office
   de tourisme ou un organisme patrimonial. Ne pas reprendre leur texte : reformuler avec nos mots.
 - Ne pas refaire un lieu déjà traité dans les trois derniers mois. Varier systématiquement les cinq
