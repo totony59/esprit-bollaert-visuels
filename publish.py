@@ -38,6 +38,7 @@ ROOT = pathlib.Path(__file__).resolve().parent
 BASE = ROOT / os.environ.get("DOSSIER_PAGE", "").strip()   # dossier propre à la page
 QUEUE, PUBLISHED, SKIPPED = BASE / "queue", BASE / "published", BASE / "skipped"
 SCHEDULED = BASE / "scheduled"   # posts confiés au programmateur de Facebook
+MASQUER = BASE / "masquer"       # {"facebook_post_id": "..."} : retire de la page un post déjà publié (dépublié, récupérable)
 ANNULER = BASE / "annuler"       # déposer ici un fichier du même nom pour annuler un post programmé
 MAX_RETARD_H = 6
 PROG_MIN = dt.timedelta(minutes=15)  # Facebook exige au moins 10 min d'avance
@@ -206,6 +207,31 @@ def annuler(page_id, token, dry):
         print(f"Annulé : {nom}")
 
 
+def masquer(page_id, token, dry):
+    """masquer/<nom>.json ({"facebook_post_id": "<id>"}) : dépublie un post déjà en ligne (non supprimé, récupérable)."""
+    demandes = sorted(MASQUER.glob("*.json")) if MASQUER.exists() else []
+    for d in demandes:
+        pid = json.loads(d.read_text(encoding="utf-8"))["facebook_post_id"]
+        if "_" not in pid and page_id:
+            pid = f"{page_id}_{pid}"
+        if not dry:
+            ok = False
+            for champ in ({"is_published": "false"}, {"is_hidden": "true"}):
+                data = urllib.parse.urlencode({**champ, "access_token": token}).encode()
+                try:
+                    urllib.request.urlopen(urllib.request.Request(f"{API}/{pid}", data=data, method="POST"), timeout=30).read()
+                    ok = True
+                    print(f"Post {pid} retiré de la page ({list(champ)[0]}).")
+                    break
+                except urllib.error.HTTPError as e:
+                    detail = e.read().decode(errors="replace").replace(token, "***")
+                    print(f"::warning::{list(champ)[0]} refusé pour {pid} ({e.code}) : {detail}")
+            if not ok:
+                print(f"::error::Impossible de retirer le post {pid}.")
+                raise SystemExit(1)
+        d.unlink()
+
+
 def main():
     dry = os.environ.get("DRY_RUN") == "1"
     page_id = os.environ.get("FB_PAGE_ID", "").strip()
@@ -215,6 +241,7 @@ def main():
         return
     maintenant = dt.datetime.now(dt.timezone.utc)
     annuler(page_id, token, dry)
+    masquer(page_id, token, dry)
     fichiers = sorted(QUEUE.glob("*.json")) if QUEUE.exists() else []
     if not fichiers:
         print("File d'attente vide, rien à publier.")
