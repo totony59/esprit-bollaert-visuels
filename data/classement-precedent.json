@@ -1,0 +1,6 @@
+{"journee": 9, "date": "2026-11-03", "clubs": [
+{"club":"PSG","pts":20,"diff":11},{"club":"Lille","pts":18,"diff":6},{"club":"Lyon","pts":17,"diff":8},{"club":"Paris FC","pts":17,"diff":6},
+{"club":"Rennes","pts":16,"diff":1},{"club":"Marseille","pts":15,"diff":7},{"club":"Monaco","pts":15,"diff":2},{"club":"Nice","pts":14,"diff":1},
+{"club":"Lens","pts":13,"diff":3},{"club":"Brest","pts":12,"diff":4},{"club":"Lorient","pts":12,"diff":-1},{"club":"Toulouse","pts":10,"diff":-1},
+{"club":"Strasbourg","pts":10,"diff":-2},{"club":"Auxerre","pts":10,"diff":-10},{"club":"Angers","pts":8,"diff":-8},{"club":"Troyes","pts":8,"diff":-9},
+{"club":"Le Mans","pts":7,"diff":-7},{"club":"Le Havre","pts":2,"diff":-11}]}
