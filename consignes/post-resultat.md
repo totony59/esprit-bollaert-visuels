@@ -57,7 +57,9 @@ S'il en existe un, arrête-toi.
 3. Regarde l'image (Read) : lisible, rien de coupé, accents présents. Sinon raccourcis et régénère.
 4. Commit et push sur main (`git -c user.name=Claude -c user.email=noreply@anthropic.com`).
    URL : https://raw.githubusercontent.com/totony59/esprit-bollaert-visuels/main/visuels/<fichier>.png
-   Nom de fichier toujours nouveau. Si le push échoue, publie sans image et préviens Anthony.
+   Nom de fichier toujours nouveau. Si le push échoue : JAMAIS de post sans image (règle d'Anthony
+   du 03/11/2026). Réessaie (nouveau clone, add_repo à nouveau, gh) ; si ça bloque, programme une
+   relance dans 10 minutes (create_trigger, run_once_at, même message) et arrête-toi.
 
 ## 4. Le texte (style d'Anthony, prioritaire)
 
