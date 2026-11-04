@@ -139,6 +139,29 @@ def publier(post, page_id, token, quand=None):
     return rep.get("id")
 
 
+def bravo(fb_id, case, token):
+    """Phrase de félicitations selon le nombre de commentaires contenant la bonne case (anonyme)."""
+    import re
+    n, url = 0, f"{API}/{fb_id}/comments?filter=stream&limit=100&fields=message&access_token={token}"
+    motif = re.compile(rf"(?<![A-Za-z0-9]){re.escape(case[0])}\s*-?\s*{re.escape(case[1:])}(?![0-9])", re.I)
+    try:
+        for _ in range(20):
+            with urllib.request.urlopen(url, timeout=30) as r:
+                page = json.loads(r.read())
+            n += sum(1 for c in page.get("data", []) if motif.search(c.get("message", "")))
+            url = page.get("paging", {}).get("next")
+            if not url:
+                break
+    except Exception as e:
+        print("Comptage des bonnes réponses impossible :", type(e).__name__)
+        return "Bravo à tous ceux qui ont trouvé 👏"
+    if n >= 2:
+        return f"Bravo aux {n} personnes qui ont trouvé la bonne case 👏"
+    if n == 1:
+        return "Bravo à la seule personne qui a trouvé la bonne case 👏"
+    return "Personne n'a trouvé cette fois… pas facile celle-là ! 😉"
+
+
 def commenter(post, token):
     """Publie post["message"] en commentaire sous le post dont le fichier est post["comment_on"]."""
     cible = post["comment_on"]
@@ -147,7 +170,10 @@ def commenter(post, token):
         if f.exists():
             fb_id = json.loads(f.read_text(encoding="utf-8")).get("facebook_post_id")
             if fb_id:
-                champs = {"message": post["message"], "access_token": token}
+                msg = post["message"]
+                if "{bravo}" in msg:
+                    msg = msg.replace("{bravo}", bravo(fb_id, post.get("bonne_reponse", ""), token))
+                champs = {"message": msg, "access_token": token}
                 if post.get("image"):            # commentaire avec image (ex. réponse du jeu de la carte)
                     try:
                         return appel(f"{API}/{fb_id}/comments", champs, ROOT / post["image"]).get("id")
