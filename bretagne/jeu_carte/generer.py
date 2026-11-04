@@ -16,9 +16,7 @@ INTROS = [
     "🗺️ C'est l'heure du jeu de la carte !\nCette fois, on cherche {c}.",
     "🧭 Le jeu de la carte est de retour !\nÀ vous de placer {c} sur la carte.",
 ]
-PRINCIPE = ("📌 Le principe : la carte est quadrillée, avec des lettres en haut (de A à J) et des chiffres "
-            "sur le côté (de 1 à 12). Trouvez la case où se trouve {c} et donnez-la en commentaire, "
-            "par exemple « {ex} ».\n\nLa réponse demain matin à 8h15 ! 👇")
+PRINCIPE = "Donnez la case en commentaire (ex. : {ex}) 👇\nRéponse demain à 8h15 !"
 # {bravo} est rempli par le robot au moment de publier (nombre de bonnes réponses en commentaire)
 REPONSE = ("✅ La réponse du jeu de la carte : {c} se trouve en {case} ({dep}) !\n{bravo}\n"
            "Merci à tous d'avoir joué. Prochaine partie demain matin 😉")
