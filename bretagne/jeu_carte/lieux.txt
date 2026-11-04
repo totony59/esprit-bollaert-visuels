@@ -1,0 +1,32 @@
+# Ordre des communes du « Jeu de la carte » (une par partie). Uniquement des communes « fiables »
+# (à au moins 2 km de toute ligne de la grille). Pour changer l'ordre ou ajouter des lieux, éditer ce fichier.
+Brest
+Vannes
+Saint-Brieuc
+Nantes
+Fougères
+Concarneau
+Pontivy
+Guingamp
+Saint-Nazaire
+Redon
+Morlaix
+Lorient
+Perros-Guirec
+Châteaubriant
+Carnac
+Quimperlé
+Loudéac
+La Baule-Escoublac
+Landerneau
+Ploërmel
+Lamballe-Armor
+Pornic
+Crozon
+Josselin
+Combourg
+Clisson
+Carhaix-Plouguer
+Locronan
+Bain-de-Bretagne
+Pont-l'Abbé

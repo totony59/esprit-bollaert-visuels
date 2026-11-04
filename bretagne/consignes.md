@@ -237,3 +237,13 @@ seul le visuel final est vérifié avec Read) ;
 utilisé dans le JSON, champ "fond"). L'illustration s'affiche en grand sous le bandeau, le texte dessous.
 Si aucune image ne convient vraiment, fais le visuel sans --fond.
 Regarde toujours l'image (Read) avant de publier : lisible, rien de coupé, accents corrects.
+
+## « Le jeu de la carte » (automatique, demande d'Anthony du 04/11/2026)
+
+- Un jour sur deux depuis le 05/11/2026 : question à 10h00 (10h30 le samedi, le dimanche et les mercredis
+  des semaines ISO impaires) et réponse en commentaire avec image à 18h00. Entièrement préparé par le
+  workflow « Jeu de la carte » (bretagne/jeu_carte/generer.py) : NE PAS créer ces posts à la main, ne pas
+  les compter comme « post principal du jour » et ne pas les déplacer.
+- Carte exacte (Lambert-93, 5 départements, grille fixe 10 colonnes A→J ouest→est × 12 lignes 1→12
+  nord→sud, voir bretagne/jeu_carte/grille.json). Seules les communes « fiables » (≥ 2 km de toute ligne,
+  colonne fiable de communes_grille.csv) sont jouables. Ordre des lieux : bretagne/jeu_carte/lieux.txt.

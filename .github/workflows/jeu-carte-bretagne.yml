@@ -1,0 +1,47 @@
+name: Jeu de la carte – Cap sur la Bretagne
+
+# Un jour sur deux (à partir du 05/11/2026), prépare la question de 10h et la réponse de 18h
+# (bretagne/jeu_carte/generer.py). Le workflow « Publier sur Facebook – Cap sur la Bretagne »
+# (toutes les 10 min) publie ensuite les fichiers déposés dans bretagne/queue/.
+on:
+  schedule:
+    - cron: "17 6 * * *"     # 7h17 (hiver) / 8h17 (été), heure de Paris
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "Date AAAA-MM-JJ (vide = aujourd'hui)"
+        required: false
+      force:
+        description: "Forcer même si ce n'est pas un jour de jeu"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publication-facebook-bretagne
+  cancel-in-progress: false
+
+jobs:
+  preparer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Outils
+        run: pip install --quiet pillow
+      - name: Préparer le jeu du jour
+        run: |
+          ARGS=""
+          [ -n "${{ inputs.date }}" ] && ARGS="$ARGS --date ${{ inputs.date }}"
+          [ "${{ inputs.force }}" = "true" ] && ARGS="$ARGS --force"
+          python3 bretagne/jeu_carte/generer.py $ARGS
+      - name: Enregistrer
+        run: |
+          git config user.name "robot-publication"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A bretagne/queue bretagne/visuels
+          git diff --cached --quiet && exit 0
+          git commit -m "Cap sur la Bretagne : jeu de la carte préparé"
+          for i in 1 2 3; do git pull --rebase -q && git push -q && exit 0; sleep 5; done
+          exit 1

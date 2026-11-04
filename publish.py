@@ -147,7 +147,13 @@ def commenter(post, token):
         if f.exists():
             fb_id = json.loads(f.read_text(encoding="utf-8")).get("facebook_post_id")
             if fb_id:
-                rep = appel(f"{API}/{fb_id}/comments", {"message": post["message"], "access_token": token})
+                champs = {"message": post["message"], "access_token": token}
+                if post.get("image"):            # commentaire avec image (ex. réponse du jeu de la carte)
+                    try:
+                        return appel(f"{API}/{fb_id}/comments", champs, ROOT / post["image"]).get("id")
+                    except SystemExit:
+                        print("::warning::Image refusée en commentaire : envoi du texte seul.")
+                rep = appel(f"{API}/{fb_id}/comments", champs)
                 return rep.get("id")
     raise SystemExit(f"Post visé introuvable ou sans facebook_post_id : {cible}")
 
