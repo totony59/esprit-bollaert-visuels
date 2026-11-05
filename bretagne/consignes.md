@@ -23,7 +23,7 @@ et tu ne parles jamais de ses produits.
 | Lundi    | 12h00 | CE JOUR-LÀ EN BRETAGNE | Un événement historique qui s'est passé à la date du jour (ou de la semaine) en Bretagne. |
 | Mardi    | 12h00 | LE MOT BRETON | Un mot ou une courte expression en breton (ou en gallo) : sens, petite anecdote, usage. |
 | Mercredi (semaine ISO paire) | 12h00 | LA QUESTION | Une question qui fait réagir : débat léger (crêpe ou galette ?), souvenir, « votre coin préféré ». |
-| Mercredi (semaine ISO impaire) | 10h00 | (vraie photo, pas de visuel) | « VOUS SAVEZ OÙ C'EST ? » : belle photo libre de droits d'un lieu breton, sans dire où ; réponse + crédit en commentaire à 19h00. |
+| Mercredi (semaine ISO impaire) | 10h00 | (vraie photo, pas de visuel) | « VOUS SAVEZ OÙ C'EST ? » : belle photo libre de droits d'un lieu breton, sans dire où ; réponse + crédit en commentaire LE LENDEMAIN à 08h15 (pour laisser jouer ceux qui viennent le soir). |
 | Jeudi    | 12h00 | LÉGENDE & PATRIMOINE | Une légende (Ys, l'Ankou, Brocéliande, korrigans…) ou un lieu de patrimoine (phare, calvaire, château, chapelle). |
 | Vendredi | 12h00 | (post lien, pas de visuel) | Actu régionale positive ou qui fait réagir, avec le lien de l'article. |
 | Samedi   | 10h00 | LA RECETTE | Une recette bretonne : présentation courte, ingrédients et étapes dans le texte du post. |
@@ -197,7 +197,10 @@ allés ? Qu'est-ce qui vous a le plus marqué ? »). Ne pas utiliser toujours la
   Le robot télécharge la photo au moment de publier.
 - Post à 10h00 : 1 à 3 phrases qui donnent envie (« Qui reconnaît cet endroit ? 👀 Un petit indice : … »),
   sans nommer le lieu, avec un indice léger (département, élément visible).
-- Réponse à 19h00 (fichier comment_on, comme le quiz) : le lieu, la commune et le département,
+- Réponse LE LENDEMAIN MATIN à 08h15 (demande d'Anthony du 05/11/2026, pour que ceux qui ne vont sur
+  Facebook que le soir puissent jouer). Fichier bretagne/queue/<lendemain>T0815_reponse_<sujet>.json,
+  "publish_at": "<lendemain>T08:15:00+01:00", "comment_on" = nom du fichier du post. Le post du
+  mercredi annonce donc « Réponse demain matin ! ». Contenu : le lieu, la commune et le département,
   une anecdote vérifiée, puis sur la dernière ligne le crédit obligatoire :
   « 📷 Photo : <auteur>, <licence>, via Wikimedia Commons ».
 
@@ -212,7 +215,8 @@ départements (Finistère, Côtes-d'Armor, Morbihan, Ille-et-Vilaine, et Loire-A
 Un fichier par post dans bretagne/queue/AAAA-MM-JJTHHMM_<rubrique>_<sujet>.json (UTF-8) :
   {"publish_at": "2026-11-02T12:00:00+01:00", "message": "<texte>", "image": "bretagne/visuels/<fichier>.png"}
 - Actu du vendredi : pas de "image", mais "link": "<URL de l'article>" (post lien avec aperçu).
-- Quiz : le post (avec visuel) + un 2e fichier pour la réponse en commentaire :
+- Quiz du dimanche : le post (avec visuel) + un 2e fichier pour la réponse en commentaire à 19h00
+  (« Vous savez où c'est ? » : réponse le lendemain 08h15, voir plus haut) :
   bretagne/queue/AAAA-MM-JJT1900_reponse_<sujet>.json
   {"publish_at": "<même jour>T19:00:00+01:00", "comment_on": "<nom du fichier du quiz>.json",
    "message": "La bonne réponse : B, Douarnenez ! <anecdote en 1-2 phrases> Vous étiez nombreux à avoir trouvé ? 😄"}
