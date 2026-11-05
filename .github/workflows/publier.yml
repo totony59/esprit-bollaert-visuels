@@ -25,6 +25,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+        with:
+          ref: main   # toujours la dernière version : évite de republier un post déjà publié par un run précédent
       - name: Publier les posts arrivés à échéance
         env:
           FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
