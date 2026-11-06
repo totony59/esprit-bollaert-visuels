@@ -11,8 +11,10 @@ G = json.load(open(ICI / 'grille.json'))
 XMIN, XMAX, YMIN, YMAX, NC, NL = G['x_min'], G['x_max'], G['y_min'], G['y_max'], G['colonnes'], G['lignes']
 CW, CH = (XMAX - XMIN) / NC, (YMAX - YMIN) / NL
 NAVY, OR, MER = (28, 43, 92), (196, 150, 60), (179, 226, 254)
-DEPS = {'22': "Côtes-d'Armor", '29': 'Finistère', '35': 'Ille-et-Vilaine', '44': 'Loire-Atlantique', '56': 'Morbihan'}
-TEINTE = {'29': (243, 231, 198), '22': (238, 222, 186), '56': (246, 236, 208), '35': (240, 226, 192), '44': (236, 224, 196)}
+DEPS = {'22': "Côtes-d'Armor", '29': 'Finistère', '35': 'Ille-et-Vilaine', '56': 'Morbihan'}   # Bretagne à 4 départements (décision d'Anthony du 06/11/2026)
+VOISINS = ('44', '50', '53')    # terres voisines dessinées en gris, sans nom ni case jouable
+GRIS = (214, 210, 200)
+TEINTE = {'29': (243, 231, 198), '22': (238, 222, 186), '56': (246, 236, 208), '35': (240, 226, 192)}
 def font(s, w=700):
     f = ImageFont.truetype(CINZEL, s); f.set_variation_by_axes([w]); return f
 
@@ -33,20 +35,28 @@ def creer(sortie, commune, reponse=False):
     img, k, hbas, rose = fond_4x5()
     rx0, ry0, rx1, ry1 = round(33 * k), round(324 * k), round(988 * k), round(977 * k)   # zone bleue
     LAB = 34
-    mh = (ry1 - ry0) - LAB - 14; S = mh / (YMAX - YMIN); mw = (XMAX - XMIN) * S
-    ox = rx0 + LAB + ((rx1 - rx0 - LAB) - mw) / 2; oy = ry0 + LAB
+    S = min(((ry1 - ry0) - LAB - 14) / (YMAX - YMIN), ((rx1 - rx0) - LAB - 14) / (XMAX - XMIN))
+    mh, mw = (YMAX - YMIN) * S, (XMAX - XMIN) * S
+    ox = rx0 + LAB + ((rx1 - rx0 - LAB) - mw) / 2; oy = ry0 + LAB + ((ry1 - ry0 - LAB) - mh) / 2
     def P(x, y): return (ox + (x - XMIN) * S, oy + (YMAX - y) * S)
     SS = 3                                                            # suréchantillonnage
     W, H = rx1 - rx0, ry1 - ry0
     lay = Image.new('RGB', (W * SS, H * SS), MER); d = ImageDraw.Draw(lay)
     def Q(x, y): px, py = P(x, y); return ((px - rx0) * SS, (py - ry0) * SS)
     deps = {f['properties']['code']: geo.anneaux(f['geometry']) for f in json.load(open(ICI / 'departements.geojson'))['features'] if f['properties']['code'] in DEPS}
+    voisins = [geo.anneaux(f['geometry']) for f in json.load(open(ICI / 'departements.geojson'))['features'] if f['properties']['code'] in VOISINS]
+    for ps in voisins:
+        for p in ps:
+            pts = [Q(*geo.l93(*q)) for q in p[0]]; d.polygon(pts, fill=GRIS); d.line(pts + pts[:1], fill=(150, 145, 135), width=SS)
     for c, ps in deps.items():
         for p in ps:
             d.polygon([Q(*geo.l93(*q)) for q in p[0]], fill=TEINTE[c])
     for c, ps in deps.items():                                        # contours
         for p in ps:
             pts = [Q(*geo.l93(*q)) for q in p[0]]; d.line(pts + pts[:1], fill=NAVY, width=2 * SS, joint='curve')
+    fx0, fy0 = Q(XMIN, YMAX); fx1, fy1 = Q(XMAX, YMIN)                 # rien en dehors du cadre de la grille
+    for box in ([0, 0, W * SS, fy0], [0, fy1, W * SS, H * SS], [0, 0, fx0, H * SS], [fx1, 0, W * SS, H * SS]):
+        d.rectangle(box, fill=MER)
     for i in range(NC + 1):
         d.line([Q(XMIN + i * CW, YMAX), Q(XMIN + i * CW, YMIN)], fill=(70, 95, 150), width=SS)
     for j in range(NL + 1):
@@ -60,12 +70,12 @@ def creer(sortie, commune, reponse=False):
         x, y = P(*geo.l93(lon, lat))
         d.text((x, y), DEPS[c].upper(), font=font(13, 600), fill=(110, 95, 70), anchor='mm')
     for i in range(NC):
-        d.text((P(XMIN + (i + .5) * CW, 0)[0], ry0 + LAB / 2 + 2), 'ABCDEFGHIJ'[i], font=font(24, 800), fill=NAVY, anchor='mm')
+        d.text((P(XMIN + (i + .5) * CW, 0)[0], oy - LAB / 2 + 2), 'ABCDEFGHIJ'[i], font=font(24, 800), fill=NAVY, anchor='mm')
     for j in range(NL):
         d.text((ox - LAB / 2 - 2, P(0, YMAX - (j + .5) * CH)[1]), str(j + 1), font=font(20, 800), fill=NAVY, anchor='mm')
-    rs = rose.resize((150, round(150 * rose.height / rose.width)), Image.LANCZOS)   # rose des vents dans la mer (cases vides)
+    rs = rose.resize((125, round(125 * rose.height / rose.width)), Image.LANCZOS)   # rose des vents dans la mer (cases vides)
     m = Image.new('L', rs.size, 0); ImageDraw.Draw(m).ellipse([4, 4, rs.width - 4, rs.height - 4], fill=255)
-    img.paste(rs, (round(P(XMIN + 0.35 * CW, 0)[0]), round(P(0, YMAX - 9.35 * CH)[1])), m.filter(ImageFilter.GaussianBlur(3)))
+    img.paste(rs, (round(P(XMIN + 0.35 * CW, 0)[0]), round(P(0, YMAX - 8.6 * CH)[1])), m.filter(ImageFilter.GaussianBlur(3)))
     r = next(r for r in csv.DictReader(open(ICI / 'communes_grille.csv', encoding='utf-8')) if r['nom'] == commune)
     assert r['fiable'] == 'oui', 'commune trop près d’une ligne : à éviter'
     # zone question (cadre du bas)

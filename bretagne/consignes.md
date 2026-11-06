@@ -170,7 +170,9 @@ allés ? Qu'est-ce qui vous a le plus marqué ? »). Ne pas utiliser toujours la
   militante, pas de sujets sensibles (faits divers, décès, accidents, violences, catastrophes
   récentes). Les naufrages ou drames historiques anciens : seulement avec respect et sans détails.
 - Rivalités amicales OK (Finistère vs Morbihan, Rennes vs Nantes, crêpe vs galette) mais jamais
-  de moquerie méchante. Nantes / Loire-Atlantique : sujet sensible, en parler sans prendre parti.
+  de moquerie méchante. BRETAGNE À 4 DÉPARTEMENTS (décision d'Anthony du 06/11/2026) : Finistère, Côtes-d'Armor,
+  Morbihan, Ille-et-Vilaine. Plus aucun lieu, sujet, carte ou visuel de Loire-Atlantique, et ne jamais relancer
+  le débat sur son rattachement (sujet qui divise et dégénère en commentaires).
 - Ne jamais présenter la page comme officielle.
 
 ## Droits d'auteur et images
@@ -208,7 +210,7 @@ allés ? Qu'est-ce qui vous a le plus marqué ? »). Ne pas utiliser toujours la
 
 Avant de choisir un sujet, regarde bretagne/published/, bretagne/scheduled/ et bretagne/queue/ :
 jamais deux fois le même sujet (même sous un autre angle) à moins de 3 mois ; varie les
-départements (Finistère, Côtes-d'Armor, Morbihan, Ille-et-Vilaine, et Loire-Atlantique avec tact).
+départements (Finistère, Côtes-d'Armor, Morbihan, Ille-et-Vilaine ; jamais la Loire-Atlantique).
 
 ## Fichiers (robot GitHub)
 
@@ -248,6 +250,6 @@ Regarde toujours l'image (Read) avant de publier : lisible, rien de coupé, acce
   des semaines ISO impaires) et réponse en commentaire avec image à 18h00. Entièrement préparé par le
   workflow « Jeu de la carte » (bretagne/jeu_carte/generer.py) : NE PAS créer ces posts à la main, ne pas
   les compter comme « post principal du jour » et ne pas les déplacer.
-- Carte exacte (Lambert-93, 5 départements, grille fixe 10 colonnes A→J ouest→est × 12 lignes 1→12
+- Carte exacte (Lambert-93, 4 départements depuis le 06/11/2026, terres voisines en gris, grille fixe 10 colonnes A→J ouest→est × 12 lignes 1→12
   nord→sud, voir bretagne/jeu_carte/grille.json). Seules les communes « fiables » (≥ 2 km de toute ligne,
   colonne fiable de communes_grille.csv) sont jouables. Ordre des lieux : bretagne/jeu_carte/lieux.txt.
