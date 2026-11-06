@@ -258,6 +258,6 @@ Regarde toujours l'image (Read) avant de publier : lisible, rien de coupé, acce
 
 - Préparé À LA MAIN par Claude avec Anthony (pas par les tâches automatiques) : fichiers `*_hier_<lieu>.json`, ne jamais les créer, modifier ni supprimer automatiquement.
 - Post : photo ancienne (domaine public ou licence libre, crédit en fin de texte), rubrique sépia « HIER & AUJOURD'HUI », et appel à poster sa photo actuelle du même endroit en commentaire.
-- Résultat : le jeudi suivant, un RÉEL (photo ancienne puis photos des abonnés avec prénoms) fabriqué par Claude et publié par Anthony depuis l'appli (musique Facebook). Photos d'abonnés uniquement avec leur accord.
+- Résultat : le jeudi suivant, un RÉEL (photo ancienne puis photos des abonnés avec prénoms) fabriqué par Claude et publié par Anthony depuis l'appli (musique Facebook). Le texte du post annonce le réel et vaut accord (prénom cité) ; exclure toute photo dont l'auteur a dit non ou qui montre des personnes reconnaissables.
 - Programme : 08/11 Concarneau · 15/11 Morlaix · 22/11 Dinan · 29/11 Douarnenez · 06/12 Ploumanac'h · 13/12 Vitré · 20/12 Pont-Aven · 27/12 Locronan.
 - Les tâches automatiques ne programment rien d'autre le dimanche entre 10h45 et 11h30.
