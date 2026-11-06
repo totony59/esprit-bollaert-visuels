@@ -253,3 +253,11 @@ Regarde toujours l'image (Read) avant de publier : lisible, rien de coupé, acce
 - Carte exacte (Lambert-93, 4 départements depuis le 06/11/2026, terres voisines en gris, grille fixe 10 colonnes A→J ouest→est × 12 lignes 1→12
   nord→sud, voir bretagne/jeu_carte/grille.json). Seules les communes « fiables » (≥ 2 km de toute ligne,
   colonne fiable de communes_grille.csv) sont jouables. Ordre des lieux : bretagne/jeu_carte/lieux.txt.
+
+## « Hier & aujourd'hui » (dimanche 11h00, demande d'Anthony du 06/11/2026)
+
+- Préparé À LA MAIN par Claude avec Anthony (pas par les tâches automatiques) : fichiers `*_hier_<lieu>.json`, ne jamais les créer, modifier ni supprimer automatiquement.
+- Post : photo ancienne (domaine public ou licence libre, crédit en fin de texte), rubrique sépia « HIER & AUJOURD'HUI », et appel à poster sa photo actuelle du même endroit en commentaire.
+- Résultat : le jeudi suivant, un RÉEL (photo ancienne puis photos des abonnés avec prénoms) fabriqué par Claude et publié par Anthony depuis l'appli (musique Facebook). Photos d'abonnés uniquement avec leur accord.
+- Programme : 08/11 Concarneau · 15/11 Morlaix · 22/11 Dinan · 29/11 Douarnenez · 06/12 Ploumanac'h · 13/12 Vitré · 20/12 Pont-Aven · 27/12 Locronan.
+- Les tâches automatiques ne programment rien d'autre le dimanche entre 10h45 et 11h30.
