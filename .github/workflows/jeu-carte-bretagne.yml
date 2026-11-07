@@ -18,6 +18,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 concurrency:
   group: publication-facebook-bretagne
@@ -45,3 +46,10 @@ jobs:
           git commit -m "Cap sur la Bretagne : jeu de la carte préparé"
           for i in 1 2 3; do git pull --rebase -q && git push -q && exit 0; sleep 5; done
           exit 1
+      - name: Confier tout de suite la question à Facebook
+        # Le push fait avec GITHUB_TOKEN ne déclenche pas la publication, et le passage automatique
+        # « toutes les 10 min » de GitHub peut avoir des heures de retard (07/11/2026) : on lance la
+        # publication maintenant, elle programme la question chez Facebook pour l'heure exacte.
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run publier-bretagne.yml --ref main -R ${{ github.repository }}
