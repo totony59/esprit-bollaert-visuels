@@ -5,5 +5,6 @@
   "fond": "generique-2",
   "facebook_post_id": "122103490005536802",
   "scheduled_on_facebook_at": "2026-11-07T07:49:23.717356+00:00",
-  "note": "doublon créé par deux runs simultanés du robot, à annuler"
+  "note": "doublon créé par deux runs simultanés du robot, à annuler",
+  "skipped_reason": "annulé à la demande"
 }
