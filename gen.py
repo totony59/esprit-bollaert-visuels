@@ -311,6 +311,30 @@ def build(kind, a):
 <div class="big"><span class="l1 q1">{e(l1)}</span><span class="l2 q2">{e(l2)}</span></div>
 <div class="cta">{e(cta)} 👇</div>"""
         return page("INFO", inner, True, fond="info")
+    if kind == "vote":
+        # Vote en un emoji : les 3 choix sont DESSINÉS sur le visuel (demande d'Anthony du 08/11/2026)
+        home, away, when = a[0], a[1], a[2]
+        kicker = a[3] if len(a) > 3 else ("LIGUE DES CHAMPIONS" if LDC else "LIGUE 1")
+        choix = [("🔴", "VICTOIRE", "#c8102e", "#ffd400"), ("🤝", "NUL", "#ffffff", "#0a0405"), ("😬", "DÉFAITE", "#1b1b1b", "#ffffff")]
+        tuiles = "".join(f'<div class="vt" style="background:{bg};color:{fg}"><span class="ve">{em}</span><span class="vl">{lab}</span></div>'
+                         for em, lab, bg, fg in choix)
+        inner = f"""<style>
+.vote .team{{font-size:62px;padding:4px 22px 8px}} .vote .vs{{font-size:48px}} .vote .versus{{margin-top:18px}}
+.vote{{display:flex;flex-direction:column;align-items:center;text-align:center;width:100%}} .vote .when{{margin-top:22px}}
+.vq{{margin-top:34px;font-weight:900;font-style:italic;font-size:64px;letter-spacing:-1px;color:#fff;text-shadow:0 4px 0 #c8102e,0 0 30px rgba(0,0,0,.8)}}
+.vts{{display:flex;gap:22px;justify-content:center;margin-top:26px}}
+.vt{{width:270px;height:200px;border-radius:22px;border:5px solid #ffd400;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  box-shadow:0 12px 40px rgba(0,0,0,.6);transform:rotate(-2deg)}}
+.ve{{font-size:92px;line-height:1}} .vl{{margin-top:10px;font-weight:900;font-style:italic;font-size:40px;letter-spacing:1px}}
+.vc{{margin-top:30px;font-weight:800;font-style:italic;font-size:38px;color:#fff;text-shadow:0 2px 12px #000}}
+</style><div class="vote">
+<div class="kicker">{e(kicker)}</div>
+<div class="versus">{team(home)}<div class="vs">VS</div>{team(away)}</div>
+<div class="when">{e(when)}</div>
+<div class="vq">VOTRE PRONO EN 1 EMOJI</div>
+<div class="vts">{tuiles}</div>
+<div class="vc">Répondez en commentaire 👇</div></div>"""
+        return page("VOTE", inner, fond="prono")
     raise SystemExit(f"type inconnu : {kind}")
 
 
