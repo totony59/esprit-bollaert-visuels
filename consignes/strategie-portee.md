@@ -38,3 +38,11 @@ Pour l'info du jour et les alertes :
   les questions qui demandent une réflexion ou un paragraphe.
 - Textes plus courts : 2 à 4 phrases maximum avant la question.
 - Toujours pas d'« engagement bait » (« commentez OUI », « partagez si… », « tag 3 amis »).
+
+## 4. Post « JOUR DE MATCH » = visuel de VOTE (validé par Anthony le 08/11/2026)
+Le jour d'un match, le post de 12h utilise le visuel de vote (et non plus gen.py match) :
+  python3 gen.py vote visuels/AAAA-MM-JJ_vote_<adversaire>.png "DOMICILE" "EXTÉRIEUR" "CE SOIR · 20H45" "LIGUE 1 · 10E JOURNÉE"
+Les 3 choix sont dessinés sur l'image, avec les réactions Facebook : ❤️ VICTOIRE, 👍 NUL, 😡 DÉFAITE
+(on vote en appuyant longtemps sur « J'aime »). Texte court : « C'EST JOUR DE MATCH 🔴🟡 », l'heure,
+UN fait d'historique confirmé par deux sources, puis exactement « Allez, votez : ❤️ victoire, 👍 nul, 😡 défaite 👇 ».
+Toujours ces trois réactions-là, dans cet ordre (simples à trouver pour tout le monde).
