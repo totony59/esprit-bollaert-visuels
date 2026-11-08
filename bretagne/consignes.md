@@ -261,3 +261,8 @@ Regarde toujours l'image (Read) avant de publier : lisible, rien de coupé, acce
 - Résultat : le jeudi suivant, un RÉEL (photo ancienne puis photos des abonnés avec prénoms) fabriqué par Claude et publié par Anthony depuis l'appli (musique Facebook). Le texte du post annonce le réel et vaut accord (prénom cité) ; exclure toute photo dont l'auteur a dit non ou qui montre des personnes reconnaissables.
 - Programme : 08/11 Concarneau · 15/11 Morlaix · 22/11 Dinan · 29/11 Douarnenez · 06/12 Ploumanac'h · 13/12 Vitré · 20/12 Pont-Aven · 27/12 Locronan.
 - Les tâches automatiques ne programment rien d'autre le dimanche entre 10h45 et 11h30.
+
+## Doublons (demande d'Anthony du 08/11/2026 : « c'est à toi de vérifier »)
+- Ne jamais modifier un fichier déjà passé dans bretagne/scheduled/ : l'annuler d'abord (bretagne/annuler/<nom>.json), puis recréer.
+- Ne jamais lancer le robot à la main juste après un push (le push le lance déjà) : le réveil externe cron-job.org le relance toutes les 10 min.
+- Après chaque publication ou programmation : lancer le workflow « Contrôle des doublons » (controle-doublons.yml, lecture seule) et vérifier « 0 doublon » pour la page ; s'il y en a un, prévenir Anthony tout de suite avec le texte du post concerné.
