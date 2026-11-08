@@ -46,3 +46,7 @@ Les 3 choix sont dessinés sur l'image, avec les réactions Facebook : ❤️ VI
 (on vote en appuyant longtemps sur « J'aime »). Texte court : « C'EST JOUR DE MATCH 🔴🟡 », l'heure,
 UN fait d'historique confirmé par deux sources, puis exactement « Allez, votez : ❤️ victoire, 👍 nul, 😡 défaite 👇 ».
 Toujours ces trois réactions-là, dans cet ordre (simples à trouver pour tout le monde).
+
+## 5. Une publication maison CHAQUE jour (validé par Anthony le 08/11/2026)
+Applique consignes/rubriques.md : chaque jour une rubrique à 10h00 (jour de match = vote, veille = pronostic).
+Elle passe AVANT l'info du jour, qui ne sort en plus que si elle est vraiment forte (2 posts/jour maximum).
