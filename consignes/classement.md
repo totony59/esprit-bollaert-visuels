@@ -51,6 +51,8 @@ python3 classement.py visuels/AAAA-MM-JJ_classement_jN.png data/classement-actue
   (il servira aux flèches la semaine suivante) et supprime classement-actuel.json.
 
 ## 4. Le texte (style d'Anthony)
+
+Depuis le 08/11/2026 : 2 à 4 phrases maximum et une question COURTE à réponse en un mot ou un emoji (voir consignes/strategie-portee.md §3), ex. « Top 6 en fin de saison : oui ou non ? ».
 Ultra naturel, première personne, phrases courtes, 1 à 3 emojis, 0 hashtag, aucune formule de
 communicant ou « IA ». La place de Lens et ce qui a bougé (places gagnées ou perdues), l'écart avec
 le podium / l'Europe ou la zone rouge (calculé à partir des chiffres vérifiés), un ressenti

@@ -32,6 +32,8 @@ python3 classement_ldc.py visuels/AAAA-MM-JJ_classement-ldc_jN.png data/classeme
 - Puis remplace data/classement-ldc-precedent.json par classement-ldc-actuel.json et supprime ce dernier.
 
 ## 4. Le texte (style d'Anthony)
+
+Depuis le 08/11/2026 : 2 à 4 phrases maximum et une question COURTE à réponse en un mot ou un emoji (voir consignes/strategie-portee.md §3), ex. « Top 6 en fin de saison : oui ou non ? ».
 Ultra naturel, première personne, phrases courtes, 1 à 3 emojis, 0 hashtag, aucune formule de
 communicant ou « IA ». La place de Lens et ce qui a bougé, l'écart avec le top 24 (barrages) ou le
 top 8, les journées restantes, un mot sur les autres clubs français si pertinent, puis une question
