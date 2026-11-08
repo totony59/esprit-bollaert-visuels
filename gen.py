@@ -315,7 +315,7 @@ def build(kind, a):
         # Vote en un emoji : les 3 choix sont DESSINÉS sur le visuel (demande d'Anthony du 08/11/2026)
         home, away, when = a[0], a[1], a[2]
         kicker = a[3] if len(a) > 3 else ("LIGUE DES CHAMPIONS" if LDC else "LIGUE 1")
-        choix = [("🔴", "VICTOIRE", "#c8102e", "#ffd400"), ("🤝", "NUL", "#ffffff", "#0a0405"), ("😬", "DÉFAITE", "#1b1b1b", "#ffffff")]
+        choix = [("❤️", "VICTOIRE", "#c8102e", "#ffd400"), ("👍", "NUL", "#ffffff", "#0a0405"), ("😡", "DÉFAITE", "#1b1b1b", "#ffffff")]  # = réactions Facebook J'adore / J'aime / Grrr
         tuiles = "".join(f'<div class="vt" style="background:{bg};color:{fg}"><span class="ve">{em}</span><span class="vl">{lab}</span></div>'
                          for em, lab, bg, fg in choix)
         inner = f"""<style>
@@ -331,9 +331,9 @@ def build(kind, a):
 <div class="kicker">{e(kicker)}</div>
 <div class="versus">{team(home)}<div class="vs">VS</div>{team(away)}</div>
 <div class="when">{e(when)}</div>
-<div class="vq">VOTRE PRONO EN 1 EMOJI</div>
+<div class="vq">VOTEZ AVEC UNE RÉACTION</div>
 <div class="vts">{tuiles}</div>
-<div class="vc">Répondez en commentaire 👇</div></div>"""
+<div class="vc">Appuyez longtemps sur « J'aime » pour choisir 👇</div></div>"""
         return page("VOTE", inner, fond="prono")
     raise SystemExit(f"type inconnu : {kind}")
 
