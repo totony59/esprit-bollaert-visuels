@@ -26,6 +26,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+        with:
+          ref: main   # toujours l'état le plus récent : évite qu'un run en attente republie un post déjà publié (doublon du 08/11/2026)
       - name: Publier les posts arrivés à échéance
         env:
           FB_PAGE_ID: "1449261774934840"

@@ -25,6 +25,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+        with:
+          ref: main   # toujours l'état le plus récent : évite qu'un run en attente republie un post déjà publié (doublon du 08/11/2026)
       - name: Outils de retouche photo
         run: pip install --quiet pillow numpy || true
       - name: Publier les posts arrivés à échéance
