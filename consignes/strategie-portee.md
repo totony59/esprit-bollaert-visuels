@@ -50,3 +50,13 @@ Toujours ces trois réactions-là, dans cet ordre (simples à trouver pour tout 
 ## 5. Une publication maison CHAQUE jour (validé par Anthony le 08/11/2026)
 Applique consignes/rubriques.md : chaque jour une rubrique à 10h00 (jour de match = vote, veille = pronostic).
 Elle passe AVANT l'info du jour, qui ne sort en plus que si elle est vraiment forte (2 posts/jour maximum).
+
+## 6. « LE FACE-À-FACE » le jour de match (demandé par Anthony le 08/11/2026)
+Le jour d'un match, 2e post de la journée (après le vote) vers 15h00 : les stats des confrontations
+Lens – adversaire depuis 2000 (en championnat ; sinon toutes compétitions, à préciser sur le visuel),
+uniquement s'il y a au moins 4 matchs (sinon pas de face-à-face).
+- Liste de TOUS les matchs (date, lieu, score) confirmée par DEUX sources (foot-direct.com/resultats/<club>-vs-<club>,
+  rclensois.fr/confrontations, matchendirect.fr/statistique, madeinlens.com…). Calcule les chiffres en Python, jamais de tête.
+- data/h2h-<adv>.json puis python3 stats_h2h.py visuels/AAAA-MM-JJ_face-a-face_<adv>.png data/h2h-<adv>.json
+  (bilan V/N/D, buts, 4 tuiles : forme récente, bilan à domicile ou à l'extérieur, série, buts par match…).
+- Texte : 2-3 phrases, les 2 chiffres les plus parlants, question courte. Regarde l'image (Read) : rien de coupé.

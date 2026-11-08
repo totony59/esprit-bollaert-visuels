@@ -15,17 +15,17 @@ pct = lambda x: f"{100*x/t:.1f}%"
 bg, fg, _ = gen.CLUBS.get(d.get("adv_cle", d["adv_nom"]).lower(), gen.DEFAUT)
 tuiles = "".join(f'<div class="tu"><b>{e(a)}</b><span>{e(b)}</span></div>' for a, b in d["tuiles"][:4])
 inner = f"""<style>
-.st{{display:flex;flex-direction:column;align-items:center;width:100%;text-align:center}}
-.tt{{font-weight:900;font-style:italic;font-size:92px;line-height:.95;color:#fff;text-shadow:0 6px 0 #c8102e,0 0 40px rgba(0,0,0,.7);margin-top:18px}}
+.st{{display:flex;flex-direction:column;align-items:center;width:100%;text-align:center;padding-top:150px}}
+.tt{{font-weight:900;font-style:italic;font-size:80px;line-height:.95;color:#fff;text-shadow:0 6px 0 #c8102e,0 0 40px rgba(0,0,0,.7);margin-top:18px}}
 .pp{{font-weight:800;font-style:italic;font-size:32px;color:#ffc400;margin-top:8px;letter-spacing:2px}}
-.bar{{display:flex;width:920px;height:118px;border-radius:18px;overflow:hidden;margin-top:28px;border:4px solid #ffd400;box-shadow:0 12px 40px rgba(0,0,0,.6)}}
+.bar{{display:flex;width:920px;height:104px;border-radius:18px;overflow:hidden;margin-top:22px;border:4px solid #ffd400;box-shadow:0 12px 40px rgba(0,0,0,.6)}}
 .bar div{{display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:900;font-style:italic}}
 .bar b{{font-size:54px;line-height:1}} .bar span{{font-size:22px;margin-top:4px}}
 .lg{{display:flex;justify-content:space-between;width:920px;margin-top:10px;font-weight:800;font-size:26px;color:#fff;text-shadow:0 2px 8px #000}}
-.tus{{display:grid;grid-template-columns:1fr 1fr;gap:16px;width:920px;margin-top:24px}}
+.tus{{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:920px;margin-top:18px}}
 .tu{{background:rgba(15,6,8,.88);border:3px solid rgba(255,212,0,.8);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column}}
-.tu b{{font-weight:900;font-style:italic;font-size:46px;color:#ffc400;line-height:1}} .tu span{{font-weight:700;font-size:23px;color:#fff;margin-top:6px}}
-.q{{margin-top:22px;font-weight:800;font-style:italic;font-size:36px;color:#fff;text-shadow:0 2px 12px #000}}
+.tu b{{font-weight:900;font-style:italic;font-size:40px;color:#ffc400;line-height:1}} .tu span{{font-weight:700;font-size:23px;color:#fff;margin-top:6px}}
+.q{{margin-top:18px;font-weight:800;font-style:italic;font-size:36px;color:#fff;text-shadow:0 2px 12px #000}}
 </style><div class="st">
 <div class="kicker">LE FACE-À-FACE</div>
 <div class="tt">{e(d["titre"])}</div><div class="pp">{e(d["periode"])} · {d["matchs"]} MATCHS</div>
