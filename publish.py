@@ -238,6 +238,49 @@ def annuler(page_id, token, dry):
         print(f"Annulé : {nom}")
 
 
+# --- Garde-fou anti-doublon (08/11/2026) : avant de publier, on regarde ce qui est DÉJÀ sur Facebook. ---
+def _cle(texte):
+    return " ".join((texte or "").split())[:70].lower()
+
+
+def _lire(url):
+    try:
+        with urllib.request.urlopen(url, timeout=40) as r:
+            return json.loads(r.read())
+    except Exception:
+        return {}
+
+
+_DEJA = None
+
+
+def deja_sur_facebook(post, page_id, token):
+    """Renvoie l'id Facebook si un post (publié ou programmé) ou un commentaire identique existe déjà."""
+    global _DEJA
+    cle = _cle(post.get("message"))
+    if not cle:
+        return None
+    if post.get("comment_on"):
+        for d in (PUBLISHED, SCHEDULED):
+            f = d / post["comment_on"]
+            if f.exists():
+                fb_id = json.loads(f.read_text(encoding="utf-8")).get("facebook_post_id")
+                q = urllib.parse.urlencode({"fields": "id,message,from", "filter": "stream", "limit": 100, "access_token": token})
+                for c in _lire(f"{API}/{fb_id}/comments?{q}").get("data", []):
+                    if (c.get("from") or {}).get("id") == page_id and _cle(c.get("message")).startswith(cle[:40]):
+                        return c.get("id")
+        return None
+    if _DEJA is None:
+        _DEJA = []
+        for bord in ("published_posts", "scheduled_posts"):
+            q = urllib.parse.urlencode({"fields": "id,message", "limit": 30, "access_token": token})
+            _DEJA += [(x.get("id"), _cle(x.get("message"))) for x in _lire(f"{API}/{page_id}/{bord}?{q}").get("data", [])]
+    for fb_id, m in _DEJA:
+        if m and m[:60] == cle[:60]:
+            return fb_id
+    return None
+
+
 def main():
     dry = os.environ.get("DRY_RUN") == "1"
     page_id = os.environ.get("FB_PAGE_ID", "").strip()
@@ -282,6 +325,16 @@ def main():
             continue
         if dry:
             print(f"[test] {action} : {f.name}")
+            continue
+        doublon = deja_sur_facebook(post, page_id, token)
+        if doublon:
+            post["facebook_post_id"] = doublon
+            post["doublon_evite_at"] = maintenant.isoformat()
+            dest = SCHEDULED if action == "programmer" else PUBLISHED
+            (dest / f.name).write_text(json.dumps(post, ensure_ascii=False, indent=2), encoding="utf-8")
+            f.unlink()
+            print(f"::warning::Déjà sur Facebook, pas republié : {f.name} -> {doublon}")
+            traites += 1
             continue
         if action == "programmer":
             # Facebook publiera lui-même à l'heure exacte (plus de dépendance au réveil du robot).
