@@ -1,0 +1,22 @@
+name: Contrôle des doublons (lecture seule)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  controle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Cap sur la Bretagne
+        env: {NOM: Bretagne, FB_PAGE_ID: "1385049348028097", FB_PAGE_TOKEN: "${{ secrets.FB_PAGE_TOKEN_BRETAGNE }}"}
+        run: python3 outils/doublons.py
+      - name: Cap sur - le Pays basque
+        env: {NOM: "Pays basque", FB_PAGE_ID: "1449261774934840", FB_PAGE_TOKEN: "${{ secrets.FB_PAGE_TOKEN_PAYSBASQUE }}"}
+        run: python3 outils/doublons.py
+      - name: Esprit Bollaert Design
+        env: {NOM: Lens, FB_PAGE_ID: "${{ secrets.FB_PAGE_ID }}", FB_PAGE_TOKEN: "${{ secrets.FB_PAGE_TOKEN }}"}
+        run: python3 outils/doublons.py
