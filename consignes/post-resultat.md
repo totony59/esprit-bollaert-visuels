@@ -63,6 +63,8 @@ S'il en existe un, arrête-toi.
 
 ## 4. Le texte (style d'Anthony, prioritaire)
 
+Plus court (08/11/2026) : 2 à 4 phrases, et la question finale en version courte, ex. « Ton top et ton flop, en deux noms 👇 ».
+
 Ultra naturel et ultra humain, comme si Anthony, supporter lensois passionné, écrivait depuis
 son téléphone à la sortie du match :
 - première personne, langage parlé de supporter, phrases courtes, rythme oral (« et là… ») ;

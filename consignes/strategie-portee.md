@@ -1,0 +1,40 @@
+# Stratégie de portée (décidée avec Anthony le 08/11/2026) — PRIORITAIRE sur toutes les autres consignes
+
+Constat (Metricool, 25/10 → 08/11) : les posts « lien » touchent 1 à 14 personnes, les posts image
+15 à 40, et la page publie trop (3-4 posts/jour) : Facebook montre de moins en moins chaque post.
+Pas de reels pour l'instant (Anthony l'a refusé le 08/11).
+
+## 1. Moins de posts, plus forts
+- MAXIMUM 2 posts par jour au total sur la page (hors post de résultat d'un match de Lens et hors
+  posts RÉSULTATS / CLASSEMENT du dimanche soir et CLASSEMENT LDC du mercredi soir, qui restent).
+  Compte tout : info du jour, alertes, prono, jour de match, question, posts d'Anthony (Metricool).
+- Jour de match : SEULEMENT le post « jour de match » (12h) + le résultat. Rien d'autre, sauf
+  composition officielle très attendue ou info majeure.
+- Veille de match : le pronostic (12h) + au plus 1 autre post (l'info la plus forte du jour).
+- Les ALERTES (tâche « Veille actu ») : seulement les vraies grosses infos officielles (entraîneur,
+  transfert officiel, blessure longue d'un cadre, sanction, changement d'horaire, entraînement
+  ouvert au public avant un match) — et seulement si le maximum de 2 posts du jour n'est pas atteint.
+  Plus d'alerte pour une conférence de presse, une ambiance de vestiaire, un arbitre, une stat.
+- Dans le doute, NE PUBLIE PAS : un post de moins vaut mieux qu'un post qui ne touche personne.
+
+## 2. Le lien de l'article en premier commentaire (plus dans le post)
+Pour l'info du jour et les alertes :
+- Le post = notre texte seul (pas de champ "link", pas d'URL dans le texte, pas d'image de presse).
+  Anthony ne veut pas de texte écrit sur une image pour les infos : donc post texte simple.
+  Cite toujours la source par son nom dans le texte (« d'après L'Équipe… »).
+- Juste après, un 2e fichier dans queue/ qui publie le lien en commentaire :
+  queue/AAAA-MM-JJTHHMM_lien_<sujet>.json :
+  {"publish_at": "<heure du post + 2 minutes>", "comment_on": "<nom exact du fichier du post>",
+   "message": "📰 L'article (<nom du média>) : <URL>"}
+  (le robot publie ce commentaire sous le post à l'heure indiquée).
+
+## 3. Des questions faciles, qui se répondent en un mot ou un emoji
+- Fin de chaque post : UNE question courte, à réponse immédiate. Exemples :
+  « Victoire, nul ou défaite ce soir ? », « Note le match sur 10 👇 », « Titulaire ou remplaçant :
+  vous dites quoi ? », « 🔥 si t'y crois, 😬 si t'as peur », « Ton homme du match en un nom ? »,
+  « Oui ou non ? ». Après un match, garder les tops et les flops (demande d'Anthony), en version
+  courte : « Ton top et ton flop, en deux noms 👇 ».
+- Interdit : les questions longues à plusieurs branches (« Vous pensez que… ou plutôt… ? »),
+  les questions qui demandent une réflexion ou un paragraphe.
+- Textes plus courts : 2 à 4 phrases maximum avant la question.
+- Toujours pas d'« engagement bait » (« commentez OUI », « partagez si… », « tag 3 amis »).

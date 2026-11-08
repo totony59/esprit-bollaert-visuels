@@ -1,3 +1,6 @@
+> ⚠️ Lire d'abord consignes/strategie-portee.md (08/11/2026), qui l'emporte sur ce fichier : post TEXTE SEUL
+> + lien de l'article en premier commentaire (fichier comment_on), questions courtes, 2 posts/jour maximum.
+
 # Consignes : « L'info du jour » (actu du RC Lens qui fait réagir)
 
 But : repérer dans la presse sportive l'actu du RC Lens la plus susceptible de faire réagir
