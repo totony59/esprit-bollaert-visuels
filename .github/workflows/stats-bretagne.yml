@@ -1,0 +1,15 @@
+name: Statistiques Cap sur la Bretagne (lecture seule)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  stats:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - env: {FB_PAGE_ID: "1385049348028097", FB_PAGE_TOKEN: "${{ secrets.FB_PAGE_TOKEN_BRETAGNE }}"}
+        run: python3 outils/stats.py
