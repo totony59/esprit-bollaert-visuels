@@ -60,3 +60,9 @@ uniquement s'il y a au moins 4 matchs (sinon pas de face-à-face).
 - data/h2h-<adv>.json puis python3 stats_h2h.py visuels/AAAA-MM-JJ_face-a-face_<adv>.png data/h2h-<adv>.json
   (bilan V/N/D, buts, 4 tuiles : forme récente, bilan à domicile ou à l'extérieur, série, buts par match…).
 - Texte : 2-3 phrases, les 2 chiffres les plus parlants, question courte. Regarde l'image (Read) : rien de coupé.
+
+## 7. Ne JAMAIS modifier un fichier de queue/ après l'avoir poussé (doublon du quiz du 10/11/2026)
+Le push lance le robot tout de suite : si tu modifies ensuite le fichier (texte, heure…), le robot a déjà pu
+envoyer l'ancienne version à Facebook, et la nouvelle repart en double. Relis tout AVANT le push. Pour corriger
+un post déjà poussé : attends qu'il soit dans scheduled/ (ou published/), puis annuler/<même nom>.json + nouveau
+fichier avec un autre nom (seulement s'il est encore programmé ; s'il est publié, laisse-le).

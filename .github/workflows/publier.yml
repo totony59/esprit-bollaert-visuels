@@ -40,5 +40,20 @@ jobs:
           git add -A queue published skipped scheduled annuler
           if git diff --cached --quiet; then exit 0; fi
           git commit -m "Posts publiés sur Facebook"
-          for i in 1 2 3; do git pull --rebase origin main && git push && exit 0; sleep 5; done
+          for i in 1 2 3; do
+            if git pull --rebase origin main; then git push && exit 0
+            else
+              # Conflit (ex. un fichier de queue/ modifié pendant la publication) : l'état du robot gagne TOUJOURS,
+              # sinon le post déjà envoyé à Facebook resterait dans queue/ et serait republié (doublon du 10/11/2026).
+              git rebase --abort || true
+              tmp=$(mktemp -d); cp -r published skipped scheduled "$tmp"/
+              git fetch -q origin main && git reset -q --hard origin/main
+              for d in published skipped scheduled; do mkdir -p "$d"; cp -r "$tmp/$d/." "$d/"; done
+              for f in published/*.json skipped/*.json scheduled/*.json; do [ -e "$f" ] && rm -f "queue/$(basename "$f")"; done
+              git add -A queue published skipped scheduled annuler
+              git diff --cached --quiet || git commit -m "Posts publiés sur Facebook (fusion après conflit)"
+              git push && exit 0
+            fi
+            sleep 5
+          done
           exit 1
