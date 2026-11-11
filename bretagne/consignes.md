@@ -267,5 +267,5 @@ Regarde toujours l'image (Read) avant de publier : lisible, rien de coupé, acce
 - Ne jamais lancer le robot à la main juste après un push (le push le lance déjà) : le réveil externe cron-job.org le relance toutes les 10 min.
 - Après chaque publication ou programmation : lancer le workflow « Contrôle des doublons » (controle-doublons.yml, lecture seule) et vérifier « 0 doublon » pour la page ; s'il y en a un, prévenir Anthony tout de suite avec le texte du post concerné.
 
-## Horaire du soir (décision d'Anthony du 10/11/2026)
-- Les publications « du soir » de Cap sur la Bretagne (duels, cartes, réels…) sortent à 17h00, plus à 18h. Un seul post fort par jour (réel OU carte).
+## Horaire du soir (décision d'Anthony du 11/11/2026, remplace celle du 10/11 « 17h00 »)
+- Les publications « du soir » de Cap sur la Bretagne (duels, cartes, réels…) sortent à 16h15, plus à 17h ni à 18h. Un seul post fort par jour (réel OU carte).
