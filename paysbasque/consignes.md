@@ -21,11 +21,11 @@ lancement (décision du 01/11/2026), sauf demande d'Anthony.
 
 | Jour     | Heure | Rubrique (étiquette du visuel) | Contenu |
 |----------|-------|--------------------------------|---------|
-| Lundi    | 17h00 | LE MOT BASQUE | Un mot ou une courte expression en basque : sens, petite anecdote, usage. |
-| Mardi    | 17h00 | UN VILLAGE À DÉCOUVRIR | Un village : ce qui le rend unique, un détail vérifié. |
-| Mercredi | 17h00 | TRADITIONS | Pelote, force basque, fêtes, chants, danses, makhila, espadrilles, linge basque… |
-| Jeudi    | 17h00 | À TABLE | Un plat, un produit ou un débat gourmand (gâteau crème ou cerise ?). Recette possible. |
-| Vendredi | 17h00 | SOUVENIRS | Une question qui fait remonter des souvenirs (plage, fêtes, vacances, grands-parents). |
+| Lundi    | 16h15 | LE MOT BASQUE | Un mot ou une courte expression en basque : sens, petite anecdote, usage. |
+| Mardi    | 16h15 | UN VILLAGE À DÉCOUVRIR | Un village : ce qui le rend unique, un détail vérifié. |
+| Mercredi | 16h15 | TRADITIONS | Pelote, force basque, fêtes, chants, danses, makhila, espadrilles, linge basque… |
+| Jeudi    | 16h15 | À TABLE | Un plat, un produit ou un débat gourmand (gâteau crème ou cerise ?). Recette possible. |
+| Vendredi | 16h15 | SOUVENIRS | Une question qui fait remonter des souvenirs (plage, fêtes, vacances, grands-parents). |
 | Samedi   | 10h00 | PAYSAGE DU WEEK-END | Montagne, corniche, forêt, rivière, col : une envie de balade. |
 | Dimanche | 10h00 | LE QUIZ DU DIMANCHE | Question à 3 propositions (A, B, C). Réponse en commentaire à 19h00 par le robot. |
 
@@ -82,7 +82,7 @@ côte / intérieur / montagne.
 ## Fichiers (robot GitHub)
 
 Un fichier par post dans paysbasque/queue/AAAA-MM-JJTHHMM_<rubrique>_<sujet>.json (UTF-8) :
-  {"publish_at": "2026-11-03T17:00:00+01:00", "message": "<texte>",
+  {"publish_at": "2026-11-03T16:15:00+01:00", "message": "<texte>",
    "image": "paysbasque/visuels/<fichier>.png", "fond": "<illustration utilisée>"}
 - Quiz : le post + un 2e fichier pour la réponse en commentaire :
   paysbasque/queue/AAAA-MM-JJT1900_reponse_<sujet>.json
