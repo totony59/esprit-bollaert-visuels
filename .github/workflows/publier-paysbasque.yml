@@ -43,5 +43,20 @@ jobs:
           git add -A paysbasque/queue paysbasque/published paysbasque/skipped paysbasque/scheduled paysbasque/annuler
           if git diff --cached --quiet; then exit 0; fi
           git commit -m "Cap sur le Pays basque : posts publiés"
-          for i in 1 2 3; do git pull --rebase origin main && git push && exit 0; sleep 5; done
+          for i in 1 2 3; do
+            if git pull --rebase origin main; then git push && exit 0
+            else
+              # Conflit (ex. un fichier de paysbasque/queue/ modifié pendant la publication) : l'état du robot gagne TOUJOURS,
+              # sinon le post déjà envoyé à Facebook resterait dans paysbasque/queue/ et serait republié (même correctif que Lens, 11/11/2026).
+              git rebase --abort || true
+              tmp=$(mktemp -d); cp -r paysbasque/published paysbasque/skipped paysbasque/scheduled "$tmp"/ 2>/dev/null || true
+              git fetch -q origin main && git reset -q --hard origin/main
+              for d in published skipped scheduled; do mkdir -p "paysbasque/$d"; [ -d "$tmp/$d" ] && cp -r "$tmp/$d/." "paysbasque/$d/"; done
+              for f in paysbasque/published/*.json paysbasque/skipped/*.json paysbasque/scheduled/*.json; do [ -e "$f" ] && rm -f "paysbasque/queue/$(basename "$f")"; done
+              git add -A paysbasque/queue paysbasque/published paysbasque/skipped paysbasque/scheduled paysbasque/annuler
+              git diff --cached --quiet || git commit -m "Cap sur le Pays basque : posts publiés (fusion après conflit)"
+              git push && exit 0
+            fi
+            sleep 5
+          done
           exit 1

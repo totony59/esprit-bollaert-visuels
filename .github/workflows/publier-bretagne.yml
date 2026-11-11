@@ -44,5 +44,20 @@ jobs:
           git add -A bretagne/queue bretagne/published bretagne/skipped bretagne/scheduled bretagne/annuler
           if git diff --cached --quiet; then exit 0; fi
           git commit -m "Cap sur la Bretagne : posts publiés"
-          for i in 1 2 3; do git pull --rebase origin main && git push && exit 0; sleep 5; done
+          for i in 1 2 3; do
+            if git pull --rebase origin main; then git push && exit 0
+            else
+              # Conflit (ex. un fichier de bretagne/queue/ modifié pendant la publication) : l'état du robot gagne TOUJOURS,
+              # sinon le post déjà envoyé à Facebook resterait dans bretagne/queue/ et serait republié (même correctif que Lens, 11/11/2026).
+              git rebase --abort || true
+              tmp=$(mktemp -d); cp -r bretagne/published bretagne/skipped bretagne/scheduled "$tmp"/ 2>/dev/null || true
+              git fetch -q origin main && git reset -q --hard origin/main
+              for d in published skipped scheduled; do mkdir -p "bretagne/$d"; [ -d "$tmp/$d" ] && cp -r "$tmp/$d/." "bretagne/$d/"; done
+              for f in bretagne/published/*.json bretagne/skipped/*.json bretagne/scheduled/*.json; do [ -e "$f" ] && rm -f "bretagne/queue/$(basename "$f")"; done
+              git add -A bretagne/queue bretagne/published bretagne/skipped bretagne/scheduled bretagne/annuler
+              git diff --cached --quiet || git commit -m "Cap sur la Bretagne : posts publiés (fusion après conflit)"
+              git push && exit 0
+            fi
+            sleep 5
+          done
           exit 1
