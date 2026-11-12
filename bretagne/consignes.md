@@ -269,3 +269,13 @@ Regarde toujours l'image (Read) avant de publier : lisible, rien de coupé, acce
 
 ## Horaire du soir (décision d'Anthony du 11/11/2026, remplace celle du 10/11 « 17h00 »)
 - Les publications « du soir » de Cap sur la Bretagne (duels, cartes, réels…) sortent à 16h15, plus à 17h ni à 18h. Un seul post fort par jour (réel OU carte).
+
+## NOUVELLE SEMAINE TYPE (décision d'Anthony du 12/11/2026, d'après l'analyse des 53 premiers posts) — PRIORITAIRE sur tout ce qui précède
+Constat : les posts automatiques quotidiens (endroit du jour, rubriques de midi) font ~0-10 réactions et presque 0 commentaire, ce qui fait baisser la moyenne de la page. Ce qui marche : cartes, questions émotionnelles, réels, duels, quiz en image (gérés avec Anthony, 1 post fort par jour vers 16h15-17h).
+- « L'ENDROIT DU JOUR » : seulement lundi, mercredi et vendredi à 08h00.
+- Publication principale automatique (tâche du matin) : seulement mardi 12h00, jeudi 12h00 et dimanche 10h00 :
+  · mardi et jeudi 12h00 « LA QUESTION » : une question ouverte et émotionnelle (souvenirs, attachement, coin préféré, « vous préférez… », « racontez-nous… »), jamais une question à réponse unique ; visuel simple ; varier chaque fois.
+  · dimanche 10h00 « LE QUIZ DU DIMANCHE » en IMAGE : une vraie photo libre de droits (Wikimedia Commons, licence vérifiée) d'un lieu breton, question « Où est-ce ? » avec 3 propositions sur le visuel, réponse en commentaire à 19h00.
+  · Les autres jours : RIEN d'automatique (ni mot breton, ni ce jour-là, ni légende, ni actu, ni recette).
+- « HIER & AUJOURD'HUI » : arrêté (aucune photo d'abonné reçue). Ne plus en programmer.
+- Le jeu de la carte (tous les 2 jours) et les duels (17h) continuent sans changement.
