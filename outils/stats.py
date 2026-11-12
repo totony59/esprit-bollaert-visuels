@@ -8,4 +8,4 @@ with urllib.request.urlopen(f"{API}/{PAGE}/published_posts?{q}", timeout=60) as 
     data = json.loads(r.read()).get("data", [])
 for p in data:
     m = " ".join((p.get("message") or "").split())[:55]
-    print(f"STAT {p['created_time'][:16]} | R {p.get('reactions',{}).get('summary',{}).get('total_count',0):4} | C {p.get('comments',{}).get('summary',{}).get('total_count',0):4} | P {p.get('shares',{}).get('count',0):3} | {m}")
+    print(f"STAT {p["id"]} {p["created_time"][:16]} | R {p.get('reactions',{}).get('summary',{}).get('total_count',0):4} | C {p.get('comments',{}).get('summary',{}).get('total_count',0):4} | P {p.get('shares',{}).get('count',0):3} | {m}")
