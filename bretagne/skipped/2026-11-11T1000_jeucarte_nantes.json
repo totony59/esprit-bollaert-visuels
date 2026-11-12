@@ -3,6 +3,6 @@
   "message": "🧭 Le jeu de la carte !\nAujourd'hui, une question simple : où se trouve Nantes ?\n\nDonnez la case en commentaire (ex. : E4) 👇\nRéponse demain à 8h15 !",
   "image": "bretagne/visuels/2026-11-11_jeucarte_nantes.png",
   "lieu": "Nantes",
-  "facebook_post_id": "1385049348028097_122101084269536802",
-  "doublon_evite_at": "2026-11-11T06:21:09.904308+00:00"
+  "doublon_evite_at": "2026-11-11T06:21:09.904308+00:00",
+  "note": "NON publié : faux doublon (confondu avec le jeu de Brest, bug corrigé le 12/11). La réponse a été postée par erreur sous le jeu de Brest."
 }

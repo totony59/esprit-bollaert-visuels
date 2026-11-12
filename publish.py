@@ -240,7 +240,9 @@ def annuler(page_id, token, dry):
 
 # --- Garde-fou anti-doublon (08/11/2026) : avant de publier, on regarde ce qui est DÉJÀ sur Facebook. ---
 def _cle(texte):
-    return " ".join((texte or "").split())[:70].lower()
+    # Texte complet normalisé : deux posts ne sont des doublons que si leur texte est IDENTIQUE
+    # (une comparaison sur le début seulement confondait « où se trouve Nantes ? » et « ... Brest ? »).
+    return " ".join((texte or "").split()).lower()
 
 
 def _lire(url):
@@ -261,13 +263,14 @@ def deja_sur_facebook(post, page_id, token):
     if not cle:
         return None
     if post.get("comment_on"):
+        debut = _cle((post.get("message") or "").split("{bravo}")[0])
         for d in (PUBLISHED, SCHEDULED):
             f = d / post["comment_on"]
             if f.exists():
                 fb_id = json.loads(f.read_text(encoding="utf-8")).get("facebook_post_id")
                 q = urllib.parse.urlencode({"fields": "id,message,from", "filter": "stream", "limit": 100, "access_token": token})
                 for c in _lire(f"{API}/{fb_id}/comments?{q}").get("data", []):
-                    if (c.get("from") or {}).get("id") == page_id and _cle(c.get("message")).startswith(cle[:40]):
+                    if (c.get("from") or {}).get("id") == page_id and _cle(c.get("message")).startswith(debut):
                         return c.get("id")
         return None
     if _DEJA is None:
@@ -276,7 +279,7 @@ def deja_sur_facebook(post, page_id, token):
             q = urllib.parse.urlencode({"fields": "id,message", "limit": 30, "access_token": token})
             _DEJA += [(x.get("id"), _cle(x.get("message"))) for x in _lire(f"{API}/{page_id}/{bord}?{q}").get("data", [])]
     for fb_id, m in _DEJA:
-        if m and m[:60] == cle[:60]:
+        if m and m == cle:
             return fb_id
     return None
 
