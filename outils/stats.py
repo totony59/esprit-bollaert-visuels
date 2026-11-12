@@ -3,7 +3,7 @@ Aucun nom, uniquement des totaux."""
 import json, os, urllib.parse, urllib.request
 API = "https://graph.facebook.com/v23.0"
 TOK, PAGE = os.environ["FB_PAGE_TOKEN"].strip(), os.environ["FB_PAGE_ID"].strip()
-q = urllib.parse.urlencode({"fields": "created_time,message,shares,reactions.summary(true).limit(0),comments.summary(true).filter(stream).limit(0)", "limit": 40, "access_token": TOK})
+q = urllib.parse.urlencode({"fields": "created_time,message,shares,reactions.summary(true).limit(0),comments.summary(true).filter(stream).limit(0)", "limit": 100, "access_token": TOK})
 with urllib.request.urlopen(f"{API}/{PAGE}/published_posts?{q}", timeout=60) as r:
     data = json.loads(r.read()).get("data", [])
 for p in data:
