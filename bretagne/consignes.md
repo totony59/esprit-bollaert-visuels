@@ -267,22 +267,22 @@ Regarde toujours l'image (Read) avant de publier : lisible, rien de coupé, acce
 - Ne jamais lancer le robot à la main juste après un push (le push le lance déjà) : le réveil externe cron-job.org le relance toutes les 10 min.
 - Après chaque publication ou programmation : lancer le workflow « Contrôle des doublons » (controle-doublons.yml, lecture seule) et vérifier « 0 doublon » pour la page ; s'il y en a un, prévenir Anthony tout de suite avec le texte du post concerné.
 
-## Horaire du soir (décision d'Anthony du 11/11/2026, remplace celle du 10/11 « 17h00 »)
-- Les publications « du soir » de Cap sur la Bretagne (duels, cartes, réels…) sortent à 16h15, plus à 17h ni à 18h. Un seul post fort par jour (réel OU carte).
+## Horaire du soir (décision d'Anthony du 13/11/2026, remplace 16h15 du 11/11 et 17h du 10/11)
+- Les publications « du soir » de Cap sur la Bretagne (duels, cartes, réels…) sortent à 16h00, plus à 16h15, 17h ni 18h. Un seul post fort par jour (réel OU carte).
 
 ## NOUVELLE SEMAINE TYPE (décision d'Anthony du 12/11/2026, d'après l'analyse des 53 premiers posts) — PRIORITAIRE sur tout ce qui précède
-Constat : les posts automatiques quotidiens (endroit du jour, rubriques de midi) font ~0-10 réactions et presque 0 commentaire, ce qui fait baisser la moyenne de la page. Ce qui marche : cartes, questions émotionnelles, réels, duels, quiz en image (gérés avec Anthony, 1 post fort par jour vers 16h15-17h).
+Constat : les posts automatiques quotidiens (endroit du jour, rubriques de midi) font ~0-10 réactions et presque 0 commentaire, ce qui fait baisser la moyenne de la page. Ce qui marche : cartes, questions émotionnelles, réels, duels, quiz en image (gérés avec Anthony, 1 post fort par jour à 16h).
 - « L'ENDROIT DU JOUR » : seulement lundi, mercredi et vendredi à 08h00.
 - Publication principale automatique (tâche du matin) : seulement mardi 12h00, jeudi 12h00 et dimanche 10h00 :
   · mardi et jeudi 12h00 « LA QUESTION » : une question ouverte et émotionnelle (souvenirs, attachement, coin préféré, « vous préférez… », « racontez-nous… »), jamais une question à réponse unique ; visuel simple ; varier chaque fois.
   · dimanche 10h00 « LE QUIZ DU DIMANCHE » en IMAGE : une vraie photo libre de droits (Wikimedia Commons, licence vérifiée) d'un lieu breton, question « Où est-ce ? » avec 3 propositions sur le visuel, réponse en commentaire à 19h00.
   · Les autres jours : RIEN d'automatique (ni mot breton, ni ce jour-là, ni légende, ni actu, ni recette).
 - « HIER & AUJOURD'HUI » : arrêté (aucune photo d'abonné reçue). Ne plus en programmer.
-- Le jeu de la carte (tous les 2 jours) et les duels (17h) continuent sans changement.
+- Le jeu de la carte (tous les 2 jours) et les duels (16h) continuent sans changement.
 
 ## Carte « La Bretagne vue par vous » : mise à jour chaque semaine (demande d'Anthony du 12/11/2026)
 
-- Un post de mise à jour par semaine (jour proposé : vendredi 17h, à confirmer par Anthony).
+- Un post de mise à jour par semaine TOUS LES VENDREDIS À 16h00 (validé par Anthony le 13/11).
 - Méthode : export des commentaires du post « petit coin de paradis » (id 1385049348028097_122100792537536802),
   comparaison avec la carte réelle (export KML de My Maps, et pas seulement le CSV maître), vérification
   Nominatim, ajout dans le bon calque de My Maps, mise à jour du projet (carte-bretagne-vue-par-vous/lieux-maitre.csv).
