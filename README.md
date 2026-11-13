@@ -36,3 +36,7 @@ Même robot, dossiers sous `paysbasque/` et workflow « Publier sur Facebook –
 (page 1449261774934840, secret `FB_PAGE_TOKEN_PAYSBASQUE`). Lancée le 02/11/2026,
 consignes éditoriales : `paysbasque/consignes.md`. Visuels : `paysbasque/visuel.py`, illustrations
 dans `paysbasque/fonds/`.
+Depuis le 13/11/2026, même organisation que la Bretagne : « L'endroit du jour » (lundi, mercredi, vendredi 8h),
+question émotionnelle (mardi et jeudi 12h), quiz photo (dimanche 10h), jeu de la carte un jour sur deux
+(workflow « Jeu de la carte – Cap sur - le Pays basque », `paysbasque/jeu_carte/`), bilan chaque lundi
+(workflow « Bilan du lundi – Cap sur - le Pays basque »).

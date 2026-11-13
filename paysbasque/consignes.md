@@ -104,3 +104,56 @@ mieux au sujet d'après paysbasque/fonds/LISTE.md, SANS ouvrir les images (pour 
 l'utilisation). Évite la même illustration que lors des 2 derniers posts (champ "fond" dans
 published/ et scheduled/). Regarde toujours le visuel final (Read) : lisible, rien de coupé,
 accents corrects.
+
+## NOUVELLE SEMAINE TYPE (décision d'Anthony du 13/11/2026, modèle de la page Bretagne) — PRIORITAIRE sur la « Semaine type » plus haut
+
+Constat sur la page Bretagne : les rubriques quotidiennes font ~0-10 réactions et presque aucun commentaire,
+ce qui fait baisser la portée de toute la page. Ce qui marche : questions émotionnelles, quiz en image,
+belles vraies photos, jeu de la carte, réels et duels. Même organisation ici à partir du 14/11/2026.
+
+- « L'ENDROIT DU JOUR » : lundi, mercredi et vendredi à 08h00 (tâche « Endroit du jour – Cap sur - le Pays basque »).
+- Publication principale automatique (tâche du matin) : seulement mardi 12h00, jeudi 12h00 et dimanche 10h00 :
+  · mardi et jeudi 12h00 « LA QUESTION » : une question ouverte et émotionnelle qui donne envie de raconter
+    (souvenirs, attachement, coin préféré, « vous préférez… », « racontez-nous… »), jamais une question à
+    réponse unique, jamais d'engagement bait ; visuel simple avec paysbasque/visuel.py et une illustration
+    de paysbasque/fonds/ ; regarde les dernières questions publiées pour ne jamais répéter.
+  · dimanche 10h00 « LE QUIZ DU DIMANCHE » en IMAGE : une VRAIE très belle photo d'un lieu du Pays basque
+    français, libre de droits (Wikimedia Commons, licence CC0 / domaine public / CC BY / CC BY-SA vérifiée sur
+    la page du fichier, auteur noté ; jamais NC/ND), téléchargée dans paysbasque/fonds/photo-quiz-<lieu>.jpg ;
+    visuel : python3 paysbasque/visuel.py … --rubrique "LE QUIZ DU DIMANCHE" --titre "Où est-ce ?"
+    --texte "Réponse ce soir en commentaire" --options "A|B|C" --fond <la photo> ; crédit de la photo en fin
+    de texte (« 📷 Photo : <auteur>, <licence>, via Wikimedia Commons ») ; réponse + explication courte en
+    commentaire à 19h00 (fichier AAAA-MM-JJT1900_reponse_<sujet>.json avec "comment_on"). Lieu jamais utilisé
+    à moins de 3 mois (regarde aussi les *_endroit_*).
+  · Les autres jours : RIEN d'automatique (plus de mot basque, village, traditions, à table, souvenirs, paysage).
+- « LE JEU DE LA CARTE » : un jour sur deux depuis le 14/11/2026 (en alternance avec la Bretagne), question à 10h00
+  (10h30 le dimanche) et réponse en commentaire avec image le lendemain à 8h15, préparé entièrement par le
+  workflow « Jeu de la carte – Cap sur - le Pays basque » (paysbasque/jeu_carte/generer.py). Fichiers
+  *_jeucarte_* : ne jamais les créer à la main, ne pas les compter comme post principal, ne pas les déplacer.
+- Le soir à 16h00 : un seul post fort par jour (réel, duel ou carte), préparé par Anthony avec Claude.
+  Les tâches automatiques ne programment jamais rien entre 15h30 et 16h30.
+
+## « L'ENDROIT DU JOUR » (lundi, mercredi, vendredi à 08h00)
+
+- Une VRAIE et très belle photo d'un endroit du Pays basque français : village, port, plage, corniche,
+  montagne, col, forêt, rivière, pont, chapelle, fronton, patrimoine. Jamais de photo générée par IA.
+- Photo libre de droits : Wikimedia Commons en priorité (« Quality images », « Featured pictures »), sinon
+  Flickr ; licence vérifiée sur la page de la photo : CC0, domaine public, CC BY ou CC BY-SA uniquement.
+  Pas de personne reconnaissable au premier plan, pas d'enseigne ou de logo en vedette.
+- Texte : 2 à 5 phrases naturelles : où c'est (commune + province : Labourd, Basse-Navarre ou Soule), ce qui
+  rend le lieu particulier, un détail concret vérifié par DEUX sources. Une seule question finale concrète
+  et chaleureuse, variée d'une fois sur l'autre. Dernière ligne : « 📷 Photo : <auteur>, <licence>, via
+  Wikimedia Commons » (ou « via Flickr ») ; le robot retouche la photo et ajoute lui-même « (retouchée) ».
+- Fichier paysbasque/queue/AAAA-MM-JJT0800_endroit_<lieu>.json :
+  {"publish_at":"…T08:00:00+01:00","message":"<texte + crédit>","image_url":"<URL directe de la photo>",
+   "credit":"<auteur, licence, URL de la page>","lieu":"<lieu, commune, province>"}.
+- Jamais le même lieu à moins de 3 mois ; varier Labourd / Basse-Navarre / Soule, côte / intérieur / montagne,
+  lieux connus / petites pépites.
+
+## Doublons (même règle que la Bretagne)
+- Ne jamais modifier un fichier déjà passé dans paysbasque/scheduled/ : l'annuler d'abord
+  (paysbasque/annuler/<nom>.json contenant {}), puis recréer.
+- Ne pas relancer le robot à la main juste après un push (le push le lance déjà) ; seulement si rien n'est
+  programmé au bout de 2 minutes.
+- Après chaque programmation : lancer le workflow « Contrôle des doublons » (controle-doublons.yml) et
+  vérifier « Pays basque : … 0 doublon(s) » ; sinon prévenir Anthony tout de suite.

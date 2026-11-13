@@ -112,7 +112,7 @@ def publier(post, page_id, token, quand=None):
     """Publie maintenant, ou programme chez Facebook si `quand` (datetime futur) est donné."""
     if post.get("image_url") and not post.get("image"):
         photo, retouchee = telecharger(post["image_url"]), False
-        if post.get("retouche", os.environ.get("DOSSIER_PAGE") == "bretagne"):
+        if post.get("retouche", os.environ.get("DOSSIER_PAGE") in ("bretagne", "paysbasque")):
             photo, retouchee = embellir(photo)
         post = dict(post, image=str(photo))
         msg = post.get("message", "")

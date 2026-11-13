@@ -1,0 +1,38 @@
+# Ordre des communes du « Jeu de la carte » (une par partie). Uniquement des communes « fiables »
+# (mairie à au moins 1,5 km de toute ligne de la grille). Pour changer l'ordre ou ajouter des lieux, éditer ce fichier.
+Espelette
+Mauléon-Licharre
+Saint-Jean-de-Luz
+Saint-Jean-Pied-de-Port
+Bayonne
+Sare
+Tardets-Sorholus
+Biarritz
+Itxassou
+Saint-Étienne-de-Baïgorry
+La Bastide-Clairence
+Bidarray
+Larrau
+Ciboure
+Iholdy
+Sainte-Engrâce
+Arcangues
+Aldudes
+Ustaritz
+Biriatou
+Ordiarp
+Saint-Pée-sur-Nivelle
+Ossès
+Bidart
+Isturits
+Barcus
+Louhossoa
+Ostabat-Asme
+Ahetze
+Mendionde
+Gotein-Libarrenx
+Irissarry
+Arbonne
+Villefranque
+Lantabat
+Macaye

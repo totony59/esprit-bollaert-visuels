@@ -1,0 +1,25 @@
+{
+ "projection": "Lambert-93 (RGF93, EPSG:2154)",
+ "x_min": 308750,
+ "x_max": 398750,
+ "y_min": 6209500,
+ "y_max": 6281500,
+ "colonnes": 10,
+ "lignes": 8,
+ "largeur_case_m": 9000.0,
+ "hauteur_case_m": 9000.0,
+ "colonnes_noms": [
+  "A",
+  "B",
+  "C",
+  "D",
+  "E",
+  "F",
+  "G",
+  "H",
+  "I",
+  "J"
+ ],
+ "lignes_sens": "1 = nord, 8 = sud",
+ "colonnes_sens": "A = ouest, J = est"
+}

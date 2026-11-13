@@ -1,0 +1,55 @@
+name: Jeu de la carte – Cap sur - le Pays basque
+
+# Un jour sur deux (à partir du 14/11/2026, en alternance avec la Bretagne), prépare la question de 10h et la réponse du lendemain 8h15
+# (paysbasque/jeu_carte/generer.py). Le workflow « Publier sur Facebook – Cap sur le Pays basque »
+# (toutes les 10 min) publie ensuite les fichiers déposés dans paysbasque/queue/.
+on:
+  schedule:
+    - cron: "27 6 * * *"     # 7h27 (hiver) / 8h27 (été), heure de Paris
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "Date AAAA-MM-JJ (vide = aujourd'hui)"
+        required: false
+      force:
+        description: "Forcer même si ce n'est pas un jour de jeu"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: publication-facebook-paysbasque
+  cancel-in-progress: false
+
+jobs:
+  preparer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Outils
+        run: pip install --quiet pillow
+      - name: Préparer le jeu du jour
+        run: |
+          ARGS=""
+          [ -n "${{ inputs.date }}" ] && ARGS="$ARGS --date ${{ inputs.date }}"
+          [ "${{ inputs.force }}" = "true" ] && ARGS="$ARGS --force"
+          python3 paysbasque/jeu_carte/generer.py $ARGS
+      - name: Enregistrer
+        run: |
+          git config user.name "robot-publication"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A paysbasque/queue paysbasque/visuels
+          git diff --cached --quiet && exit 0
+          git commit -m "Cap sur - le Pays basque : jeu de la carte préparé"
+          for i in 1 2 3; do git pull --rebase -q && git push -q && exit 0; sleep 5; done
+          exit 1
+      - name: Confier tout de suite la question à Facebook
+        # Le push fait avec GITHUB_TOKEN ne déclenche pas la publication, et le passage automatique
+        # « toutes les 10 min » de GitHub peut avoir des heures de retard (07/11/2026) : on lance la
+        # publication maintenant, elle programme la question chez Facebook pour l'heure exacte.
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run publier-paysbasque.yml --ref main -R ${{ github.repository }}
