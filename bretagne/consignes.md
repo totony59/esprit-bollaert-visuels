@@ -279,3 +279,15 @@ Constat : les posts automatiques quotidiens (endroit du jour, rubriques de midi)
   · Les autres jours : RIEN d'automatique (ni mot breton, ni ce jour-là, ni légende, ni actu, ni recette).
 - « HIER & AUJOURD'HUI » : arrêté (aucune photo d'abonné reçue). Ne plus en programmer.
 - Le jeu de la carte (tous les 2 jours) et les duels (17h) continuent sans changement.
+
+## Carte « La Bretagne vue par vous » : mise à jour chaque semaine (demande d'Anthony du 12/11/2026)
+
+- Un post de mise à jour par semaine (jour proposé : vendredi 17h, à confirmer par Anthony).
+- Méthode : export des commentaires du post « petit coin de paradis » (id 1385049348028097_122100792537536802),
+  comparaison avec la carte réelle (export KML de My Maps, et pas seulement le CSV maître), vérification
+  Nominatim, ajout dans le bon calque de My Maps, mise à jour du projet (carte-bretagne-vue-par-vous/lieux-maitre.csv).
+- Visuel validé par Anthony le 13/11 : SON affiche illustrée (bretagne/carte_vue_par_vous/fond_affiche.png)
+  avec tous les points de couleur par calque, sans noms. Scripts : place.py (masques départements),
+  tps.py (recalage sur repères + séparation des points), final.py (points + légende). Pour un nouveau
+  bandeau « +N lieux », demander à Anthony une nouvelle version de l'affiche à ChatGPT.
+- Lien public uniquement (viewer), jamais le lien d'édition. Pas de noms d'abonnés.
