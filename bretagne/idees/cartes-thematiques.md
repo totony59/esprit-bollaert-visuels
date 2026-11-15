@@ -33,3 +33,7 @@ Loire-Atlantique (44)
 - Berlingots nantais — Nantes
 - Sel et fleur de sel — Guérande
 - Muscadet — Vallet
+
+## Principe (Anthony, 15/11) : ne pas tout mettre
+Volontairement incomplète pour faire réagir ; on sort ensuite des V2, V3… complétées avec les commentaires (comme la carte des marques).
+Liste spécialités V1 validée le 15/11 (sans encart far/crêpe). Visuel : bretagne/visuels/2026-11-26_carte_specialites.png
