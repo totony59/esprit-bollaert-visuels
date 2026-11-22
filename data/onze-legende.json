@@ -1,3 +1,22 @@
 [
-  {"poste": "LE GARDIEN", "joueurs": ["Guillaume Warmuz", "Vedran Runje", "Brice Samba"], "date": "2026-11-15", "gagnant": null}
+  {
+    "poste": "LE GARDIEN",
+    "joueurs": [
+      "Guillaume Warmuz",
+      "Vedran Runje",
+      "Brice Samba"
+    ],
+    "date": "2026-11-15",
+    "gagnant": null
+  },
+  {
+    "poste": "LE LATÉRAL DROIT",
+    "joueurs": [
+      "Éric Sikora",
+      "Jonathan Clauss",
+      "Serge Aurier"
+    ],
+    "date": "2026-11-22",
+    "gagnant": null
+  }
 ]
