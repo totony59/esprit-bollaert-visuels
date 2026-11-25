@@ -37,6 +37,10 @@ jobs:
           [ -n "${{ inputs.date }}" ] && ARGS="$ARGS --date ${{ inputs.date }}"
           [ "${{ inputs.force }}" = "true" ] && ARGS="$ARGS --force"
           python3 paysbasque/jeu_carte/generer.py $ARGS
+          # Les déclenchements programmés de GitHub ont parfois des heures de retard (24/11/2026 : 17h58 au
+          # lieu de 7h27, question ignorée) : sans date imposée, on prépare aussi la partie du lendemain,
+          # qui est ainsi confiée à Facebook la veille.
+          [ -z "${{ inputs.date }}" ] && python3 paysbasque/jeu_carte/generer.py --date "$(TZ=Europe/Paris date -d tomorrow +%F)" || true
       - name: Enregistrer
         run: |
           git config user.name "robot-publication"

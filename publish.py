@@ -326,6 +326,15 @@ def main():
             print(f"::warning::Ignoré (trop en retard) : {f.name}")
             traites += 1
             continue
+        if post.get("comment_on") and (SKIPPED / post["comment_on"]).exists() \
+                and not any((d / post["comment_on"]).exists() for d in (PUBLISHED, SCHEDULED)):
+            # le post visé a été ignoré ou annulé : son commentaire (réponse) n'a plus d'objet
+            post["skipped_reason"] = "post visé ignoré ou annulé"
+            (SKIPPED / f.name).write_text(json.dumps(post, ensure_ascii=False, indent=2), encoding="utf-8")
+            f.unlink()
+            print(f"::warning::Ignoré (post visé ignoré ou annulé) : {f.name}")
+            traites += 1
+            continue
         if dry:
             print(f"[test] {action} : {f.name}")
             continue
